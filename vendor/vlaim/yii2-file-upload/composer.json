@@ -1,0 +1,29 @@
+{
+    "name": "vlaim/yii2-file-upload",
+    "description": "Yii2 FileUpload – PHP library for uploading files to local server or Amazon S3",
+    "keywords": ["yii", "yii2", "yii 2", "file", "upload", "aws", "s3"],
+    "type": "library",
+    "homepage": "https://github.com/vlaim/yii2-file-upload",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Vladislav J Alexeyev",
+            "email": "vlad@alexeyev.me",
+            "homepage": "http://alexeyev.me/"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.0",
+        "yiisoft/yii2": "*",
+        "aws/aws-sdk-php": "2.*"
+    },
+    "require-dev":{
+        "phpunit/phpunit": "5.5.*",
+        "squizlabs/php_codesniffer": "2.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "vlaim\\fileupload\\": "src/"
+        }
+    }
+}

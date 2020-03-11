@@ -1,0 +1,29 @@
+#mapid {
+    height: 500px;
+}
+
+.myMarker {
+    text-align: center;
+    font-weight: bolder;
+    width: 3rem;
+    height: 3rem;
+    display: block;
+    left: -1.5rem;
+    top: -1.5rem;
+    position: relative;
+    border-radius: 3rem 3rem 0;
+    transform: rotate(45deg);
+    border: 1px solid #FFFFFF;
+}
+
+.rt-tracking-FirstMarker {
+    background-color: blue;
+}
+
+.rt-tracking-RegularMarker {
+    background-color: whitesmoke;
+}
+
+.rt-tracking-LastMarker {
+    background-color: red;
+}
