@@ -20,10 +20,10 @@ class GherkinFileLoaderTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->loader->supports('non-existent path'));
         $this->assertFalse($this->loader->supports('non-existent path:2'));
 
-        $this->assertFalse($this->loader->supports(__DIR__));
-        $this->assertFalse($this->loader->supports(__DIR__ . ':d'));
+        $this->assertFalse($this->loader->supports(dirname(__FILE__)));
+        $this->assertFalse($this->loader->supports(dirname(__FILE__) . ':d'));
         $this->assertFalse($this->loader->supports(__FILE__));
-        $this->assertTrue($this->loader->supports(__DIR__ . '/../Fixtures/features/pystring.feature'));
+        $this->assertTrue($this->loader->supports(dirname(__FILE__) . '/../Fixtures/features/pystring.feature'));
     }
 
     public function testLoad()
@@ -102,10 +102,10 @@ class GherkinFileLoaderTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $keywords = new CucumberKeywords(__DIR__ . '/../Fixtures/i18n.yml');
+        $keywords = new CucumberKeywords(dirname(__FILE__) . '/../Fixtures/i18n.yml');
         $parser = new Parser(new Lexer($keywords));
         $this->loader = new GherkinFileLoader($parser);
 
-        $this->featuresPath = realpath(__DIR__ . '/../Fixtures/features');
+        $this->featuresPath = realpath(dirname(__FILE__) . '/../Fixtures/features');
     }
 }

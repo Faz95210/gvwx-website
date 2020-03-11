@@ -442,7 +442,7 @@ class PhptTestCase implements Test, SelfDescribing
     {
         return \str_replace(
             [
-                '__DIR__',
+                'dirname(__FILE__)',
                 '__FILE__'
             ],
             [
@@ -477,7 +477,7 @@ class PhptTestCase implements Test, SelfDescribing
         $files = $this->getCoverageFiles();
 
         $template = new Text_Template(
-            __DIR__ . '/../Util/PHP/Template/PhptTestCase.tpl'
+            dirname(__FILE__) . '/../Util/PHP/Template/PhptTestCase.tpl'
         );
 
         $composerAutoload = '\'\'';

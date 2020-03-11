@@ -36,7 +36,7 @@ class ServiceDescriptionTest extends \Guzzle\Tests\GuzzleTestCase
      */
     public function testFactoryDelegatesToConcreteFactories()
     {
-        $jsonFile = __DIR__ . '/../../TestData/test_service.json';
+        $jsonFile = dirname(__FILE__) . '/../../TestData/test_service.json';
         $this->assertInstanceOf('Guzzle\Service\Description\ServiceDescription', ServiceDescription::factory($jsonFile));
     }
 

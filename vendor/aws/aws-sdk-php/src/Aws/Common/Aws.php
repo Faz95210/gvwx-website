@@ -64,7 +64,7 @@ class Aws extends ServiceBuilder
 
         $loader = new ServiceBuilderLoader();
         $loader->addAlias('_aws', self::getDefaultServiceDefinition())
-            ->addAlias('_sdk1', __DIR__  . '/Resources/sdk1-config.php');
+            ->addAlias('_sdk1', dirname(__FILE__)  . '/Resources/sdk1-config.php');
 
         return $loader->load($config, $globalParameters);
     }
@@ -76,7 +76,7 @@ class Aws extends ServiceBuilder
      */
     public static function getDefaultServiceDefinition()
     {
-        return __DIR__  . '/Resources/aws-config.php';
+        return dirname(__FILE__)  . '/Resources/aws-config.php';
     }
 
     /**

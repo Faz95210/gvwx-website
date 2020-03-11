@@ -17,7 +17,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     {
         $data = array();
 
-        foreach (glob(__DIR__ . '/Fixtures/etalons/*.yml') as $file) {
+        foreach (glob(dirname(__FILE__) . '/Fixtures/etalons/*.yml') as $file) {
             $testname = basename($file, '.yml');
 
             $data[] = array($testname);
@@ -122,14 +122,14 @@ FEATURE
 
     protected function parseFixture($fixture)
     {
-        $file = __DIR__ . '/Fixtures/features/' . $fixture;
+        $file = dirname(__FILE__) . '/Fixtures/features/' . $fixture;
 
         return array($this->getGherkinParser()->parse(file_get_contents($file), $file));
     }
 
     protected function parseEtalon($etalon)
     {
-        $features = $this->getYamlParser()->load(__DIR__ . '/Fixtures/etalons/' . $etalon);
+        $features = $this->getYamlParser()->load(dirname(__FILE__) . '/Fixtures/etalons/' . $etalon);
         $feature  = $features[0];
 
         return new FeatureNode(
@@ -140,7 +140,7 @@ FEATURE
             $feature->getScenarios(),
             $feature->getKeyword(),
             $feature->getLanguage(),
-            __DIR__ . '/Fixtures/features/' . basename($etalon, '.yml') . '.feature',
+            dirname(__FILE__) . '/Fixtures/features/' . basename($etalon, '.yml') . '.feature',
             $feature->getLine()
         );
     }

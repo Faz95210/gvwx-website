@@ -139,10 +139,10 @@ class ClientTest extends \Guzzle\Tests\GuzzleTestCase
 
         // set a capath if you prefer
         $client = new Client('https://www.secure.com/');
-        $client->setSslVerification(__DIR__);
+        $client->setSslVerification(dirname(__FILE__));
         $request = $client->createRequest();
         $options = $request->getCurlOptions();
-        $this->assertSame(__DIR__, $options->get(CURLOPT_CAPATH));
+        $this->assertSame(dirname(__FILE__), $options->get(CURLOPT_CAPATH));
     }
 
     public function testConfigSettingsControlSslConfiguration()

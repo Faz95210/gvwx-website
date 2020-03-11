@@ -135,7 +135,7 @@ class Client extends AbstractHasDispatcher implements ClientInterface
 
         if ($certificateAuthority === true) {
             // use bundled CA bundle, set secure defaults
-            $opts[CURLOPT_CAINFO] = __DIR__ . '/Resources/cacert.pem';
+            $opts[CURLOPT_CAINFO] = dirname(__FILE__) . '/Resources/cacert.pem';
             $opts[CURLOPT_SSL_VERIFYPEER] = true;
             $opts[CURLOPT_SSL_VERIFYHOST] = 2;
         } elseif ($certificateAuthority === false) {
@@ -343,7 +343,7 @@ class Client extends AbstractHasDispatcher implements ClientInterface
      */
     public function preparePharCacert($md5Check = true)
     {
-        $from = __DIR__ . '/Resources/cacert.pem';
+        $from = dirname(__FILE__) . '/Resources/cacert.pem';
         $certFile = sys_get_temp_dir() . '/guzzle-cacert.pem';
         if (!file_exists($certFile) && !copy($from, $certFile)) {
             throw new RuntimeException("Could not copy {$from} to {$certFile}: " . var_export(error_get_last(), true));

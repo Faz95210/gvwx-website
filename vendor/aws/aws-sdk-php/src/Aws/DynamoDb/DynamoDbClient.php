@@ -93,7 +93,7 @@ class DynamoDbClient extends AbstractClient
                 // DynamoDB does not use redirects
                 self::DISABLE_REDIRECTS => true,
                 Options::VERSION => self::LATEST_API_VERSION,
-                Options::SERVICE_DESCRIPTION => __DIR__ . '/Resources/dynamodb-%s.php',
+                Options::SERVICE_DESCRIPTION => dirname(__FILE__) . '/Resources/dynamodb-%s.php',
                 // DynamoDB does not require response processing other than turning JSON into an array
                 self::COMMAND_PARAMS => array(Cmd::RESPONSE_PROCESSING => Cmd::TYPE_NO_TRANSLATION)
             ))

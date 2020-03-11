@@ -37,7 +37,7 @@ class FileTest extends \PHPUnit\Framework\TestCase
 
     public function testCanCreateFileInDirectory()
     {
-        $dir = __DIR__.'/tmp';
+        $dir = dirname(__FILE__).'/tmp';
         @mkdir($dir);
         $content = 'test content';
         $tmp = new File($content, null, null, $dir);
@@ -50,7 +50,7 @@ class FileTest extends \PHPUnit\Framework\TestCase
 
     public function testCanSaveFileAs()
     {
-        $out = __DIR__.'/test.txt';
+        $out = dirname(__FILE__).'/test.txt';
         $content = 'test content';
         $tmp = new File($content);
         $fileName = $tmp->getFileName();
@@ -68,7 +68,7 @@ class FileTest extends \PHPUnit\Framework\TestCase
 
     public function testCanKeepTempFile()
     {
-        $out = __DIR__.'/test.txt';
+        $out = dirname(__FILE__).'/test.txt';
         $content = 'test content';
         $tmp = new File($content);
         $tmp->delete = false;

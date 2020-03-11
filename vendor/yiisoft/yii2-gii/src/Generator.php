@@ -402,7 +402,7 @@ abstract class Generator extends Model
     {
         static $keywords = [
             '__class__',
-            '__dir__',
+            'dirname(__FILE__)',
             '__file__',
             '__function__',
             '__line__',

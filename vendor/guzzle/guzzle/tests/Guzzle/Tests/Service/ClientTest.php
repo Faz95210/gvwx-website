@@ -40,7 +40,7 @@ class ClientTest extends \Guzzle\Tests\GuzzleTestCase
             ))
         ));
 
-        $this->service = ServiceDescription::factory(__DIR__ . '/../TestData/test_service.json');
+        $this->service = ServiceDescription::factory(dirname(__FILE__) . '/../TestData/test_service.json');
     }
 
     public function testAllowsCustomClientParameters()

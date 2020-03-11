@@ -27,15 +27,15 @@ class EntityBodyTest extends \Guzzle\Tests\GuzzleTestCase
         $this->assertEquals('PHP', $body->getWrapper());
         $this->assertEquals('TEMP', $body->getStreamType());
 
-        $handle = fopen(__DIR__ . '/../../../../phpunit.xml.dist', 'r');
+        $handle = fopen(dirname(__FILE__) . '/../../../../phpunit.xml.dist', 'r');
         if (!$handle) {
             $this->fail('Could not open test file');
         }
         $body = EntityBody::factory($handle);
-        $this->assertEquals(__DIR__ . '/../../../../phpunit.xml.dist', $body->getUri());
+        $this->assertEquals(dirname(__FILE__) . '/../../../../phpunit.xml.dist', $body->getUri());
         $this->assertTrue($body->isLocal());
-        $this->assertEquals(__DIR__ . '/../../../../phpunit.xml.dist', $body->getUri());
-        $this->assertEquals(filesize(__DIR__ . '/../../../../phpunit.xml.dist'), $body->getContentLength());
+        $this->assertEquals(dirname(__FILE__) . '/../../../../phpunit.xml.dist', $body->getUri());
+        $this->assertEquals(filesize(dirname(__FILE__) . '/../../../../phpunit.xml.dist'), $body->getContentLength());
 
         // make sure that a body will return as the same object
         $this->assertTrue($body === EntityBody::factory($body));
@@ -110,11 +110,11 @@ class EntityBodyTest extends \Guzzle\Tests\GuzzleTestCase
         $this->assertEquals($largeString, (string) $body);
         $this->assertEquals($compressed, gzdeflate($largeString));
 
-        $body = EntityBody::factory(fopen(__DIR__ . '/../TestData/compress_test', 'w'));
+        $body = EntityBody::factory(fopen(dirname(__FILE__) . '/../TestData/compress_test', 'w'));
         $this->assertFalse($body->compress());
         unset($body);
 
-        unlink(__DIR__ . '/../TestData/compress_test');
+        unlink(dirname(__FILE__) . '/../TestData/compress_test');
     }
 
     public function testDeterminesContentType()

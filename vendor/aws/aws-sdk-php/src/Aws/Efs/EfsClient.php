@@ -45,7 +45,7 @@ class EfsClient extends AbstractClient
             ->setConfig($config)
             ->setConfigDefaults(array(
                 Options::VERSION             => self::LATEST_API_VERSION,
-                Options::SERVICE_DESCRIPTION => __DIR__ . '/Resources/elasticfilesystem-%s.php'
+                Options::SERVICE_DESCRIPTION => dirname(__FILE__) . '/Resources/elasticfilesystem-%s.php'
             ))
             ->build();
     }

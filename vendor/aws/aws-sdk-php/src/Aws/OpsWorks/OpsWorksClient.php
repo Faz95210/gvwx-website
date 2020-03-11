@@ -135,7 +135,7 @@ class OpsWorksClient extends AbstractClient
             ->setConfig($config)
             ->setConfigDefaults(array(
                 Options::VERSION             => self::LATEST_API_VERSION,
-                Options::SERVICE_DESCRIPTION => __DIR__ . '/Resources/opsworks-%s.php'
+                Options::SERVICE_DESCRIPTION => dirname(__FILE__) . '/Resources/opsworks-%s.php'
             ))
             ->setExceptionParser(new JsonQueryExceptionParser())
             ->build();

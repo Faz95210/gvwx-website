@@ -26,7 +26,7 @@ class RulesEndpointProvider
      */
     public static function fromDefaults()
     {
-        return new self(require __DIR__ . '/Resources/public-endpoints.php');
+        return new self(require dirname(__FILE__) . '/Resources/public-endpoints.php');
     }
 
     public function __invoke(array $args = array())

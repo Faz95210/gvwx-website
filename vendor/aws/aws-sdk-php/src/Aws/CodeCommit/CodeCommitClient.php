@@ -49,7 +49,7 @@ class CodeCommitClient extends AbstractClient
             ->setConfig($config)
             ->setConfigDefaults(array(
                 Options::VERSION             => self::LATEST_API_VERSION,
-                Options::SERVICE_DESCRIPTION => __DIR__ . '/Resources/codecommit-%s.php'
+                Options::SERVICE_DESCRIPTION => dirname(__FILE__) . '/Resources/codecommit-%s.php'
             ))
             ->setExceptionParser(new JsonQueryExceptionParser())
             ->build();

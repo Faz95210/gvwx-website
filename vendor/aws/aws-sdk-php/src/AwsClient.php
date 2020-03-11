@@ -363,7 +363,7 @@ class AwsClient implements AwsClientInterface
     {
         if (!isset($this->aliases)) {
             if (is_null($file)) {
-                $file = __DIR__ . '/data/aliases.json';
+                $file = dirname(__FILE__) . '/data/aliases.json';
             }
             $aliases = \Aws\load_compiled_json($file);
             $serviceId = $this->api->getServiceId();
@@ -400,7 +400,7 @@ class AwsClient implements AwsClientInterface
      */
     public static function applyDocFilters(array $api, array $docs)
     {
-        $aliases = \Aws\load_compiled_json(__DIR__ . '/data/aliases.json');
+        $aliases = \Aws\load_compiled_json(dirname(__FILE__) . '/data/aliases.json');
         $serviceId = $api['metadata']['serviceId'];
         $version = $api['metadata']['apiVersion'];
 

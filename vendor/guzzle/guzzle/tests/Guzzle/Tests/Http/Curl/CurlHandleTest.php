@@ -184,7 +184,7 @@ class CurlHandleTest extends \Guzzle\Tests\GuzzleTestCase
      */
     public function dataProvider()
     {
-        $testFile = __DIR__ . '/../../../../../phpunit.xml.dist';
+        $testFile = dirname(__FILE__) . '/../../../../../phpunit.xml.dist';
 
         $postBody = new QueryString(array('file' => '@' . $testFile));
         $qs = new QueryString(array(
@@ -757,7 +757,7 @@ class CurlHandleTest extends \Guzzle\Tests\GuzzleTestCase
         $this->getServer()->flush();
         $this->getServer()->enqueue("HTTP/1.1 200 OK\r\n\r\nContent-Length: 0\r\n\r\n");
 
-        $fileToUpload = dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR . 'TestData' . DIRECTORY_SEPARATOR . 'test_service.json';
+        $fileToUpload = dirname(dirname(dirname(__FILE__))) . DIRECTORY_SEPARATOR . 'TestData' . DIRECTORY_SEPARATOR . 'test_service.json';
 
         $client = new Client($this->getServer()->getUrl());
         $request = $client->post();

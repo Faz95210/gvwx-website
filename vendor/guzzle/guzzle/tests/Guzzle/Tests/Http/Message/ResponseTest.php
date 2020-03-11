@@ -665,7 +665,7 @@ class ResponseTest extends \Guzzle\Tests\GuzzleTestCase
         $response = new Response(200, array(), $xml);
 
         $oldCwd = getcwd();
-        chdir(__DIR__);
+        chdir(dirname(__FILE__));
         try {
             $xml = $response->xml();
             chdir($oldCwd);

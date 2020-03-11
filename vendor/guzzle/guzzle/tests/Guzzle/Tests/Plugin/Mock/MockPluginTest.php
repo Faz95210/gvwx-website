@@ -62,7 +62,7 @@ class MockPluginTest extends \Guzzle\Tests\GuzzleTestCase
 
     public function testRetrievesResponsesFromFiles()
     {
-        $response = MockPlugin::getMockFile(__DIR__ . '/../../TestData/mock_response');
+        $response = MockPlugin::getMockFile(dirname(__FILE__) . '/../../TestData/mock_response');
         $this->assertInstanceOf('Guzzle\\Http\\Message\\Response', $response);
         $this->assertEquals(200, $response->getStatusCode());
     }
@@ -95,7 +95,7 @@ class MockPluginTest extends \Guzzle\Tests\GuzzleTestCase
     public function testAddsResponseFilesToQueue()
     {
         $p = new MockPlugin();
-        $p->addResponse(__DIR__ . '/../../TestData/mock_response');
+        $p->addResponse(dirname(__FILE__) . '/../../TestData/mock_response');
         $this->assertEquals(1, count($p));
     }
 
@@ -105,7 +105,7 @@ class MockPluginTest extends \Guzzle\Tests\GuzzleTestCase
     public function testAddsMockResponseToRequestFromClient()
     {
         $p = new MockPlugin();
-        $response = MockPlugin::getMockFile(__DIR__ . '/../../TestData/mock_response');
+        $response = MockPlugin::getMockFile(dirname(__FILE__) . '/../../TestData/mock_response');
         $p->addResponse($response);
 
         $client = new Client('http://localhost:123/');
@@ -132,7 +132,7 @@ class MockPluginTest extends \Guzzle\Tests\GuzzleTestCase
     public function testDetachesTemporaryWhenEmpty()
     {
         $p = new MockPlugin(null, true);
-        $p->addResponse(MockPlugin::getMockFile(__DIR__ . '/../../TestData/mock_response'));
+        $p->addResponse(MockPlugin::getMockFile(dirname(__FILE__) . '/../../TestData/mock_response'));
         $client = new Client('http://localhost:123/');
         $client->getEventDispatcher()->addSubscriber($p, 9999);
         $request = $client->get();

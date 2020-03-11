@@ -1102,7 +1102,7 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 		$this->defDrawColor = $this->DrawColor = $this->SetDColor($this->colorConverter->convert(0, $this->PDFAXwarnings), true);
 		$this->defFillColor = $this->FillColor = $this->SetFColor($this->colorConverter->convert(255, $this->PDFAXwarnings), true);
 
-		$this->upperCase = require __DIR__ . '/../data/upperCase.php';
+		$this->upperCase = require dirname(__FILE__) . '/../data/upperCase.php';
 
 		$this->extrapagebreak = true; // mPDF 6 pagebreaktype
 
@@ -1167,7 +1167,7 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 		// Sets default height for overline text as factor of fontsize
 		$this->baselineO = 1.1;
 
-		$this->noImageFile = __DIR__ . '/../data/no_image.jpg';
+		$this->noImageFile = dirname(__FILE__) . '/../data/no_image.jpg';
 		$this->subPos = 0;
 
 		$this->fullImageHeight = false;
@@ -3794,7 +3794,7 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 		/* -- CJK-FONTS -- */
 		if (in_array($family, $this->available_CJK_fonts)) {
 			if (empty($this->Big5_widths)) {
-				require __DIR__ . '/../data/CJKdata.php';
+				require dirname(__FILE__) . '/../data/CJKdata.php';
 			}
 			$this->AddCJKFont($family); // don't need to add style
 			return;
@@ -4064,7 +4064,7 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 				if (in_array($fontkey, $this->available_CJK_fonts)) {
 					if (!isset($this->fonts[$fontkey])) { // already added
 						if (empty($this->Big5_widths)) {
-							require __DIR__ . '/../data/CJKdata.php';
+							require dirname(__FILE__) . '/../data/CJKdata.php';
 						}
 						$this->AddCJKFont($family); // don't need to add style
 					}
@@ -4199,7 +4199,7 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 					if ($family == 'ctimes' || $family == 'chelvetica' || $family == 'ccourier') {
 						$file .= strtolower($style);
 					}
-					require __DIR__ . '/../data/font/' . $file . '.php';
+					require dirname(__FILE__) . '/../data/font/' . $file . '.php';
 					if (!isset($cw)) {
 						throw new \Mpdf\MpdfException(sprintf('Could not include font metric file "%s"', $file));
 					}
@@ -23861,8 +23861,8 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 		if ($usedivletters) {
 			if ($indexCollationGroup && \in_array(strtolower($indexCollationGroup), array_map(function ($v) {
 					return strtolower(basename($v, '.php'));
-			}, $this->filesInDir(__DIR__ . '/../data/collations/')))) {
-				$collation = require __DIR__ . '/../data/collations/' . $indexCollationGroup . '.php';
+			}, $this->filesInDir(dirname(__FILE__) . '/../data/collations/')))) {
+				$collation = require dirname(__FILE__) . '/../data/collations/' . $indexCollationGroup . '.php';
 			} else {
 				$collation = [];
 			}
@@ -25353,7 +25353,7 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 	function SetSubstitutions()
 	{
 		$subsarray = [];
-		require __DIR__ . '/../data/subs_win-1252.php';
+		require dirname(__FILE__) . '/../data/subs_win-1252.php';
 		$this->substitute = [];
 		foreach ($subsarray as $key => $val) {
 			$this->substitute[UtfString::code2utf($key)] = $val;
@@ -25419,7 +25419,7 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 
 		if (!$this->subArrMB) {
 
-			require __DIR__ . '/../data/subs_core.php';
+			require dirname(__FILE__) . '/../data/subs_core.php';
 
 			$this->subArrMB['a'] = $aarr;
 			$this->subArrMB['s'] = $sarr;
@@ -25671,7 +25671,7 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 		if (!$this->PDFA && !$this->PDFX && !$this->biDirectional) {  // mPDF 6
 			$repl = [];
 			if (!$this->subArrMB) {
-				require __DIR__ . '/../data/subs_core.php';
+				require dirname(__FILE__) . '/../data/subs_core.php';
 				$this->subArrMB['a'] = $aarr;
 				$this->subArrMB['s'] = $sarr;
 				$this->subArrMB['z'] = $zarr;
@@ -25788,7 +25788,7 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 
 	function setHiEntitySubstitutions()
 	{
-		$entarr = include __DIR__ . '/../data/entity_substitutions.php';
+		$entarr = include dirname(__FILE__) . '/../data/entity_substitutions.php';
 
 		foreach ($entarr as $key => $val) {
 			$this->entsearch[] = '&' . $key . ';';

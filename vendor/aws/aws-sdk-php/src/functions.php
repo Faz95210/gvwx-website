@@ -354,7 +354,7 @@ function manifest($service = null)
     static $manifest = [];
     static $aliases = [];
     if (empty($manifest)) {
-        $manifest = load_compiled_json(__DIR__ . '/data/manifest.json');
+        $manifest = load_compiled_json(dirname(__FILE__) . '/data/manifest.json');
         foreach ($manifest as $endpoint => $info) {
             $alias = strtolower($info['namespace']);
             if ($alias !== $endpoint) {

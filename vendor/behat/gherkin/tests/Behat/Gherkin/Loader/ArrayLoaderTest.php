@@ -15,7 +15,7 @@ class ArrayLoaderTest extends \PHPUnit_Framework_TestCase
 
     public function testSupports()
     {
-        $this->assertFalse($this->loader->supports(__DIR__));
+        $this->assertFalse($this->loader->supports(dirname(__FILE__)));
         $this->assertFalse($this->loader->supports(__FILE__));
         $this->assertFalse($this->loader->supports('string'));
         $this->assertFalse($this->loader->supports(array('wrong_root')));

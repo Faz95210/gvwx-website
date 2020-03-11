@@ -136,7 +136,7 @@ EOF;
 --TEST--
 Something to decribe it
 --FILE--
-<?php echo __DIR__ . __FILE__; ?>
+<?php echo dirname(__FILE__) . __FILE__; ?>
 --EXPECT--
 Something
 EOF

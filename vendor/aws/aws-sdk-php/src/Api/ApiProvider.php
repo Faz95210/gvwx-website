@@ -94,7 +94,7 @@ class ApiProvider
      */
     public static function defaultProvider()
     {
-        return new self(__DIR__ . '/../data', \Aws\manifest());
+        return new self(dirname(__FILE__) . '/../data', \Aws\manifest());
     }
 
     /**

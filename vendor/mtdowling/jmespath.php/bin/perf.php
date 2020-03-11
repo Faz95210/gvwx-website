@@ -1,8 +1,8 @@
 #!/usr/bin/env php
 <?php
-require __DIR__ . '/../vendor/autoload.php';
+require dirname(__FILE__) . '/../vendor/autoload.php';
 
-$dir = isset($argv[1]) ? $argv[1] : __DIR__ . '/../tests/compliance/perf';
+$dir = isset($argv[1]) ? $argv[1] : dirname(__FILE__) . '/../tests/compliance/perf';
 is_dir($dir) or die('Dir not found: ' . $dir);
 // Warm up the runner
 \JmesPath\Env::search('foo', []);

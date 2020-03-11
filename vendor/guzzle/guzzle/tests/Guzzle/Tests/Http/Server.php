@@ -160,7 +160,7 @@ class Server
     public function start()
     {
         if (!$this->isRunning()) {
-            exec('node ' . __DIR__ . \DIRECTORY_SEPARATOR . 'server.js ' . $this->port . ' >> /tmp/server.log 2>&1 &');
+            exec('node ' . dirname(__FILE__) . \DIRECTORY_SEPARATOR . 'server.js ' . $this->port . ' >> /tmp/server.log 2>&1 &');
             // Wait at most 5 seconds for the server the setup before proceeding
             $start = time();
             while (!$this->isRunning() && time() - $start < 5);

@@ -11,6 +11,6 @@ abstract class AbstractCommandTest extends \Guzzle\Tests\GuzzleTestCase
     {
         $client = new Client('http://www.google.com/');
 
-        return $client->setDescription(ServiceDescription::factory(__DIR__ . '/../../TestData/test_service.json'));
+        return $client->setDescription(ServiceDescription::factory(dirname(__FILE__) . '/../../TestData/test_service.json'));
     }
 }

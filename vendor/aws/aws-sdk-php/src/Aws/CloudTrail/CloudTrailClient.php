@@ -62,7 +62,7 @@ class CloudTrailClient extends AbstractClient
             ->setConfig($config)
             ->setConfigDefaults(array(
                 Options::VERSION             => self::LATEST_API_VERSION,
-                Options::SERVICE_DESCRIPTION => __DIR__ . '/Resources/cloudtrail-%s.php'
+                Options::SERVICE_DESCRIPTION => dirname(__FILE__) . '/Resources/cloudtrail-%s.php'
             ))
             ->setExceptionParser(new JsonQueryExceptionParser())
             ->build();

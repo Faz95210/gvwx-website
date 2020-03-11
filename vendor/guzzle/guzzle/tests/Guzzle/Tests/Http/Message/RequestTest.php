@@ -343,7 +343,7 @@ class RequestTest extends \Guzzle\Tests\GuzzleTestCase
 
     public function testRequestCanHaveManuallySetResponseBody()
     {
-        $file = __DIR__ . '/../../TestData/temp.out';
+        $file = dirname(__FILE__) . '/../../TestData/temp.out';
         if (file_exists($file)) {
             unlink($file);
         }

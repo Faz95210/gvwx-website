@@ -63,7 +63,7 @@ class CloudWatchClient extends AbstractClient
             ->setConfig($config)
             ->setConfigDefaults(array(
                 Options::VERSION             => self::LATEST_API_VERSION,
-                Options::SERVICE_DESCRIPTION => __DIR__ . '/Resources/cloudwatch-%s.php'
+                Options::SERVICE_DESCRIPTION => dirname(__FILE__) . '/Resources/cloudwatch-%s.php'
             ))
             ->build();
     }

@@ -1,6 +1,6 @@
 <?php
 
-include_once __DIR__.'/../src/Codeception/function.php';
+include_once dirname(__FILE__).'/../src/Codeception/function.php';
 
 class VerifyTest extends PHPUnit\Framework\TestCase {
 
@@ -27,7 +27,7 @@ class VerifyTest extends PHPUnit\Framework\TestCase {
         verify(3)->notEquals(5);
         verify(3.252)->notEquals(3.25, 0.001);
         verify("respects delta", 3.252, 0.001);
-        verify_file(__FILE__)->notEquals(__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'composer.json');
+        verify_file(__FILE__)->notEquals(dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'composer.json');
     }
 
     public function testContains()
@@ -154,9 +154,9 @@ class VerifyTest extends PHPUnit\Framework\TestCase {
 
     public function testEqualsJsonFile()
     {
-        expect_file(__DIR__ . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'json-test-file.json')
-            ->equalsJsonFile(__DIR__ . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'equal-json-test-file.json');
-        expect('{"some" : "data"}')->equalsJsonFile(__DIR__ . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'equal-json-test-file.json');
+        expect_file(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'json-test-file.json')
+            ->equalsJsonFile(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'equal-json-test-file.json');
+        expect('{"some" : "data"}')->equalsJsonFile(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'equal-json-test-file.json');
     }
 
     public function testEqualsJsonString()
@@ -177,8 +177,8 @@ class VerifyTest extends PHPUnit\Framework\TestCase {
 
     public function testMatchesFormatFile()
     {
-        expect('23')->matchesFormatFile(__DIR__ . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'format-file.txt');
-        expect('asdfas')->notMatchesFormatFile(__DIR__ . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'format-file.txt');
+        expect('23')->matchesFormatFile(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'format-file.txt');
+        expect('asdfas')->notMatchesFormatFile(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'format-file.txt');
     }
 
     public function testSame()
@@ -195,8 +195,8 @@ class VerifyTest extends PHPUnit\Framework\TestCase {
 
     public function testEqualsFile()
     {
-        expect('%i')->equalsFile(__DIR__ . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'format-file.txt');
-        expect('Another string')->notEqualsFile(__DIR__ . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'format-file.txt');
+        expect('%i')->equalsFile(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'format-file.txt');
+        expect('Another string')->notEqualsFile(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'format-file.txt');
     }
 
     public function testStartsWith()
@@ -207,10 +207,10 @@ class VerifyTest extends PHPUnit\Framework\TestCase {
 
     public function testEqualsXmlFile()
     {
-        expect_file(__DIR__ . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'xml-test-file.xml')
-            ->equalsXmlFile(__DIR__ . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'xml-test-file.xml');
+        expect_file(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'xml-test-file.xml')
+            ->equalsXmlFile(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'xml-test-file.xml');
         expect('<foo><bar>Baz</bar><bar>Baz</bar></foo>')
-            ->equalsXmlFile(__DIR__ . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'xml-test-file.xml');
+            ->equalsXmlFile(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'assets' . DIRECTORY_SEPARATOR . 'xml-test-file.xml');
     }
 
     public function testEqualsXmlString()

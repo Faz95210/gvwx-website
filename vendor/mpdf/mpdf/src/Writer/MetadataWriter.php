@@ -235,7 +235,7 @@ class MetadataWriter implements \Psr\Log\LoggerAwareInterface
 			}
 			$s = file_get_contents($this->mpdf->ICCProfile);
 		} else {
-			$s = file_get_contents(__DIR__ . '/../../data/iccprofiles/sRGB_IEC61966-2-1.icc');
+			$s = file_get_contents(dirname(__FILE__) . '/../../data/iccprofiles/sRGB_IEC61966-2-1.icc');
 		}
 
 		if ($this->mpdf->compress) {
@@ -802,12 +802,12 @@ class MetadataWriter implements \Psr\Log\LoggerAwareInterface
 	private function getVersionString()
 	{
 		$return = Mpdf::VERSION;
-		$headFile = __DIR__ . '/../../.git/HEAD';
+		$headFile = dirname(__FILE__) . '/../../.git/HEAD';
 		if (file_exists($headFile)) {
 			$ref = file($headFile);
 			$path = explode('/', $ref[0], 3);
 			$branch = isset($path[2]) ? trim($path[2]) : '';
-			$revFile = __DIR__ . '/../../.git/refs/heads/' . $branch;
+			$revFile = dirname(__FILE__) . '/../../.git/refs/heads/' . $branch;
 			if ($branch && file_exists($revFile)) {
 				$rev = file($revFile);
 				$rev = substr($rev[0], 0, 7);

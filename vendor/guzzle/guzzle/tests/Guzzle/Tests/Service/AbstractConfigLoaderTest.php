@@ -50,7 +50,7 @@ class AbstractConfigLoaderTest extends \Guzzle\Tests\GuzzleTestCase
      */
     public function testMustBeSupportedExtension()
     {
-        $this->loader->load(dirname(__DIR__) . '/TestData/FileBody.txt');
+        $this->loader->load(dirname(dirname(__FILE__)) . '/TestData/FileBody.txt');
     }
 
     /**
@@ -89,7 +89,7 @@ class AbstractConfigLoaderTest extends \Guzzle\Tests\GuzzleTestCase
 
     public function testCanCreateFromJson()
     {
-        $file = dirname(__DIR__) . '/TestData/services/json1.json';
+        $file = dirname(dirname(__FILE__)) . '/TestData/services/json1.json';
         // The build method will just return the config data
         $this->loader->expects($this->exactly(1))->method('build')->will($this->returnArgument(0));
         $data = $this->loader->load($file);
@@ -104,7 +104,7 @@ class AbstractConfigLoaderTest extends \Guzzle\Tests\GuzzleTestCase
 
     public function testUsesAliases()
     {
-        $file = dirname(__DIR__) . '/TestData/services/json1.json';
+        $file = dirname(dirname(__FILE__)) . '/TestData/services/json1.json';
         $this->loader->addAlias('foo', $file);
         // The build method will just return the config data
         $this->loader->expects($this->exactly(1))->method('build')->will($this->returnArgument(0));
@@ -118,7 +118,7 @@ class AbstractConfigLoaderTest extends \Guzzle\Tests\GuzzleTestCase
      */
     public function testCanRemoveAliases()
     {
-        $file = dirname(__DIR__) . '/TestData/services/json1.json';
+        $file = dirname(dirname(__FILE__)) . '/TestData/services/json1.json';
         $this->loader->addAlias('foo.json', $file);
         $this->loader->removeAlias('foo.json');
         $this->loader->load('foo.json');
@@ -126,7 +126,7 @@ class AbstractConfigLoaderTest extends \Guzzle\Tests\GuzzleTestCase
 
     public function testCanLoadArraysWithIncludes()
     {
-        $file = dirname(__DIR__) . '/TestData/services/json1.json';
+        $file = dirname(dirname(__FILE__)) . '/TestData/services/json1.json';
         $config = array('includes' => array($file));
         // The build method will just return the config data
         $this->loader->expects($this->exactly(1))->method('build')->will($this->returnArgument(0));
@@ -136,7 +136,7 @@ class AbstractConfigLoaderTest extends \Guzzle\Tests\GuzzleTestCase
 
     public function testDoesNotEnterInfiniteLoop()
     {
-        $prefix = $file = dirname(__DIR__) . '/TestData/description';
+        $prefix = $file = dirname(dirname(__FILE__)) . '/TestData/description';
         $this->loader->load("{$prefix}/baz.json");
         $this->assertCount(4, $this->readAttribute($this->loader, 'loadedFiles'));
         // Ensure that the internal list of loaded files is reset

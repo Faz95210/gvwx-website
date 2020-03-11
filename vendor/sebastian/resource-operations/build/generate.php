@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-$functions         = require __DIR__ . '/arginfo.php';
+$functions         = require dirname(__FILE__) . '/arginfo.php';
 $resourceFunctions = [];
 
 foreach ($functions as $function => $arguments) {
@@ -58,5 +58,5 @@ $buffer .= <<< EOT
 
 EOT;
 
-file_put_contents(__DIR__ . '/../src/ResourceOperations.php', $buffer);
+file_put_contents(dirname(__FILE__) . '/../src/ResourceOperations.php', $buffer);
 

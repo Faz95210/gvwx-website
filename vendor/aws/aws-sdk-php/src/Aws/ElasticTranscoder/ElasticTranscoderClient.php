@@ -70,7 +70,7 @@ class ElasticTranscoderClient extends AbstractClient
             ->setConfig($config)
             ->setConfigDefaults(array(
                 Options::VERSION             => self::LATEST_API_VERSION,
-                Options::SERVICE_DESCRIPTION => __DIR__ . '/Resources/elastictranscoder-%s.php'
+                Options::SERVICE_DESCRIPTION => dirname(__FILE__) . '/Resources/elastictranscoder-%s.php'
             ))
             ->setExceptionParser(new JsonRestExceptionParser())
             ->build();

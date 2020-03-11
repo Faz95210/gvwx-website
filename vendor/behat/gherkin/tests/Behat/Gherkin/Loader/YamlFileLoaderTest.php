@@ -15,16 +15,16 @@ class YamlFileLoaderTest extends \PHPUnit_Framework_TestCase
 
     public function testSupports()
     {
-        $this->assertFalse($this->loader->supports(__DIR__));
+        $this->assertFalse($this->loader->supports(dirname(__FILE__)));
         $this->assertFalse($this->loader->supports(__FILE__));
         $this->assertFalse($this->loader->supports('string'));
-        $this->assertFalse($this->loader->supports(__DIR__ . '/file.yml'));
-        $this->assertTrue($this->loader->supports(__DIR__ . '/../Fixtures/etalons/addition.yml'));
+        $this->assertFalse($this->loader->supports(dirname(__FILE__) . '/file.yml'));
+        $this->assertTrue($this->loader->supports(dirname(__FILE__) . '/../Fixtures/etalons/addition.yml'));
     }
 
     public function testLoadAddition()
     {
-        $this->loader->setBasePath(__DIR__ . '/../Fixtures');
+        $this->loader->setBasePath(dirname(__FILE__) . '/../Fixtures');
         $features = $this->loader->load('etalons/addition.yml');
 
         $this->assertEquals(1, count($features));

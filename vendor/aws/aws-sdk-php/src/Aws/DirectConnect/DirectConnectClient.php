@@ -74,7 +74,7 @@ class DirectConnectClient extends AbstractClient
             ->setConfig($config)
             ->setConfigDefaults(array(
                 Options::VERSION             => self::LATEST_API_VERSION,
-                Options::SERVICE_DESCRIPTION => __DIR__ . '/Resources/directconnect-%s.php'
+                Options::SERVICE_DESCRIPTION => dirname(__FILE__) . '/Resources/directconnect-%s.php'
             ))
             ->setExceptionParser(new JsonQueryExceptionParser())
             ->build();

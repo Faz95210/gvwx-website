@@ -1,4 +1,4 @@
 <?php
 $globalString                          = 'Hello';
 
-require __DIR__ . '/../../../../bootstrap.php';
+require dirname(__FILE__) . '/../../../../bootstrap.php';

@@ -38,7 +38,7 @@ abstract class Facade implements FacadeInterface
     public static function mountFacades(Aws $serviceBuilder, $targetNamespace = null)
     {
         self::$serviceBuilder = $serviceBuilder;
-        require_once __DIR__ . '/facade-classes.php';
+        require_once dirname(__FILE__) . '/facade-classes.php';
         foreach ($serviceBuilder->getConfig() as $service) {
             if (isset($service['alias'], $service['class'])) {
                 $facadeClass = __NAMESPACE__ . '\\' . $service['alias'];

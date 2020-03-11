@@ -64,7 +64,7 @@ class StreamTest extends \Guzzle\Tests\GuzzleTestCase
         $this->assertEquals('data', (string) $stream);
         unset($stream);
 
-        $handle = fopen(__DIR__ . '/../TestData/FileBody.txt', 'r');
+        $handle = fopen(dirname(__FILE__) . '/../TestData/FileBody.txt', 'r');
         $stream = new Stream($handle);
         $this->assertEquals('', (string) $stream);
         unset($stream);
@@ -119,8 +119,8 @@ class StreamTest extends \Guzzle\Tests\GuzzleTestCase
 
     public function testGetSize()
     {
-        $size = filesize(__DIR__ . '/../../../bootstrap.php');
-        $handle = fopen(__DIR__ . '/../../../bootstrap.php', 'r');
+        $size = filesize(dirname(__FILE__) . '/../../../bootstrap.php');
+        $handle = fopen(dirname(__FILE__) . '/../../../bootstrap.php', 'r');
         $stream = new Stream($handle);
         $this->assertEquals($handle, $stream->getStream());
         $this->assertEquals($size, $stream->getSize());
@@ -148,7 +148,7 @@ class StreamTest extends \Guzzle\Tests\GuzzleTestCase
 
     public function testAbstractsMetaData()
     {
-        $handle = fopen(__DIR__ . '/../../../bootstrap.php', 'r');
+        $handle = fopen(dirname(__FILE__) . '/../../../bootstrap.php', 'r');
         $stream = new Stream($handle);
         $this->assertEquals('plainfile', $stream->getMetaData('wrapper_type'));
         $this->assertEquals(null, $stream->getMetaData('wrapper_data'));
@@ -157,14 +157,14 @@ class StreamTest extends \Guzzle\Tests\GuzzleTestCase
 
     public function testDoesNotAttemptToWriteToReadonlyStream()
     {
-        $handle = fopen(__DIR__ . '/../../../bootstrap.php', 'r');
+        $handle = fopen(dirname(__FILE__) . '/../../../bootstrap.php', 'r');
         $stream = new Stream($handle);
         $this->assertEquals(0, $stream->write('foo'));
     }
 
     public function testProvidesStreamPosition()
     {
-        $handle = fopen(__DIR__ . '/../../../bootstrap.php', 'r');
+        $handle = fopen(dirname(__FILE__) . '/../../../bootstrap.php', 'r');
         $stream = new Stream($handle);
         $stream->read(2);
         $this->assertSame(ftell($handle), $stream->ftell());

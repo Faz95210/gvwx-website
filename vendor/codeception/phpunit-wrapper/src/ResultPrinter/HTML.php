@@ -50,7 +50,7 @@ class HTML extends CodeceptionResultPrinter
 
         $this->templatePath = sprintf(
             '%s%stemplate%s',
-            __DIR__,
+            dirname(__FILE__),
             DIRECTORY_SEPARATOR,
             DIRECTORY_SEPARATOR
         );

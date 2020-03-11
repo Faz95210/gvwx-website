@@ -155,7 +155,7 @@ class S3Client extends AbstractClient
         'DeleteObjectExpirationConfig'  => 'DeleteBucketLifecycle',
     );
 
-    protected $directory = __DIR__;
+    protected $directory = dirname(__FILE__);
 
     /**
      * Factory method to create a new Amazon S3 client using an array of configuration options.
@@ -181,7 +181,7 @@ class S3Client extends AbstractClient
             ->setConfig($config)
             ->setConfigDefaults(array(
                 Options::VERSION => self::LATEST_API_VERSION,
-                Options::SERVICE_DESCRIPTION => __DIR__ . '/Resources/s3-%s.php'
+                Options::SERVICE_DESCRIPTION => dirname(__FILE__) . '/Resources/s3-%s.php'
             ))
             ->setExceptionParser($exceptionParser)
             ->setIteratorsConfig(array(
