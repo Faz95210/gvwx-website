@@ -17,8 +17,8 @@ class OddBehaviorController extends Controller {
         foreach ($events as $event) {
             $userEvents = UserEvent::find()->where(['event_id' => $event->id])->all();
             $mail = new MailController("Pas d'export récent");
-            $mail->doHeader([__DIR__ . "/../../frontend/web/css/veltrix/bootstrap.css"]);
-            $mail->setTemplate(__DIR__ . '/../../frontend/web/templates/template_' . $event->label . '.html');
+            $mail->doHeader([dirname(__FILE__) . "/../../frontend/web/css/veltrix/bootstrap.css"]);
+            $mail->setTemplate(dirname(__FILE__) . '/../../frontend/web/templates/template_' . $event->label . '.html');
             foreach ($userEvents as $userEvent) {
                 if (strtotime($userEvent->event_time) < strtotime('- ' . $event->time_before_warning)) {
                     $mail->addUser($userEvent->user_id, ['EVENT_TIME' => gmdate('d-m-Y', $userEvent->event_time)]);

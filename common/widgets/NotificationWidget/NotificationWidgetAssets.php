@@ -22,8 +22,8 @@ class NotificationWidgetAssets extends AssetBundle {
     ];
 
     public function init() {
-        $this->sourcePath = __DIR__ . "/assets";
-        $this->basePath = __DIR__ . "/assets";
+        $this->sourcePath = dirname(__FILE__) . "/assets";
+        $this->basePath = dirname(__FILE__) . "/assets";
         parent::init();
     }
 }

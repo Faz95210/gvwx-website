@@ -1,14 +1,14 @@
 <?php
 $params = array_merge(
-    require __DIR__ . '/../../common/config/params.php',
-    require __DIR__ . '/../../common/config/params-local.php',
-    require __DIR__ . '/params.php',
-    require __DIR__ . '/params-local.php'
+    require dirname(__FILE__) . '/../../common/config/params.php',
+    require dirname(__FILE__) . '/../../common/config/params-local.php',
+    require dirname(__FILE__) . '/params.php',
+    require dirname(__FILE__) . '/params-local.php'
 );
 
 return [
     'id' => 'app-backend',
-    'basePath' => dirname(__DIR__),
+    'basePath' => dirname(dirname(__FILE__)),
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
     'modules' => [],

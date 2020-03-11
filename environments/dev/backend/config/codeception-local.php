@@ -1,11 +1,11 @@
 <?php
 
 return yii\helpers\ArrayHelper::merge(
-    require dirname(dirname(__DIR__)) . '/common/config/codeception-local.php',
-    require __DIR__ . '/main.php',
-    require __DIR__ . '/main-local.php',
-    require __DIR__ . '/test.php',
-    require __DIR__ . '/test-local.php',
+    require dirname(dirname(dirname(__FILE__))) . '/common/config/codeception-local.php',
+    require dirname(__FILE__) . '/main.php',
+    require dirname(__FILE__) . '/main-local.php',
+    require dirname(__FILE__) . '/test.php',
+    require dirname(__FILE__) . '/test-local.php',
     [
     ]
 );

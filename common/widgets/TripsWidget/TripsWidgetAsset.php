@@ -22,7 +22,7 @@ class TripsWidgetAsset extends AssetBundle {
 
     public function init() {
         // Tell AssetBundle where the assets files are
-        $this->sourcePath = __DIR__ . "/assets";
+        $this->sourcePath = dirname(__FILE__) . "/assets";
         parent::init();
     }
 }

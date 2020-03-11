@@ -8,15 +8,15 @@ defined('STDERR') or define('STDERR', fopen('php://stderr', 'w'));
 defined('YII_DEBUG') or define('YII_DEBUG', true);
 defined('YII_ENV') or define('YII_ENV', 'dev');
 
-require __DIR__ . '/../../../vendor/autoload.php';
-require __DIR__ . '/../../../vendor/yiisoft/yii2/Yii.php';
-require __DIR__ . '/../../assets/phpMQTT.php';
+require dirname(__FILE__) . '/../../../vendor/autoload.php';
+require dirname(__FILE__) . '/../../../vendor/yiisoft/yii2/Yii.php';
+require dirname(__FILE__) . '/../../assets/phpMQTT.php';
 
 $config = yii\helpers\ArrayHelper::merge(
-    require __DIR__ . '/../../../common/config/main.php',
-    require __DIR__ . '/../../../common/config/main-local.php',
-    require __DIR__ . '/../../../mqtt/config/params.php',
-    require __DIR__ . '/../../../mqtt/config/main-local.php'
+    require dirname(__FILE__) . '/../../../common/config/main.php',
+    require dirname(__FILE__) . '/../../../common/config/main-local.php',
+    require dirname(__FILE__) . '/../../../mqtt/config/params.php',
+    require dirname(__FILE__) . '/../../../mqtt/config/main-local.php'
 );
 
 $need_to_respond = false;

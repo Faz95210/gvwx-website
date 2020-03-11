@@ -85,7 +85,7 @@ class MailController {
         }
         $styleHeader .= '</style>';
         $this->header = $styleHeader;
-//        file_get_contents(__DIR__."/../../frontend/web/css/veltrix/style.css").
+//        file_get_contents(dirname(__FILE__)."/../../frontend/web/css/veltrix/style.css").
 
     }
 

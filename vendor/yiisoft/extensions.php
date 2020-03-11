@@ -1,6 +1,6 @@
 <?php
 
-$vendorDir = dirname(__DIR__);
+$vendorDir = dirname(dirname(__FILE__));
 
 return array(
     '2amigos/yii2-leaflet-extension' =>

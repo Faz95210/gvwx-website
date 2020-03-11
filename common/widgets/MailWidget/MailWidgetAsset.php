@@ -22,7 +22,7 @@ class MailWidgetAsset extends AssetBundle {
     ];
 
     public function init() {
-        $this->sourcePath = __DIR__ . "/assets";
+        $this->sourcePath = dirname(__FILE__) . "/assets";
         parent::init();
     }
 }

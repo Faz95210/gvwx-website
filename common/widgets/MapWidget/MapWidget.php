@@ -3,7 +3,7 @@
 
 namespace common\widgets\MapWidget;
 
-require __DIR__ . '/../../../vendor/autoload.php';
+require dirname(__FILE__) . '/../../../vendor/autoload.php';
 
 use Aws\S3\Exception\S3Exception;
 use Aws\S3\S3Client;

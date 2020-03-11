@@ -1,10 +1,10 @@
 <?php
 
 return yii\helpers\ArrayHelper::merge(
-    require __DIR__ . '/main.php',
-    require __DIR__ . '/main-local.php',
-    require __DIR__ . '/test.php',
-    require __DIR__ . '/test-local.php',
+    require dirname(__FILE__) . '/main.php',
+    require dirname(__FILE__) . '/main-local.php',
+    require dirname(__FILE__) . '/test.php',
+    require dirname(__FILE__) . '/test-local.php',
     [
         'components' => [
             'request' => [

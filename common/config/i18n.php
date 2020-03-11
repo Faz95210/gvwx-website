@@ -1,6 +1,6 @@
 <?php
 return [
-    'sourcePath' => '@app/../', //__DIR__. '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR,
+    'sourcePath' => '@app/../', //dirname(__FILE__). '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR,
     'languages' => ['en-US', 'fr-FR'], //Add languages to the array for the language files to be generated.
     'translator' => 'Yii::t',
     'sort' => false,
@@ -17,6 +17,6 @@ return [
         '/vendor',
     ],
     'format' => 'php',
-    'messagePath' => '@app/../common/messages', //__DIR__ . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'messages',
+    'messagePath' => '@app/../common/messages', //dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'messages',
     'overwrite' => true,
 ];

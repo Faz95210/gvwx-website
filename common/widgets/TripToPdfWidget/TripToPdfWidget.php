@@ -23,7 +23,7 @@ class TripToPdfWidget extends Widget {
     public function run() {
         TripToPdfWidgetAsset::register($this->getView());
         $this->view->params['user'] = User::find()->where(['id' => \Yii::$app->user->id])->one();
-        $this->view->params['style'] = file_get_contents(__DIR__ . "/assets/css/style.css");
+        $this->view->params['style'] = file_get_contents(dirname(__FILE__) . "/assets/css/style.css");
         $this->handleFilter();
         $this->view->params['trips'] = Trip::getTripsFilteredByDate(['tag' => $this->filter, 'value' => $this->value])->orderBy(['start_date_time' => SORT_DESC])->all();
         $this->view->params['refund'] = Trip::calculateTotalRefund(['tag' => $this->filter, 'value' => $this->value]);

@@ -1,5 +1,5 @@
 <?php
-$this->registerCssFile(__DIR__ . "/assets/css/style.css");
+$this->registerCssFile(dirname(__FILE__) . "/assets/css/style.css");
 ?>
 <style>
 

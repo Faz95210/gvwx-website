@@ -1,15 +1,15 @@
 <?php
 $params = array_merge(
-    require __DIR__ . '/../../common/config/params.php',
-    require __DIR__ . '/../../common/config/params-local.php',
-    require __DIR__ . '/params.php',
-    require __DIR__ . '/params-local.php'
+    require dirname(__FILE__) . '/../../common/config/params.php',
+    require dirname(__FILE__) . '/../../common/config/params-local.php',
+    require dirname(__FILE__) . '/params.php',
+    require dirname(__FILE__) . '/params-local.php'
 );
 
 return [
     'id' => 'app-frontend',
     'name' => 'IKAR',
-    'basePath' => dirname(__DIR__),
+    'basePath' => dirname(dirname(__FILE__)),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
