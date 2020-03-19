@@ -15,7 +15,7 @@ class DirectoryLoaderTest extends \PHPUnit_Framework_TestCase
         $this->gherkin      = $this->createGherkinMock();
         $this->loader       = new DirectoryLoader($this->gherkin);
 
-        $this->featuresPath = realpath(dirname(__FILE__) . '/../Fixtures/directories');
+        $this->featuresPath = realpath(__DIR__ . '/../Fixtures/directories');
     }
 
     protected function createGherkinMock()
@@ -41,10 +41,10 @@ class DirectoryLoaderTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->loader->supports('non-existent path'));
         $this->assertFalse($this->loader->supports('non-existent path:2'));
 
-        $this->assertFalse($this->loader->supports(dirname(__FILE__) . ':d'));
-        $this->assertFalse($this->loader->supports(dirname(__FILE__) . '/../Fixtures/features/pystring.feature'));
-        $this->assertTrue($this->loader->supports(dirname(__FILE__)));
-        $this->assertTrue($this->loader->supports(dirname(__FILE__) . '/../Fixtures/features'));
+        $this->assertFalse($this->loader->supports(__DIR__ . ':d'));
+        $this->assertFalse($this->loader->supports(__DIR__ . '/../Fixtures/features/pystring.feature'));
+        $this->assertTrue($this->loader->supports(__DIR__));
+        $this->assertTrue($this->loader->supports(__DIR__ . '/../Fixtures/features'));
     }
 
     public function testUndefinedFileLoad()

@@ -1,5 +1,5 @@
 <?php
-$dist = dirname(dirname(__FILE__)).'/dist';
+$dist = dirname(__DIR__).'/dist';
 if (!is_dir($dist)) {
     mkdir($dist, 0755);
 }
@@ -12,13 +12,13 @@ $phar = new Phar(
     'random_compat.phar'
 );
 rename(
-    dirname(dirname(__FILE__)).'/lib/random.php', 
-    dirname(dirname(__FILE__)).'/lib/index.php'
+    dirname(__DIR__).'/lib/random.php', 
+    dirname(__DIR__).'/lib/index.php'
 );
-$phar->buildFromDirectory(dirname(dirname(__FILE__)).'/lib');
+$phar->buildFromDirectory(dirname(__DIR__).'/lib');
 rename(
-    dirname(dirname(__FILE__)).'/lib/index.php', 
-    dirname(dirname(__FILE__)).'/lib/random.php'
+    dirname(__DIR__).'/lib/index.php', 
+    dirname(__DIR__).'/lib/random.php'
 );
 
 /**

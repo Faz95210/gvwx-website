@@ -8,7 +8,7 @@ class Issue2158Test extends TestCase
      */
     public function testSomething()
     {
-        include dirname(__FILE__) . '/constant.inc';
+        include __DIR__ . '/constant.inc';
         $this->assertTrue(true);
     }
 

@@ -13,13 +13,13 @@ class XMLSerializerTest extends TestCase {
 
     protected function setUp() {
         $this->tokens = unserialize(
-            file_get_contents(dirname(__FILE__) . '/_files/test.php.tokens'),
+            file_get_contents(__DIR__ . '/_files/test.php.tokens'),
             [TokenCollection::class]
         );
     }
 
     public function testCanBeSerializedToXml() {
-        $expected = file_get_contents(dirname(__FILE__) . '/_files/test.php.xml');
+        $expected = file_get_contents(__DIR__ . '/_files/test.php.xml');
 
         $serializer = new XMLSerializer();
         $this->assertEquals($expected, $serializer->toXML($this->tokens));
@@ -34,14 +34,14 @@ class XMLSerializerTest extends TestCase {
     }
 
     public function testCanBeSerializedToXmlWithCustomNamespace() {
-        $expected = file_get_contents(dirname(__FILE__) . '/_files/customns.xml');
+        $expected = file_get_contents(__DIR__ . '/_files/customns.xml');
 
         $serializer = new XMLSerializer(new NamespaceUri('custom:xml:namespace'));
         $this->assertEquals($expected, $serializer->toXML($this->tokens));
     }
 
     public function testEmptyCollectionCreatesEmptyDocument() {
-        $expected = file_get_contents(dirname(__FILE__) . '/_files/empty.xml');
+        $expected = file_get_contents(__DIR__ . '/_files/empty.xml');
 
         $serializer = new XMLSerializer();
         $this->assertEquals($expected, $serializer->toXML((new TokenCollection())));

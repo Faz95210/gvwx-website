@@ -1,7 +1,10 @@
 <?php
+namespace tests;
+
+use PHPUnit\Framework\TestCase;
 use mikehaertl\tmp\File;
 
-class FileTest extends \PHPUnit\Framework\TestCase
+class FileTest extends TestCase
 {
     public function testCanCreateFile()
     {
@@ -37,7 +40,7 @@ class FileTest extends \PHPUnit\Framework\TestCase
 
     public function testCanCreateFileInDirectory()
     {
-        $dir = dirname(__FILE__).'/tmp';
+        $dir = __DIR__.'/tmp';
         @mkdir($dir);
         $content = 'test content';
         $tmp = new File($content, null, null, $dir);
@@ -50,7 +53,7 @@ class FileTest extends \PHPUnit\Framework\TestCase
 
     public function testCanSaveFileAs()
     {
-        $out = dirname(__FILE__).'/test.txt';
+        $out = __DIR__.'/test.txt';
         $content = 'test content';
         $tmp = new File($content);
         $fileName = $tmp->getFileName();
@@ -68,7 +71,7 @@ class FileTest extends \PHPUnit\Framework\TestCase
 
     public function testCanKeepTempFile()
     {
-        $out = dirname(__FILE__).'/test.txt';
+        $out = __DIR__.'/test.txt';
         $content = 'test content';
         $tmp = new File($content);
         $tmp->delete = false;

@@ -4,4 +4,4 @@ ini_set('log_errors', 1);
 
 $globalString                          = 'Hello';
 
-// require dirname(__FILE__) . '/../../../../bootstrap.php';
+// require __DIR__ . '/../../../../bootstrap.php';

@@ -156,7 +156,7 @@ class ConfigurationTest extends TestCase
 
     public function testListenerConfigurationIsReadCorrectly()
     {
-        $dir         = dirname(__FILE__);
+        $dir         = __DIR__;
         $includePath = \ini_get('include_path');
 
         \ini_set('include_path', $dir . PATH_SEPARATOR . $includePath);

@@ -28,12 +28,12 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="card-body">
 
             <div class="text-center">
-                <a href="#" class="logo"><img src="images/ikarBlack.png" height="60" alt="logo"></a>
+                <a href="#" class="logo"><img src="images/auction.png" height="60" alt="logo"></a>
             </div>
 
             <div class="p-3">
                 <h4 class="font-18 m-b-5 text-center"><?php echo \Yii::t('login', 'Bienvenue'); ?></h4>
-                <p class="text-muted text-center"><?php echo \Yii::t('login', 'Connectez-vous pour continuer sur IKAR'); ?></p>
+                <p class="text-muted text-center"><?php echo \Yii::t('login', 'Connectez-vous pour continuer sur AuctionManager'); ?></p>
 
                 <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
 
@@ -46,7 +46,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div style="color:#999;margin:1em 0">
                     <?= Html::a(\Yii::t('login', 'Mot de passe oublié ?'), ['site/request-password-reset']) ?>
                     <br>
-                    Need new verification email? <?= Html::a('Resend', ['site/resend-verification-email']) ?>
+                    Besoin d'un nouveau mail de
+                    vérification? <?= Html::a('Renvoi', ['site/resend-verification-email']) ?>
                 </div>
 
                 <div class="form-group">

@@ -1,3 +1,3 @@
 <?php
 
-return dirname(__FILE__);
+return __DIR__;

@@ -436,7 +436,7 @@ class ConfigVariables
 
 			// Default values if no style sheet offered	(cf. http://www.w3.org/TR/CSS21/sample.html)
 			'defaultCSS' => DefaultCss::$definition,
-			'defaultCssFile' => dirname(__FILE__) . '/../../data/mpdf.css',
+			'defaultCssFile' => __DIR__ . '/../../data/mpdf.css',
 
 			'customProperties' => [],
 
@@ -450,14 +450,14 @@ class ConfigVariables
 			'pdf_version' => '1.4',
 
 			'fontDir' => [
-				dirname(__FILE__) . '/../../ttfonts'
+				__DIR__ . '/../../ttfonts'
 			],
 
-			'tempDir' => dirname(__FILE__) . '/../../tmp',
+			'tempDir' => __DIR__ . '/../../tmp',
 
 			'allowAnnotationFiles' => false,
 
-			'hyphenationDictionaryFile' => dirname(__FILE__) . '/../../data/patterns/dictionary.txt',
+			'hyphenationDictionaryFile' => __DIR__ . '/../../data/patterns/dictionary.txt',
 
 			'default_lineheight_correction' => 1.2, // Value 1 sets lineheight=fontsize height,
 			// Value used if line-height not set by CSS (usually is)
@@ -514,6 +514,8 @@ class ConfigVariables
 			'curlTimeout' => 5,
 			'curlProxy' => null,
 			'curlProxyAuth' => null,
+
+			'exposeVersion' => true,
 		];
 	}
 

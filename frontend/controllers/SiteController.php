@@ -2,9 +2,12 @@
 
 namespace frontend\controllers;
 
+use Codeception\Module\Cli;
 use common\models\Client;
 use common\models\Item;
 use common\models\LoginForm;
+use common\models\User;
+use frontend\models\SignupForm;
 use common\models\Mandant;
 use common\models\Sale;
 use common\models\SaleStep;
@@ -127,7 +130,8 @@ class SiteController extends Controller {
                             'editmandant',
                             'facturemandant',
                             'deletemandant',
-                            'user',
+                            'editprofile',
+                            'profile',
                             'pvvente',
                             'generatefacture',
                             'clients',
@@ -178,21 +182,6 @@ class SiteController extends Controller {
     }
 
     public function afterAction($action, $result) {
-        if (is_string($result)) {
-            $resultAsArray = json_decode($result, true);
-            /**
-             * Make sure the route didn't return an error.
-             */
-            if (isset($resultAsArray['status']) && $resultAsArray['status'] == 1) {
-                $event = Events::findOne(['route_trigger' => \Yii::$app->requestedRoute]);
-                /**
-                 * Check if the route is an event trigger
-                 */
-                if ($event != null) {
-                    UserEvent::addEvent($event->label);
-                }
-            }
-        }
         return parent::afterAction($action, $result);
     }
 
@@ -204,6 +193,11 @@ class SiteController extends Controller {
      */
     public function actionIndex() {
         return $this->render('home');
+    }
+
+    public function actionProfile() {
+        $this->view->params['user'] = User::findOne(['id' => Yii::$app->user->id]);
+        return $this->render('profile');
     }
 
     /**
@@ -374,8 +368,11 @@ class SiteController extends Controller {
             $item = Item::findOne(['id' => $itemId]);
             $item->getSale();
             $item->getClient();
+            $item->getMandant();
         }
         $this->view->params['item'] = $item;
+        $this->view->params['mandants'] = Mandant::findAll(['user_id' => Yii::$app->user->id]);
+        $this->view->params['clients'] = Client::findAll(['user_id' => Yii::$app->user->id]);
         return $this->render("item");
     }
 
@@ -548,11 +545,8 @@ class SiteController extends Controller {
         if ($item !== null) {
             $item->delete();
         }
-        if (isset($_REQUEST["destination"])) {
-            header("Location: {$_REQUEST["destination"]}");
-        } else if (isset($_SERVER["HTTP_REFERER"])) {
-            header("Location: {$_SERVER["HTTP_REFERER"]}");
-        }
+        header("Location: " . Yii::$app->homeUrl . "?r=site%2Fitems");
+        exit;
     }
 
     public function actionEditmandant() {
@@ -761,7 +755,6 @@ class SiteController extends Controller {
         $writer = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
         header('Content-Disposition: attachment;filename="ClientList.xlsx"');
         $writer->save('php://output');
-
     }
 
     public function actionItemsexcel() {
@@ -794,7 +787,6 @@ class SiteController extends Controller {
         $writer->save('php://output');
     }
 
-
     public function actionFacturemandant() {
         $mandant = Mandant::findOne(['id' => Yii::$app->request->post('mandantId')]);
         $mandant->getItems();
@@ -809,13 +801,35 @@ class SiteController extends Controller {
         foreach ($mandant->items as $item) {
             if ($item->sale != null) {
                 $pdf->Ln();
-                $pdf->Cell(40, 10, $item->sale->date);
+                $pdf->Cell(40, 10, gmdate('d/m/Y', $item->sale->date));
                 $pdf->Cell(40, 10, $item->name);
                 $pdf->Cell(40, 10, $item->adjudication);
 
             }
         }
         $pdf->Output();
+    }
 
+    public function actionEditprofile() {
+        $field = Yii::$app->request->post('field');
+        $value = Yii::$app->request->post($field);
+        $user = User::findOne(['id' => Yii::$app->user->id]);
+        $user->$field = $value;
+        $user->save();
+        if (isset($_REQUEST["destination"])) {
+            header("Location: {$_REQUEST["destination"]}");
+        } else if (isset($_SERVER["HTTP_REFERER"])) {
+            header("Location: {$_SERVER["HTTP_REFERER"]}");
+        }
+        exit;
+    }
+
+    public function actionDeletesale() {
+        $saleId = Yii::$app->request->post('saleId');
+
+        Sale::findOne(['id' => $saleId])->delete();
+
+        header("Location: " . Yii::$app->homeUrl . "?r=site%2Fsales");
+        exit;
     }
 }

@@ -9,7 +9,7 @@ class ComposerAutoloaderInit9585aebdd3f481c9e2e593f1e4267546
     public static function loadClassLoader($class)
     {
         if ('Composer\Autoload\ClassLoader' === $class) {
-            require dirname(__FILE__) . '/ClassLoader.php';
+            require __DIR__ . '/ClassLoader.php';
         }
     }
 
@@ -25,21 +25,21 @@ class ComposerAutoloaderInit9585aebdd3f481c9e2e593f1e4267546
 
         $useStaticLoader = PHP_VERSION_ID >= 50600 && !defined('HHVM_VERSION') && (!function_exists('zend_loader_file_encoded') || !zend_loader_file_encoded());
         if ($useStaticLoader) {
-            require_once dirname(__FILE__) . '/autoload_static.php';
+            require_once __DIR__ . '/autoload_static.php';
 
             call_user_func(\Composer\Autoload\ComposerStaticInit9585aebdd3f481c9e2e593f1e4267546::getInitializer($loader));
         } else {
-            $map = require dirname(__FILE__) . '/autoload_namespaces.php';
+            $map = require __DIR__ . '/autoload_namespaces.php';
             foreach ($map as $namespace => $path) {
                 $loader->set($namespace, $path);
             }
 
-            $map = require dirname(__FILE__) . '/autoload_psr4.php';
+            $map = require __DIR__ . '/autoload_psr4.php';
             foreach ($map as $namespace => $path) {
                 $loader->setPsr4($namespace, $path);
             }
 
-            $classMap = require dirname(__FILE__) . '/autoload_classmap.php';
+            $classMap = require __DIR__ . '/autoload_classmap.php';
             if ($classMap) {
                 $loader->addClassMap($classMap);
             }
@@ -50,7 +50,7 @@ class ComposerAutoloaderInit9585aebdd3f481c9e2e593f1e4267546
         if ($useStaticLoader) {
             $includeFiles = Composer\Autoload\ComposerStaticInit9585aebdd3f481c9e2e593f1e4267546::$files;
         } else {
-            $includeFiles = require dirname(__FILE__) . '/autoload_files.php';
+            $includeFiles = require __DIR__ . '/autoload_files.php';
         }
         foreach ($includeFiles as $fileIdentifier => $file) {
             composerRequire9585aebdd3f481c9e2e593f1e4267546($fileIdentifier, $file);

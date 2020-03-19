@@ -10,22 +10,16 @@ use yii\helpers\Html;
     <div class="topbar-left">
         <a href="index.php" class="logo">
         <span>
-                <img src="images/logo.png" alt="" height="50">
+                <img src="images/auction.png" alt="" height="50">
             </span>
             <i>
-                <img src="images/logo.png" alt="" height="30">
+                <img src="images/auction.png" alt="" height="30">
             </i>
         </a>
     </div>
 
     <nav class="navbar-custom">
         <ul class="navbar-right list-inline float-right mb-0">
-
-            <li class="dropdown notification-list list-inline-item d-none d-md-inline-block">
-                <a class="nav-link waves-effect" href="#" id="btn-fullscreen">
-                    <i class="mdi mdi-fullscreen noti-icon"></i>
-                </a>
-            </li>
 
             <!-- notification -->
             <li class="dropdown notification-list list-inline-item">
@@ -34,7 +28,7 @@ use yii\helpers\Html;
                 <div class="dropdown notification-list nav-pro-img">
                     <a class="dropdown-toggle nav-link arrow-none waves-effect nav-user" data-toggle="dropdown" href="#"
                        role="button" aria-haspopup="false" aria-expanded="false">
-                        <img src="images/users/user-4.jpg" alt="user" class="rounded-circle">
+                        <i class="ti ti-user rounded-circle"></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right profile-dropdown ">
                         <!-- item-->
@@ -42,13 +36,14 @@ use yii\helpers\Html;
 
                         <!--                    <a class="dropdown-item" href="#"><i class="mdi mdi-account-circle m-r-5"></i> -->
                         <?php //echo \Yii::t('navbar', 'Profile'); ?><!--</a>-->
-                        <a class="dropdown-item" href="#"><i
-                                    class="mdi mdi-wallet m-r-5"></i> <?php echo \Yii::t('navbar', 'Mon compte'); ?></a>
-                        <a class="dropdown-item d-block" href="#"><span
-                                    class="badge badge-success float-right">11</span><i
-                                    class="mdi mdi-settings m-r-5"></i> Settings</a>
-                        <a class="dropdown-item" href="#"><i class="mdi mdi-lock-open-outline m-r-5"></i> Lock
-                            screen</a>
+                        <!--                        <a class="dropdown-item" href="#"><i-->
+                        <!--                                    class="mdi mdi-wallet m-r-5"></i> -->
+                        <?php //echo \Yii::t('navbar', 'Mon compte'); ?><!--</a>-->
+                        <!--                        <a class="dropdown-item d-block" href="#"><span-->
+                        <!--                                    class="badge badge-success float-right">11</span><i-->
+                        <!--                                    class="mdi mdi-settings m-r-5"></i> Settings</a>-->
+                        <!--                        <a class="dropdown-item" href="#"><i class="mdi mdi-lock-open-outline m-r-5"></i> Lock-->
+                        <!--                            screen</a>-->
                         <div class="dropdown-divider"></div>
                         <?= Html::beginForm(['/site/logout'], 'post')
                         . Html::submitButton(

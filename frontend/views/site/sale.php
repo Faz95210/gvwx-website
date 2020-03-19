@@ -9,57 +9,66 @@ use yii\web\View;
 use yii\widgets\ActiveForm;
 
 ?>
-<div class="column">
-    <div id="container" class="container">
-        <?php ActiveForm::begin(['action' => ['site/editsale'], 'id' => 'editSale']) ?>
-        <label>
-            Sale
-            <input type="date" value="<?= $this->params['sale']->date ?>">
-        </label>
-        <?= Html::submitButton(\Yii::t('login', 'Modifier'), ['class' => 'btn btn-primary', 'name' => 'edit-sale-button']) ?>
-        <?php ActiveForm::end() ?>
+<div class="card">
+    <div class="card-body">
+        <div id="container" class="container">
+            <?php ActiveForm::begin(['action' => ['site/editsale'], 'id' => 'editSale']) ?>
+            <label>
+                Sale
+                <input type="date" value="<?= $this->params['sale']->date ?>">
+            </label>
+            <?= Html::submitButton(\Yii::t('login', 'Modifier'), ['class' => 'btn btn-primary', 'name' => 'edit-sale-button']) ?>
+            <?php ActiveForm::end() ?>
 
-        <button onclick="deleteSale()">Supprimer</button>
+            <?php ActiveForm::begin(['action' => ['site/deletesale']]) ?>
+            <button type="submit" class="btn btn-danger" name="saleId" value="<?= $this->params['sale']->id ?>">
+                Supprimer
+            </button>
+            <?php ActiveForm::end() ?>
+
+        </div>
+        <p>Generation PV de vente :
+            <?= Html::a('Génerer', [
+                'site/pvvente',
+                'saleId' => $this->params['sale']->id,
+            ], [
+                'class' => 'btn btn-primary',
+                'target' => '_blank',
+            ]); ?>    </p>
+        <p>Liste des objets proposées :
+            <button class="btn btn-primary" onclick="addSection()">Ajouter</button>
+        </p>
     </div>
-    <p>Generation PV de vente :
-        <?= Html::a('Génerer', [
-            'site/pvvente',
-            'saleId' => $this->params['sale']->id,
-        ], [
-            'class' => 'btn btn-primary',
-            'target' => '_blank',
-        ]); ?>    </p>
-    <p>Liste des objets proposées :
-        <button class="btn btn-primary" onclick="addSection()">Ajouter</button>
-    </p>
-    <div id="steps-containers">
-
-        <?php foreach ($this->params['sale']->saleSteps as $saleStep) { ?>
-            <select>
-                <?php foreach ($this->params['items'] as $item) { ?>
-                    <option
-                        <?= $item->id === $saleStep->item_id ? 'selected' : '' ?>value="<?= $item->id ?>"><?= $item->name ?></option>
-                <?php } ?>
-            </select>
-            <table>
-                <tr>
-                    <td>Description :</td>
-                    <td>Estimation :</td>
-                </tr>
-                <tr>
-                    <td id="item-description"> <?= $saleStep->item->description ?></td>
-                    <td id="item-description"> <?= $saleStep->item->estimation ?></td>
-                </tr>
-            </table>
-            <select>
-                <?php foreach ($this->params['clients'] as $client) { ?>
-                    <option value="<?= $client->id ?>"><?= $client->name . ' ' . $client->firstname ?></option>
-                <?php } ?>
-            </select>
-            <p>Adjudication : <?= $item->adjudication ?></p>
-        <?php } ?>
-    </div>
-
+</div>
+<div id="steps-containers">
+    <?php foreach ($this->params['sale']->saleSteps as $saleStep) { ?>
+        <div class="card">
+            <div class="card-body">
+                <select>
+                    <?php foreach ($this->params['items'] as $item) { ?>
+                        <option
+                            <?= $item->id === $saleStep->item_id ? 'selected' : '' ?>value="<?= $item->id ?>"><?= $item->name ?></option>
+                    <?php } ?>
+                </select>
+                <table>
+                    <tr>
+                        <td>Description :</td>
+                        <td>Estimation :</td>
+                    </tr>
+                    <tr>
+                        <td id="item-description"> <?= $saleStep->item->description ?></td>
+                        <td id="item-description"> <?= $saleStep->item->estimation ?></td>
+                    </tr>
+                </table>
+                <select>
+                    <?php foreach ($this->params['clients'] as $client) { ?>
+                        <option value="<?= $client->id ?>"><?= $client->name . ' ' . $client->firstname ?></option>
+                    <?php } ?>
+                </select>
+                <p>Adjudication : <?= $item->adjudication ?></p>
+            </div>
+        </div>
+    <?php } ?>
 </div>
 
 <script>
@@ -73,7 +82,14 @@ use yii\widgets\ActiveForm;
         const form = document.createElement('form');
         form.action = '/index.php?r=site%2Faddsalestep';
         form.method = 'post';
-        stepsContainers.appendChild(form);
+
+        const card = document.createElement('div');
+        card.classList.add('card');
+        const cardBody = document.createElement('div');
+        cardBody.classList.add('card-body');
+        cardBody.appendChild(form);
+        card.appendChild(cardBody);
+        stepsContainers.appendChild(card);
 
         const select = document.createElement('select');
         select.id = 'select' + section;
@@ -84,7 +100,7 @@ use yii\widgets\ActiveForm;
         option<?=$item->id?>.id = 'option<?=$item->id?>';
         optionToValue[optionToValue.length] = {
             'id': 'option<?=$item->id?>',
-            'description': '<?=$item->description ?>',
+            'description': "<?=$item->description ?>",
             'estimation': '<?=$item->estimation ?>',
         }
         option<?=$item->id?>.innerText = '<?=$item->name?>';
@@ -98,7 +114,7 @@ use yii\widgets\ActiveForm;
         <?php if (count($this->params['items']) > 0) { ?>
         const body = document.createElement('tr');
         body.id = 'row' + sectionIndex;
-        body.insertCell().innerText = '<?= $this->params['items'][0]->description ?>';
+        body.insertCell().innerText = "<?= $this->params['items'][0]->description ?>";
         body.insertCell().innerText = '<?= $this->params['items'][0]->estimation ?>';
         table.appendChild(body);
         <?php } ?>

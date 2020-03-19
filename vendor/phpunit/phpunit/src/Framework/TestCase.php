@@ -790,11 +790,11 @@ abstract class TestCase extends Assert implements Test, SelfDescribing
 
             if ($runEntireClass) {
                 $template = new Text_Template(
-                    dirname(__FILE__) . '/../Util/PHP/Template/TestCaseClass.tpl'
+                    __DIR__ . '/../Util/PHP/Template/TestCaseClass.tpl'
                 );
             } else {
                 $template = new Text_Template(
-                    dirname(__FILE__) . '/../Util/PHP/Template/TestCaseMethod.tpl'
+                    __DIR__ . '/../Util/PHP/Template/TestCaseMethod.tpl'
                 );
             }
 

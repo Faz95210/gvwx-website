@@ -10,12 +10,12 @@ class CucumberKeywordsTest extends KeywordsTest
 {
     protected function getKeywords()
     {
-        return new CucumberKeywords(dirname(__FILE__) . '/../Fixtures/i18n.yml');
+        return new CucumberKeywords(__DIR__ . '/../Fixtures/i18n.yml');
     }
 
     protected function getKeywordsArray()
     {
-        return Yaml::parse(file_get_contents(dirname(__FILE__) . '/../Fixtures/i18n.yml'));
+        return Yaml::parse(file_get_contents(__DIR__ . '/../Fixtures/i18n.yml'));
     }
 
     protected function getSteps($keywords, $text, &$line, $keywordType)

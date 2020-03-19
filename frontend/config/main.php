@@ -8,7 +8,7 @@ $params = array_merge(
 
 return [
     'id' => 'app-frontend',
-    'name' => 'IKAR',
+    'name' => 'AuctionManager',
     'basePath' => dirname(dirname(__FILE__)),
     'bootstrap' => ['log'],
     'controllerNamespace' => 'frontend\controllers',

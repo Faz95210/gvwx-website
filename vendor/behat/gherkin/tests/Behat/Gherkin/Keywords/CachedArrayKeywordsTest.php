@@ -9,12 +9,12 @@ class CachedArrayKeywordsTest extends KeywordsTest
 {
     protected function getKeywords()
     {
-        return new CachedArrayKeywords(dirname(__FILE__) . '/../../../../i18n.php');
+        return new CachedArrayKeywords(__DIR__ . '/../../../../i18n.php');
     }
 
     protected function getKeywordsArray()
     {
-        return include(dirname(__FILE__) . '/../../../../i18n.php');
+        return include(__DIR__ . '/../../../../i18n.php');
     }
 
     protected function getSteps($keywords, $text, &$line, $keywordType)

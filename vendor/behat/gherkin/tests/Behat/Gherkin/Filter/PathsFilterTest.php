@@ -11,16 +11,16 @@ class PathsFilterTest extends FilterTest
     {
         $feature = new FeatureNode(null, null, array(), null, array(), null, null, __FILE__, 1);
 
-        $filter = new PathsFilter(array(dirname(__FILE__)));
+        $filter = new PathsFilter(array(__DIR__));
         $this->assertTrue($filter->isFeatureMatch($feature));
 
-        $filter = new PathsFilter(array('/abc', '/def', dirname(dirname(__FILE__))));
+        $filter = new PathsFilter(array('/abc', '/def', dirname(__DIR__)));
         $this->assertTrue($filter->isFeatureMatch($feature));
 
-        $filter = new PathsFilter(array('/abc', '/def', dirname(__FILE__)));
+        $filter = new PathsFilter(array('/abc', '/def', __DIR__));
         $this->assertTrue($filter->isFeatureMatch($feature));
 
-        $filter = new PathsFilter(array('/abc', dirname(__FILE__), '/def'));
+        $filter = new PathsFilter(array('/abc', __DIR__, '/def'));
         $this->assertTrue($filter->isFeatureMatch($feature));
 
         $filter = new PathsFilter(array('/abc', '/def', '/wrong/path'));
@@ -29,7 +29,7 @@ class PathsFilterTest extends FilterTest
 
     public function testItDoesNotMatchPartialPaths()
     {
-        $fixtures = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'Fixtures' . DIRECTORY_SEPARATOR;
+        $fixtures = __DIR__ . DIRECTORY_SEPARATOR . 'Fixtures' . DIRECTORY_SEPARATOR;
 
         $feature = new FeatureNode(null, null, array(), null, array(), null, null, $fixtures . 'full_path' . DIRECTORY_SEPARATOR . 'file1', 1);
 
@@ -51,7 +51,7 @@ class PathsFilterTest extends FilterTest
 
     public function testItDoesNotMatchIfFileWithSameNameButNotPathExistsInFolder()
     {
-        $fixtures = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'Fixtures' . DIRECTORY_SEPARATOR;
+        $fixtures = __DIR__ . DIRECTORY_SEPARATOR . 'Fixtures' . DIRECTORY_SEPARATOR;
 
         $feature = new FeatureNode(null, null, array(), null, array(), null, null, $fixtures . 'full_path' . DIRECTORY_SEPARATOR . 'file1', 1);
 

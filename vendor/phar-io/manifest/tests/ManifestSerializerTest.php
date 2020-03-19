@@ -68,9 +68,9 @@ class ManifestSerializerTest extends \PHPUnit_Framework_TestCase {
 
     public function dataProvider() {
         return [
-            'application' => [file_get_contents(dirname(__FILE__) . '/_fixture/phpunit-5.6.5.xml')],
-            'library'     => [file_get_contents(dirname(__FILE__) . '/_fixture/library.xml')],
-            'extension'   => [file_get_contents(dirname(__FILE__) . '/_fixture/extension.xml')]
+            'application' => [file_get_contents(__DIR__ . '/_fixture/phpunit-5.6.5.xml')],
+            'library'     => [file_get_contents(__DIR__ . '/_fixture/library.xml')],
+            'extension'   => [file_get_contents(__DIR__ . '/_fixture/extension.xml')]
         ];
     }
 
@@ -79,7 +79,7 @@ class ManifestSerializerTest extends \PHPUnit_Framework_TestCase {
      * @uses \PharIo\Manifest\ApplicationName
      */
     public function testCanSerializeToFile() {
-        $src        = dirname(__FILE__) . '/_fixture/library.xml';
+        $src        = __DIR__ . '/_fixture/library.xml';
         $dest       = '/tmp/' . uniqid('serializer', true);
         $manifest   = ManifestLoader::fromFile($src);
         $serializer = new ManifestSerializer();
@@ -107,7 +107,7 @@ class ManifestSerializerTest extends \PHPUnit_Framework_TestCase {
 
         $serializer = new ManifestSerializer();
         $this->assertXmlStringEqualsXmlFile(
-            dirname(__FILE__) . '/_fixture/custom.xml',
+            __DIR__ . '/_fixture/custom.xml',
             $serializer->serializeToString($manifest)
         );
     }

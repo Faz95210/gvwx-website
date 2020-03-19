@@ -72,6 +72,6 @@ class FailureTest extends TestCase
     // Note that due to the implementation of this assertion it counts as 2 asserts
     public function testAssertStringMatchesFormatFile()
     {
-        $this->assertStringMatchesFormatFile(dirname(__FILE__) . '/expectedFileFormat.txt', '...BAR...');
+        $this->assertStringMatchesFormatFile(__DIR__ . '/expectedFileFormat.txt', '...BAR...');
     }
 }

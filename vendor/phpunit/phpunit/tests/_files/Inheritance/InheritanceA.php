@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname(__FILE__) . '/InheritanceB.php';
+require_once __DIR__ . '/InheritanceB.php';
 
 class InheritanceA extends InheritanceB
 {

@@ -1,5 +1,5 @@
 <?php
-include dirname(__FILE__).'/../vendor/autoload.php';
+include __DIR__.'/../vendor/autoload.php';
 
 class OverrideTest extends \PHPUnit\Framework\TestCase
 {

@@ -20,10 +20,10 @@ class GherkinFileLoaderTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->loader->supports('non-existent path'));
         $this->assertFalse($this->loader->supports('non-existent path:2'));
 
-        $this->assertFalse($this->loader->supports(dirname(__FILE__)));
-        $this->assertFalse($this->loader->supports(dirname(__FILE__) . ':d'));
+        $this->assertFalse($this->loader->supports(__DIR__));
+        $this->assertFalse($this->loader->supports(__DIR__ . ':d'));
         $this->assertFalse($this->loader->supports(__FILE__));
-        $this->assertTrue($this->loader->supports(dirname(__FILE__) . '/../Fixtures/features/pystring.feature'));
+        $this->assertTrue($this->loader->supports(__DIR__ . '/../Fixtures/features/pystring.feature'));
     }
 
     public function testLoad()
@@ -91,21 +91,21 @@ class GherkinFileLoaderTest extends \PHPUnit_Framework_TestCase
         $features = $this->loader->load('features/pystring.feature');
         $this->assertEquals(1, count($features));
         $this->assertEquals('A py string feature', $features[0]->getTitle());
-        $this->assertEquals('features' . DIRECTORY_SEPARATOR . 'pystring.feature', $features[0]->getFile());
+        $this->assertEquals(realpath($this->featuresPath . DIRECTORY_SEPARATOR . 'pystring.feature'), $features[0]->getFile());
 
         $this->loader->setBasePath($this->featuresPath);
         $features = $this->loader->load('multiline_name.feature');
         $this->assertEquals(1, count($features));
         $this->assertEquals('multiline', $features[0]->getTitle());
-        $this->assertEquals('multiline_name.feature', $features[0]->getFile());
+        $this->assertEquals(realpath($this->featuresPath . DIRECTORY_SEPARATOR . 'multiline_name.feature'), $features[0]->getFile());
     }
 
     protected function setUp()
     {
-        $keywords = new CucumberKeywords(dirname(__FILE__) . '/../Fixtures/i18n.yml');
+        $keywords = new CucumberKeywords(__DIR__ . '/../Fixtures/i18n.yml');
         $parser = new Parser(new Lexer($keywords));
         $this->loader = new GherkinFileLoader($parser);
 
-        $this->featuresPath = realpath(dirname(__FILE__) . '/../Fixtures/features');
+        $this->featuresPath = realpath(__DIR__ . '/../Fixtures/features');
     }
 }

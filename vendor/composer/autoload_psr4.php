@@ -17,7 +17,6 @@ return array(
     'phpDocumentor\\Reflection\\' => array($vendorDir . '/phpdocumentor/reflection-common/src', $vendorDir . '/phpdocumentor/reflection-docblock/src', $vendorDir . '/phpdocumentor/type-resolver/src'),
     'mikehaertl\\tmp\\' => array($vendorDir . '/mikehaertl/php-tmpfile/src'),
     'jino5577\\daterangepicker\\' => array($vendorDir . '/jino5577/yii2-date-range-picker'),
-    'immusen\\mqtt\\' => array($vendorDir . '/immusen/yii2-swoole-mqtt'),
     'codemix\\excelexport\\' => array($vendorDir . '/codemix/yii2-excelexport/src'),
     'cinghie\\cookieconsent\\' => array($vendorDir . '/cinghie/yii2-cookie-consent'),
     'cebe\\markdown\\' => array($vendorDir . '/cebe/markdown'),

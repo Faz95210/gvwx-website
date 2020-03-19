@@ -379,8 +379,8 @@ class Module extends \yii\base\Module implements BootstrapInterface
         echo $view->renderDynamic('return Yii::$app->getModule("' . $this->id . '")->getToolbarHtml();');
 
         // echo is used in order to support cases where asset manager is not available
-        echo '<style>' . $view->renderPhpFile(dirname(__FILE__) . '/assets/css/toolbar.css') . '</style>';
-        echo '<script>' . $view->renderPhpFile(dirname(__FILE__) . '/assets/js/toolbar.js') . '</script>';
+        echo '<style>' . $view->renderPhpFile(__DIR__ . '/assets/css/toolbar.css') . '</style>';
+        echo '<script>' . $view->renderPhpFile(__DIR__ . '/assets/js/toolbar.js') . '</script>';
     }
 
     /**
@@ -455,7 +455,7 @@ class Module extends \yii\base\Module implements BootstrapInterface
      */
     protected function defaultVersion()
     {
-        $packageInfo = Json::decode(file_get_contents(dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'composer.json'));
+        $packageInfo = Json::decode(file_get_contents(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'composer.json'));
         $extensionName = $packageInfo['name'];
         if (isset(Yii::$app->extensions[$extensionName])) {
             return Yii::$app->extensions[$extensionName]['version'];

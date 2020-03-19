@@ -23,6 +23,12 @@ class Item extends ActiveRecord {
 
     public $sale = null;
     public $client = null;
+    public $mandant = null;
+
+
+    public function getMandant() {
+        $this->mandant = Mandant::findOne(['id' => $this->mandant_id]);
+    }
 
     public function getSale() {
         $this->sale = Sale::find()->innerJoin('sale_step', 'sale_step.sale_id = sale.id')->where(['sale_step.item_id' => $this->id])->one();

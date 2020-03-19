@@ -10,7 +10,7 @@ require_once 'functions.php';
 spl_autoload_register(function($class){
    
     $class = ltrim($class, '\\');
-    $dir = dirname(__FILE__) . '/src';
+    $dir = __DIR__ . '/src';
     $namespace = 'Opis\Closure';
     
     if(strpos($class, $namespace) === 0)

@@ -4,14 +4,15 @@ namespace JmesPath\Tests;
 use JmesPath\AstRuntime;
 use JmesPath\CompilerRuntime;
 use JmesPath\SyntaxErrorException;
+use PHPUnit\Framework\TestCase;
 
-class ComplianceTest extends \PHPUnit_Framework_TestCase
+class ComplianceTest extends TestCase
 {
     private static $path;
 
     public static function setUpBeforeClass()
     {
-        self::$path = dirname(__FILE__) . '/../../compiled';
+        self::$path = __DIR__ . '/../../compiled';
         array_map('unlink', glob(self::$path . '/jmespath_*.php'));
     }
 
@@ -58,8 +59,9 @@ class ComplianceTest extends \PHPUnit_Framework_TestCase
             );
         }
 
-        $file = dirname(__FILE__) . '/compliance/' . $file . '.json';
+        $file = __DIR__ . '/compliance/' . $file . '.json';
         $failure .= "\n{$compiledStr}php bin/jp.php --file {$file} --suite {$suite} --case {$case}\n\n"
+            . "Result: " . $this->prettyJson($evalResult) . "\n\n"
             . "Expected: " . $this->prettyJson($result) . "\n\n";
         $failure .= 'Associative? ' . var_export($asAssoc, true) . "\n\n";
 
@@ -82,10 +84,10 @@ class ComplianceTest extends \PHPUnit_Framework_TestCase
 
         $files = array_map(function ($f) {
             return basename($f, '.json');
-        }, glob(dirname(__FILE__) . '/compliance/*.json'));
+        }, glob(__DIR__ . '/compliance/*.json'));
 
         foreach ($files as $name) {
-            $contents = file_get_contents(dirname(__FILE__) . "/compliance/{$name}.json");
+            $contents = file_get_contents(__DIR__ . "/compliance/{$name}.json");
             foreach ([true, false] as $asAssoc) {
                 $json = json_decode($contents, true);
                 $jsonObj = json_decode($contents);

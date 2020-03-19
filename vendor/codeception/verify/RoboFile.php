@@ -14,11 +14,11 @@ class RoboFile extends \Robo\Tasks
     {
         if ($newVer) {
             $this->say("version updated to $newVer");
-            $this->taskWriteToFile(dirname(__FILE__).'/VERSION')
+            $this->taskWriteToFile(__DIR__.'/VERSION')
                 ->line($newVer)
                 ->run();
         }
-        $version = trim(file_get_contents(dirname(__FILE__).'/VERSION'));
+        $version = trim(file_get_contents(__DIR__.'/VERSION'));
         $this->taskGitStack()
             ->tag($version)
             ->push('origin','master --tags')

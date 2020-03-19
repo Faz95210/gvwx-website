@@ -6,5 +6,5 @@ if (!class_exists($newClass) && class_exists($oldClass)) {
     class_alias($oldClass, $newClass);
 }
 
-require dirname(__FILE__) . '/../vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
 

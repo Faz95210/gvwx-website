@@ -21,12 +21,12 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="card-body">
 
             <h3 class="text-center">
-                <a href="#" class="logo"><img src="images/ikarBlack.png" height="60" alt="logo"></a>
+                <a href="#" class="logo"><img src="images/auction.png" height="60" alt="logo"></a>
             </h3>
 
             <div class="p-3">
                 <h4 class="font-18 m-b-5 text-center"><?php echo \Yii::t('login', 'Inscription'); ?></h4>
-                <p class="text-muted text-center"><?php echo \Yii::t('login', 'Inscrivez-vous à IKAR maintenant !'); ?></p>
+                <p class="text-muted text-center"><?php echo \Yii::t('login', 'Inscrivez-vous à Auction Management maintenant !'); ?></p>
 
                 <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
 
@@ -70,7 +70,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 -->
                 <div class="form-group m-t-10 mb-0 row">
                     <div class="col-12 m-t-20">
-                        <p class="mb-0"><?php echo \Yii::t('login', 'En vous inscrivant à IKAR, vous acceptez les '); ?> <?= Html::a(\Yii::t('login', 'conditions générales'), ['site/termsofuse']) ?></p>
+                        <p class="mb-0"><?php echo \Yii::t('login', 'En vous inscrivant à Auction Manager, vous acceptez les '); ?> <?= Html::a(\Yii::t('login', 'conditions générales'), ['site/termsofuse']) ?></p>
                     </div>
                 </div>
                 <!-- </form> -->

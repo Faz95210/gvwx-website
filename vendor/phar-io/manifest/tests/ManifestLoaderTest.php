@@ -46,7 +46,7 @@ class ManifestLoaderTest extends \PHPUnit_Framework_TestCase {
     public function testCanBeLoadedFromFile() {
         $this->assertInstanceOf(
             Manifest::class,
-            ManifestLoader::fromFile(dirname(__FILE__) . '/_fixture/library.xml')
+            ManifestLoader::fromFile(__DIR__ . '/_fixture/library.xml')
         );
     }
 
@@ -54,7 +54,7 @@ class ManifestLoaderTest extends \PHPUnit_Framework_TestCase {
         $this->assertInstanceOf(
             Manifest::class,
             ManifestLoader::fromString(
-                file_get_contents(dirname(__FILE__) . '/_fixture/library.xml')
+                file_get_contents(__DIR__ . '/_fixture/library.xml')
             )
         );
     }
@@ -62,7 +62,7 @@ class ManifestLoaderTest extends \PHPUnit_Framework_TestCase {
     public function testCanBeLoadedFromPhar() {
         $this->assertInstanceOf(
             Manifest::class,
-            ManifestLoader::fromPhar(dirname(__FILE__) . '/_fixture/test.phar')
+            ManifestLoader::fromPhar(__DIR__ . '/_fixture/test.phar')
         );
 
     }

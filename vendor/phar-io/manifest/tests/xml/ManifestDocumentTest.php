@@ -11,12 +11,12 @@ class ManifestDocumentTest extends \PHPUnit_Framework_TestCase {
     public function testCanBeCreatedFromFile() {
         $this->assertInstanceOf(
             ManifestDocument::class,
-            ManifestDocument::fromFile(dirname(__FILE__) . '/../_fixture/phpunit-5.6.5.xml')
+            ManifestDocument::fromFile(__DIR__ . '/../_fixture/phpunit-5.6.5.xml')
         );
     }
 
     public function testCaneBeConstructedFromString() {
-        $content = file_get_contents(dirname(__FILE__) . '/../_fixture/phpunit-5.6.5.xml');
+        $content = file_get_contents(__DIR__ . '/../_fixture/phpunit-5.6.5.xml');
         $this->assertInstanceOf(
             ManifestDocument::class,
             ManifestDocument::fromString($content)
@@ -99,7 +99,7 @@ class ManifestDocumentTest extends \PHPUnit_Framework_TestCase {
     }
 
     private function loadFixture() {
-        return ManifestDocument::fromFile(dirname(__FILE__) . '/../_fixture/phpunit-5.6.5.xml');
+        return ManifestDocument::fromFile(__DIR__ . '/../_fixture/phpunit-5.6.5.xml');
     }
 
     private function loadEmptyFixture() {

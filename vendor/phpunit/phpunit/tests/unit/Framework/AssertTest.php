@@ -1102,7 +1102,7 @@ XML;
 
         $this->expectException(AssertionFailedError::class);
 
-        $this->assertIsReadable(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'NotExisting');
+        $this->assertIsReadable(__DIR__ . DIRECTORY_SEPARATOR . 'NotExisting');
     }
 
     public function testAssertNotIsReadableThrowsException()
@@ -1132,7 +1132,7 @@ XML;
 
         $this->expectException(AssertionFailedError::class);
 
-        $this->assertIsWritable(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'NotExisting');
+        $this->assertIsWritable(__DIR__ . DIRECTORY_SEPARATOR . 'NotExisting');
     }
 
     public function testAssertNotIsWritableThrowsException()
@@ -1158,11 +1158,11 @@ XML;
 
     public function testAssertDirectoryExists()
     {
-        $this->assertDirectoryExists(dirname(__FILE__));
+        $this->assertDirectoryExists(__DIR__);
 
         $this->expectException(AssertionFailedError::class);
 
-        $this->assertDirectoryExists(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'NotExisting');
+        $this->assertDirectoryExists(__DIR__ . DIRECTORY_SEPARATOR . 'NotExisting');
     }
 
     public function testAssertDirectoryNotExistsThrowsException()
@@ -1174,11 +1174,11 @@ XML;
 
     public function testAssertDirectoryNotExists()
     {
-        $this->assertDirectoryNotExists(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'NotExisting');
+        $this->assertDirectoryNotExists(__DIR__ . DIRECTORY_SEPARATOR . 'NotExisting');
 
         $this->expectException(AssertionFailedError::class);
 
-        $this->assertDirectoryNotExists(dirname(__FILE__));
+        $this->assertDirectoryNotExists(__DIR__);
     }
 
     public function testAssertDirectoryIsReadableThrowsException()
@@ -1190,11 +1190,11 @@ XML;
 
     public function testAssertDirectoryIsReadable()
     {
-        $this->assertDirectoryIsReadable(dirname(__FILE__));
+        $this->assertDirectoryIsReadable(__DIR__);
 
         $this->expectException(AssertionFailedError::class);
 
-        $this->assertDirectoryIsReadable(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'NotExisting');
+        $this->assertDirectoryIsReadable(__DIR__ . DIRECTORY_SEPARATOR . 'NotExisting');
     }
 
     public function testAssertDirectoryNotIsReadableThrowsException()
@@ -1213,11 +1213,11 @@ XML;
 
     public function testAssertDirectoryIsWritable()
     {
-        $this->assertDirectoryIsWritable(dirname(__FILE__));
+        $this->assertDirectoryIsWritable(__DIR__);
 
         $this->expectException(AssertionFailedError::class);
 
-        $this->assertDirectoryIsWritable(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'NotExisting');
+        $this->assertDirectoryIsWritable(__DIR__ . DIRECTORY_SEPARATOR . 'NotExisting');
     }
 
     public function testAssertDirectoryNotIsWritableThrowsException()
@@ -1240,7 +1240,7 @@ XML;
 
         $this->expectException(AssertionFailedError::class);
 
-        $this->assertFileExists(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'NotExisting');
+        $this->assertFileExists(__DIR__ . DIRECTORY_SEPARATOR . 'NotExisting');
     }
 
     public function testAssertFileNotExistsThrowsException()
@@ -1252,7 +1252,7 @@ XML;
 
     public function testAssertFileNotExists()
     {
-        $this->assertFileNotExists(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'NotExisting');
+        $this->assertFileNotExists(__DIR__ . DIRECTORY_SEPARATOR . 'NotExisting');
 
         $this->expectException(AssertionFailedError::class);
 
@@ -1272,7 +1272,7 @@ XML;
 
         $this->expectException(AssertionFailedError::class);
 
-        $this->assertFileIsReadable(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'NotExisting');
+        $this->assertFileIsReadable(__DIR__ . DIRECTORY_SEPARATOR . 'NotExisting');
     }
 
     public function testAssertFileNotIsReadableThrowsException()
@@ -1295,7 +1295,7 @@ XML;
 
         $this->expectException(AssertionFailedError::class);
 
-        $this->assertFileIsWritable(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'NotExisting');
+        $this->assertFileIsWritable(__DIR__ . DIRECTORY_SEPARATOR . 'NotExisting');
     }
 
     public function testAssertFileNotIsWritableThrowsException()

@@ -42,7 +42,7 @@ namespace {
     }
     if (!class_exists('PHPUnit\Util\Log\JSON') || !class_exists('PHPUnit\Util\Log\TAP')) {
         if (class_exists('PHPUnit\Util\Printer')) {
-            require_once dirname(__FILE__) . '/phpunit5-loggers.php'; // TAP and JSON loggers were removed in PHPUnit 6
+            require_once __DIR__ . '/phpunit5-loggers.php'; // TAP and JSON loggers were removed in PHPUnit 6
         }
     }
 

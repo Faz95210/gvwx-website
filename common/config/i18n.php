@@ -1,7 +1,7 @@
 <?php
 return [
     'sourcePath' => '@app/../', //dirname(__FILE__). '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR,
-    'languages' => ['en-US', 'fr-FR'], //Add languages to the array for the language files to be generated.
+    'languages' => ['fr-FR', 'fr-FR'], //Add languages to the array for the language files to be generated.
     'translator' => 'Yii::t',
     'sort' => false,
     'removeUnused' => false,

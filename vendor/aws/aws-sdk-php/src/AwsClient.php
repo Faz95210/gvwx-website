@@ -336,6 +336,9 @@ class AwsClient implements AwsClientInterface
         $resolver = static function (
             CommandInterface $c
         ) use ($api, $provider, $name, $region, $version) {
+            if (!empty($c['@context']['signing_region'])) {
+                $region = $c['@context']['signing_region'];
+            }
             $authType = $api->getOperation($c->getName())['authtype'];
             switch ($authType){
                 case 'none':
@@ -363,7 +366,7 @@ class AwsClient implements AwsClientInterface
     {
         if (!isset($this->aliases)) {
             if (is_null($file)) {
-                $file = dirname(__FILE__) . '/data/aliases.json';
+                $file = __DIR__ . '/data/aliases.json';
             }
             $aliases = \Aws\load_compiled_json($file);
             $serviceId = $this->api->getServiceId();
@@ -400,7 +403,7 @@ class AwsClient implements AwsClientInterface
      */
     public static function applyDocFilters(array $api, array $docs)
     {
-        $aliases = \Aws\load_compiled_json(dirname(__FILE__) . '/data/aliases.json');
+        $aliases = \Aws\load_compiled_json(__DIR__ . '/data/aliases.json');
         $serviceId = $api['metadata']['serviceId'];
         $version = $api['metadata']['apiVersion'];
 

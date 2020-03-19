@@ -11,7 +11,6 @@ use yii\db\ActiveRecord;
  *
  * @property integer $id
  * @property integer $date
- * @property integer $client_id
  * @property integer $user_id
  *
  */
@@ -68,7 +67,7 @@ class Sale extends ActiveRecord {
     public function rules() {
         return [
             [['date', 'user_id'], 'required'],
-            [['date', 'user_id', 'client_id'], 'number'],
+            [['date', 'user_id'], 'number'],
         ];
     }
 

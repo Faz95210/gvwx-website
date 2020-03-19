@@ -39,7 +39,7 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 	use Strict;
 	use FpdiTrait;
 
-	const VERSION = '8.0.3';
+	const VERSION = '8.0.5';
 
 	const SCALE = 72 / 25.4;
 
@@ -815,6 +815,8 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 	var $outerblocktags;
 	var $innerblocktags;
 
+	public $exposeVersion;
+
 	/**
 	 * @var string
 	 */
@@ -1070,8 +1072,8 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 
 		$this->tableBackgrounds = [];
 		$this->uniqstr = '20110230'; // mPDF 5.7.2
-		$this->kt_y00 = '';
-		$this->kt_p00 = '';
+		$this->kt_y00 = 0;
+		$this->kt_p00 = 0;
 		$this->BMPonly = [];
 		$this->page = 0;
 		$this->n = 2;
@@ -1102,7 +1104,7 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 		$this->defDrawColor = $this->DrawColor = $this->SetDColor($this->colorConverter->convert(0, $this->PDFAXwarnings), true);
 		$this->defFillColor = $this->FillColor = $this->SetFColor($this->colorConverter->convert(255, $this->PDFAXwarnings), true);
 
-		$this->upperCase = require dirname(__FILE__) . '/../data/upperCase.php';
+		$this->upperCase = require __DIR__ . '/../data/upperCase.php';
 
 		$this->extrapagebreak = true; // mPDF 6 pagebreaktype
 
@@ -1167,7 +1169,7 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 		// Sets default height for overline text as factor of fontsize
 		$this->baselineO = 1.1;
 
-		$this->noImageFile = dirname(__FILE__) . '/../data/no_image.jpg';
+		$this->noImageFile = __DIR__ . '/../data/no_image.jpg';
 		$this->subPos = 0;
 
 		$this->fullImageHeight = false;
@@ -3794,7 +3796,7 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 		/* -- CJK-FONTS -- */
 		if (in_array($family, $this->available_CJK_fonts)) {
 			if (empty($this->Big5_widths)) {
-				require dirname(__FILE__) . '/../data/CJKdata.php';
+				require __DIR__ . '/../data/CJKdata.php';
 			}
 			$this->AddCJKFont($family); // don't need to add style
 			return;
@@ -4064,7 +4066,7 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 				if (in_array($fontkey, $this->available_CJK_fonts)) {
 					if (!isset($this->fonts[$fontkey])) { // already added
 						if (empty($this->Big5_widths)) {
-							require dirname(__FILE__) . '/../data/CJKdata.php';
+							require __DIR__ . '/../data/CJKdata.php';
 						}
 						$this->AddCJKFont($family); // don't need to add style
 					}
@@ -4199,7 +4201,7 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 					if ($family == 'ctimes' || $family == 'chelvetica' || $family == 'ccourier') {
 						$file .= strtolower($style);
 					}
-					require dirname(__FILE__) . '/../data/font/' . $file . '.php';
+					require __DIR__ . '/../data/font/' . $file . '.php';
 					if (!isset($cw)) {
 						throw new \Mpdf\MpdfException(sprintf('Could not include font metric file "%s"', $file));
 					}
@@ -9428,7 +9430,7 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 					header('Content-disposition: inline; filename="' . $name . '"');
 					header('Cache-Control: public, must-revalidate, max-age=0');
 					header('Pragma: public');
-					header('X-Generator: mPDF ' . static::VERSION);
+					header('X-Generator: mPDF' . ($this->exposeVersion ? (' ' . static::VERSION) : ''));
 					header('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
 					header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 				}
@@ -9447,7 +9449,7 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 				header('Content-Transfer-Encoding: binary');
 				header('Cache-Control: public, must-revalidate, max-age=0');
 				header('Pragma: public');
-				header('X-Generator: mPDF ' . static::VERSION);
+				header('X-Generator: mPDF' . ($this->exposeVersion ? (' ' . static::VERSION) : ''));
 				header('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
 				header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
 				header('Content-Type: application/pdf');
@@ -14663,7 +14665,7 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 				$prop[1] = $tmp;
 			}
 		} else {
-			return [];
+			return ['w' => 0, 's' => 0];
 		}
 		// Size
 		$bsize = $this->sizeConverter->convert($prop[0], $refw, $this->FontSize, false);
@@ -23861,8 +23863,8 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 		if ($usedivletters) {
 			if ($indexCollationGroup && \in_array(strtolower($indexCollationGroup), array_map(function ($v) {
 					return strtolower(basename($v, '.php'));
-			}, $this->filesInDir(dirname(__FILE__) . '/../data/collations/')))) {
-				$collation = require dirname(__FILE__) . '/../data/collations/' . $indexCollationGroup . '.php';
+			}, $this->filesInDir(__DIR__ . '/../data/collations/')))) {
+				$collation = require __DIR__ . '/../data/collations/' . $indexCollationGroup . '.php';
 			} else {
 				$collation = [];
 			}
@@ -25353,7 +25355,7 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 	function SetSubstitutions()
 	{
 		$subsarray = [];
-		require dirname(__FILE__) . '/../data/subs_win-1252.php';
+		require __DIR__ . '/../data/subs_win-1252.php';
 		$this->substitute = [];
 		foreach ($subsarray as $key => $val) {
 			$this->substitute[UtfString::code2utf($key)] = $val;
@@ -25419,7 +25421,7 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 
 		if (!$this->subArrMB) {
 
-			require dirname(__FILE__) . '/../data/subs_core.php';
+			require __DIR__ . '/../data/subs_core.php';
 
 			$this->subArrMB['a'] = $aarr;
 			$this->subArrMB['s'] = $sarr;
@@ -25671,7 +25673,7 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 		if (!$this->PDFA && !$this->PDFX && !$this->biDirectional) {  // mPDF 6
 			$repl = [];
 			if (!$this->subArrMB) {
-				require dirname(__FILE__) . '/../data/subs_core.php';
+				require __DIR__ . '/../data/subs_core.php';
 				$this->subArrMB['a'] = $aarr;
 				$this->subArrMB['s'] = $sarr;
 				$this->subArrMB['z'] = $zarr;
@@ -25788,7 +25790,7 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 
 	function setHiEntitySubstitutions()
 	{
-		$entarr = include dirname(__FILE__) . '/../data/entity_substitutions.php';
+		$entarr = include __DIR__ . '/../data/entity_substitutions.php';
 
 		foreach ($entarr as $key => $val) {
 			$this->entsearch[] = '&' . $key . ';';
@@ -26316,7 +26318,7 @@ class Mpdf implements \Psr\Log\LoggerAwareInterface
 			$rlm = $arrcode['quietR'] / $k; // Right Quiet margin
 			$tlm = $blm = $arrcode['quietTB'] / $k;
 			$height = 1;  // Overrides
-		} elseif (in_array($btype, ['C128A', 'C128B', 'C128C', 'EAN128A', 'EAN128B', 'EAN128C', 'C39', 'C39+', 'C39E', 'C39E+', 'S25', 'S25+', 'I25', 'I25+', 'I25B', 'I25B+', 'C93', 'MSI', 'MSI+', 'CODABAR', 'CODE11'])) {
+		} elseif (in_array($btype, ['C128A', 'C128B', 'C128C', 'C128RAW', 'EAN128A', 'EAN128B', 'EAN128C', 'C39', 'C39+', 'C39E', 'C39E+', 'S25', 'S25+', 'I25', 'I25+', 'I25B', 'I25B+', 'C93', 'MSI', 'MSI+', 'CODABAR', 'CODE11'])) {
 			$llm = $arrcode['lightmL'] * $xres; // Left Quiet margin
 			$rlm = $arrcode['lightmR'] * $xres; // Right Quiet margin
 			$tlm = $blm = $arrcode['lightTB'] * $xres * $height;

@@ -25,7 +25,7 @@ class DirectoryExistsTest extends ConstraintTestCase
 
     public function testEvaluateReturnsFalseWhenDirectoryDoesNotExist()
     {
-        $directory = dirname(__FILE__) . '/NonExistentDirectory';
+        $directory = __DIR__ . '/NonExistentDirectory';
 
         $constraint = new DirectoryExists();
 
@@ -34,7 +34,7 @@ class DirectoryExistsTest extends ConstraintTestCase
 
     public function testEvaluateReturnsTrueWhenDirectoryExists()
     {
-        $directory = dirname(__FILE__);
+        $directory = __DIR__;
 
         $constraint = new DirectoryExists();
 
@@ -43,7 +43,7 @@ class DirectoryExistsTest extends ConstraintTestCase
 
     public function testEvaluateThrowsExpectationFailedExceptionWhenDirectoryDoesNotExist()
     {
-        $directory = dirname(__FILE__) . '/NonExistentDirectory';
+        $directory = __DIR__ . '/NonExistentDirectory';
 
         $constraint = new DirectoryExists();
 
