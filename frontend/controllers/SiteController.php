@@ -496,6 +496,7 @@ class SiteController extends Controller {
             $pdf->SetFont('Arial', '', 13);
             $this->improvedTable($pdf, $sale->saleSteps);
         }
+        header('Content-type: application/pdf;Content-Disposition: attachment;filename="PV' . $sale->date . '.pdf"');
         $pdf->Output();
 
     }
@@ -834,6 +835,7 @@ class SiteController extends Controller {
 
             }
         }
+        header('Content-type: application/pdf;Content-Disposition: attachment;filename="facture' . $mandant->name . '.pdf"');
         $pdf->Output();
     }
 
