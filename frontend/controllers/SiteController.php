@@ -629,12 +629,17 @@ class SiteController extends Controller {
         $pdf->AddPage();
         $pdf->SetFont('Arial', '', $fontSize['header']);
         $user = User::findOne(['id' => Yii::$app->user->id]);
-        $temp = tmpfile();
-        $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $user->logo));
+        if ($user->logo != null) {
 
-        fwrite($temp, $data);
-        preg_match('/data:image\/(.*);base64/', $user->logo, $type);
-        $pdf->Image(stream_get_meta_data($temp)['uri'], null, null, 30, 30, $type[1]);
+            $temp = tmpfile();
+            $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $user->logo));
+
+            fwrite($temp, $data);
+            preg_match('/data:image\/(.*);base64/', $user->logo, $type);
+            $pdf->Image(stream_get_meta_data($temp)['uri'], null, null, 30, 30, $type[1]);
+        } else {
+            $pdf->Cell(40, 10, 'LOGO', '');
+        }
 
         $pdf->SetX($pdf->GetPageWidth() - 60);
 
@@ -750,13 +755,17 @@ class SiteController extends Controller {
         }
 
         $pdf->SetXY($pdf->GetPageWidth() - 40, $pdf->GetPageHeight() - 40);
-        $temp = tmpfile();
-        $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $user->marianne));
+        if ($user->marianne !== null) {
 
-        fwrite($temp, $data);
-        preg_match('/data:image\/(.*);base64/', $user->marianne, $type);
-        $pdf->Image(stream_get_meta_data($temp)['uri'], null, null, 15, 15, $type[1]);
+            $temp = tmpfile();
+            $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $user->marianne));
 
+            fwrite($temp, $data);
+            preg_match('/data:image\/(.*);base64/', $user->marianne, $type);
+            $pdf->Image(stream_get_meta_data($temp)['uri'], null, null, 15, 15, $type[1]);
+        } else {
+            $pdf->Cell(40, 5, 'LOGO', '');
+        }
         $pdf->Output();
     }
 
