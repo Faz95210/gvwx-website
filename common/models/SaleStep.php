@@ -42,16 +42,17 @@ class SaleStep extends ActiveRecord {
 
     public static function newSaleStep(array $post) {
         $sale = new self([
-            "item_id" => $post['item'],
-            "client_id" => $post['client'],
-            "sale_id" => $post['sale'],
+            "item_id" => $post['itemId'],
+            "client_id" => $post['clientId'],
+            "sale_id" => $post['saleId'],
         ]);
-
-        if ($sale->save()) {
-            $item = Item::findOne(['id' => $post['item']]);
-            $item->adjudication = $post['adjudication'];
-            $item->update();
+        $res1 = $sale->save();
+        $item = Item::findOne(['id' => $post['itemId']]);
+        $item->adjudication = $post['adjudication'];
+        if ($res1 && $item->update()) {
+            return $sale->id;
         }
+        return $sale->id;
     }
 
     /**

@@ -111,6 +111,7 @@ class SiteController extends Controller {
                             'verify-email',
                             'resend-verification-email',
                             'reset-password',
+                            'widgetloader',
                             'request-password-reset',
                             'items',
                             'itemsexcel',
@@ -139,7 +140,8 @@ class SiteController extends Controller {
                             'clientexcel',
                             'newclient',
                             'editclient',
-                            'deleteclient'
+                            'deleteclient',
+                            'editsalestep'
                         ],
                         'allow' => true,
                         //'roles' => ['?'],
@@ -382,7 +384,7 @@ class SiteController extends Controller {
     }
 
     public function actionMandants() {
-        $mandants = Mandant::findAll(['user_id' => Yii::$app->user->id]);
+        $mandants = Mandant::find()->where(['user_id' => Yii::$app->user->id])->orderBy(['name' => SORT_ASC])->all();
         $this->view->params = ['mandants' => ($mandants !== null ? $mandants : [])];
         return $this->render("mandants");
     }
@@ -400,13 +402,31 @@ class SiteController extends Controller {
 
     public function actionNewmandant() {
         Mandant::newMandant(Yii::$app->request->post());
-        return $this->actionMandants();
+        header("Location: " . Yii::$app->homeUrl . "?r=site/mandants");
+        exit;
     }
 
     public function actionSales() {
         $sales = Sale::findAll(['user_id' => Yii::$app->user->id]);
         $this->view->params = ['sales' => ($sales !== null ? $sales : [])];
         return $this->render("sales");
+    }
+
+
+    public function actionWidgetloader() {
+        $klass = "";
+        $params = [];
+        foreach (Yii::$app->request->get() as $key => $value) {
+            if ($key === "r") {
+                continue;
+            }
+            if ($key === "widget") {
+                $klass = "\common\widgets\\$value\\$value";
+            } else {
+                $params[$key] = $value;
+            }
+        }
+        return $klass::widget($params);
     }
 
     public function actionSale() {
@@ -515,11 +535,6 @@ class SiteController extends Controller {
 
     public function actionAddsalestep() {
         SaleStep::newSaleStep(Yii::$app->request->post());
-        if (isset($_REQUEST["destination"])) {
-            header("Location: {$_REQUEST["destination"]}");
-        } else if (isset($_SERVER["HTTP_REFERER"])) {
-            header("Location: {$_SERVER["HTTP_REFERER"]}");
-        }
     }
 
     public function actionEdititem() {
@@ -559,26 +574,20 @@ class SiteController extends Controller {
             $mandant->phone = Yii::$app->request->post('phone');
             $mandant->city = Yii::$app->request->post('city');
             $mandant->mail = Yii::$app->request->post('mail');
-            $mandant->update(false);
+            $mandant->update();
         }
-        if (isset($_REQUEST["destination"])) {
-            header("Location: {$_REQUEST["destination"]}");
-        } else if (isset($_SERVER["HTTP_REFERER"])) {
-            header("Location: {$_SERVER["HTTP_REFERER"]}");
-        }
+        header("Location: " . Yii::$app->homeUrl . "?r=site/mandant&mandantId=" . Yii::$app->request->post('mandantId'));
         exit;
     }
 
     public function actionDeletemandant() {
-        $mandant = Mandant::findOne(['id' => Yii::$app->request->post('mandantId')]);
+        echo 1;
+        exit;
+        $mandant = Mandant::findOne(['id' => Yii::$app->request->post('deleteMandant')]);
         if ($mandant !== null) {
             $mandant->delete();
         }
-        if (isset($_REQUEST["destination"])) {
-            header("Location: {$_REQUEST["destination"]}");
-        } else if (isset($_SERVER["HTTP_REFERER"])) {
-            header("Location: {$_SERVER["HTTP_REFERER"]}");
-        }
+        header("Location: " . Yii::$app->homeUrl . "?r=site/mandants");
         exit;
     }
 
@@ -587,11 +596,8 @@ class SiteController extends Controller {
         if ($client !== null) {
             $client->delete();
         }
-        if (isset($_REQUEST["destination"])) {
-            header("Location: {$_REQUEST["destination"]}");
-        } else if (isset($_SERVER["HTTP_REFERER"])) {
-            header("Location: {$_SERVER["HTTP_REFERER"]}");
-        }
+        header("Location: " . Yii::$app->homeUrl . "?r=site/clients");
+        exit;
     }
 
     public function actionGeneratefacture() {
@@ -622,7 +628,14 @@ class SiteController extends Controller {
         $pdf->SetTitle("Facture " . $sale->date);
         $pdf->AddPage();
         $pdf->SetFont('Arial', '', $fontSize['header']);
-        $pdf->Cell(40, 10, 'LOGO');
+        $user = User::findOne(['id' => Yii::$app->user->id]);
+        $temp = tmpfile();
+        $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $user->logo));
+
+        fwrite($temp, $data);
+        preg_match('/data:image\/(.*);base64/', $user->logo, $type);
+        $pdf->Image(stream_get_meta_data($temp)['uri'], null, null, 30, 30, $type[1]);
+
         $pdf->SetX($pdf->GetPageWidth() - 60);
 
         //Client Info
@@ -737,7 +750,12 @@ class SiteController extends Controller {
         }
 
         $pdf->SetXY($pdf->GetPageWidth() - 40, $pdf->GetPageHeight() - 40);
-        $pdf->Cell(40, 5, 'LOGO', '');
+        $temp = tmpfile();
+        $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $user->marianne));
+
+        fwrite($temp, $data);
+        preg_match('/data:image\/(.*);base64/', $user->marianne, $type);
+        $pdf->Image(stream_get_meta_data($temp)['uri'], null, null, 15, 15, $type[1]);
 
         $pdf->Output();
     }
@@ -831,5 +849,45 @@ class SiteController extends Controller {
 
         header("Location: " . Yii::$app->homeUrl . "?r=site%2Fsales");
         exit;
+    }
+
+    public function actionEditsale() {
+        $sale = Sale::findOne(['id' => Yii::$app->request->post('saleId')]);
+        $sale->date = strtotime(Yii::$app->request->post('dateSale'));
+        $sale->update();
+        $this->redirect(['/site/sale', 'saleId' => Yii::$app->request->post('saleId')]);
+    }
+
+    public function actionEditsalestep() {
+        $post = Yii::$app->request->post();
+        $step = null;
+        if (key_exists('saleStepEdit', $post)) {
+            $item = Item::findOne(['id' => $post['itemId']]);
+            if ($item != null) {
+                $item->adjudication = $post['adjudication'];
+                $item->save();
+            }
+
+            $step = SaleStep::findOne(['id' => $post['saleStepEdit']]);
+            if ($step !== null) {
+                $step->client_id = $post['clientId'];
+                $step->save();
+            }
+            return $this->redirect(['site/sale', 'saleId' => $step->sale_id]);
+        } else if (key_exists('saleStepDelete', $post)) {
+            $item = Item::findOne(['id' => $post['itemId']]);
+            if ($item != null) {
+                $item->adjudication = 0;
+                $item->save();
+            }
+
+            $step = SaleStep::findOne(['id' => $post['saleStepDelete']]);
+            $saleId = $step->sale_id;
+            if ($step !== null) {
+                $step->delete();
+            }
+            return $this->redirect(['site/sale', 'saleId' => $saleId]);
+
+        }
     }
 }

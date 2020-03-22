@@ -61,9 +61,8 @@ use yii\widgets\ActiveForm;
         </div>
         <input type="hidden" id="base64" name="picture">
         <div class="form-group row">
-            <div class="col-form-label col-lg-2">
-                <img id="img-preview" class="d-flex align-self-center rounded mr-3" src="" alt="Preview"
-                     style="display: none" height="50" width="50">
+            <label class="col-form-label col-sm-2">Photo</label>
+            <div class="">
                 <input onchange="encodeImageFileAsURL(this)" type="file" class="filestyle" data-input="false"
                        data-buttonname="btn-secondary" id="filestyle-1"
                        tabindex="-1" style="position: absolute; clip: rect(0px, 0px, 0px, 0px);">
@@ -78,6 +77,11 @@ use yii\widgets\ActiveForm;
                 </span>
                 </div>
             </div>
+            <div class="col-form-label col-sm-6">
+                <img id="img-preview" class="d-flex align-self-center rounded mr-3" src="" alt="Preview" height="50"
+                     width="50">
+            </div>
+
         </div>
 
         <div class="form-group row">
@@ -94,6 +98,10 @@ use yii\widgets\ActiveForm;
     </div>
 </div>
 <script>
+
+    function downloadElement(e) {
+        console
+    }
 
     function toItem(itemId) {
         window.location.href = '<?=Yii::$app->urlManager->createAbsoluteUrl(['site/item']);?>' + '&itemId=' + itemId;

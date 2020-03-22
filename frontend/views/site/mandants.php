@@ -16,15 +16,15 @@ use yii\widgets\ActiveForm;
         <div class="table-container">
             <table class="table is-bordered is-hoverable is-fullwidth">
                 <thead>
-                <th>Prenom</th>
                 <th>Nom</th>
+                <th>Prenom</th>
                 <th></th>
                 </thead>
                 <tbody>
                 <?php foreach ($this->params['mandants'] as $mandant) { ?>
                     <tr onclick="toMandant('<?= $mandant->id ?>')">
-                        <td><?= $mandant->firstname ?></td>
                         <td><?= $mandant->name ?></td>
+                        <td><?= $mandant->firstname ?></td>
                     </tr>
                 <?php } ?>
                 </tbody>
@@ -44,31 +44,31 @@ use yii\widgets\ActiveForm;
         <?php ActiveForm::begin(['action' => ['site/newmandant'], 'id' => 'addNewMandant']) ?>
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">Nom</label>
-            <input name="name" class="col-sm-9 form-control" type="text" placeholder="Text input">
+            <input name="name" class="col-sm-9 form-control" type="text" placeholder="">
         </div>
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">Prenom</label>
-            <input name="firstname" class="col-sm-9 form-control" type="text" placeholder="Text input">
+            <input name="firstname" class="col-sm-9 form-control" type="text" placeholder="">
         </div>
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">Adresse</label>
-            <input name="address" class="col-sm-9 form-control" type="text" placeholder="Text input">
+            <input name="address" class="col-sm-9 form-control" type="text" placeholder="">
         </div>
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">Code Postal</label>
-            <input name="postal" class="col-sm-9 form-control" type="text" placeholder="Text input">
+            <input name="postal" class="col-sm-9 form-control" type="text" placeholder="">
         </div>
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">Phone</label>
-            <input name="phone" class="col-sm-9 form-control" type="text" placeholder="Text input">
+            <input name="phone" class="col-sm-9 form-control" type="text" placeholder="">
         </div>
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">City</label>
-            <input name="city" class="col-sm-9 form-control" type="text" placeholder="Text input">
+            <input name="city" class="col-sm-9 form-control" type="text" placeholder="">
         </div>
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">Mail</label>
-            <input name="mail" class="col-sm-9 form-control" type="text" placeholder="Text input">
+            <input name="mail" class="col-sm-9 form-control" type="text" placeholder="">
         </div>
     </div>
     <div class="card-footer">

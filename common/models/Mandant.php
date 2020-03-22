@@ -23,7 +23,7 @@ use yii\db\ActiveRecord;
 class Mandant extends ActiveRecord {
 
     public $items = [];
-
+    public $soldSomething = false;
     /**
      * {@inheritdoc}
      */
@@ -35,6 +35,9 @@ class Mandant extends ActiveRecord {
         $this->items = Item::findAll(['mandant_id' => $this->id]);
         foreach ($this->items as $item) {
             $item->getSale();
+            if ($item->sale !== null) {
+                $this->soldSomething = true;
+            }
         }
     }
 

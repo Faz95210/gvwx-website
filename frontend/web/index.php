@@ -57,9 +57,9 @@ $config = [
         ],
         'db' => [
             'class' => 'yii\db\Connection',
-            'dsn' => 'mysql:host=auctionmnqroot.mysql.db;dbname=auctionmnqroot',
-            'username' => 'auctionmnqroot',
-            'password' => 'Okwolp2ok',
+            'dsn' => 'mysql:host=localhost:8889;dbname=gvwx',
+            'username' => 'root',
+            'password' => 'root',
             'charset' => 'utf8',
         ],
         'mailer' => [

@@ -4,6 +4,8 @@ $this->registerJsFile("@web/js/veltrix/chartist/js/chartist.min.js", ['depends' 
 $this->registerJsFile("@web/js/veltrix/chartist/js/chartist-plugin-tooltip.min.js", ['depends' => 'app\assets\VeltrixAsset']);
 $this->registerJsFile("@web/js/veltrix/pages/dashboard.js", ['depends' => 'app\assets\VeltrixAsset']);
 $this->registerJsFile("@web/js/qrcodejs/qrcode.js");
+$this->registerJsFile("@web/js/veltrix/plugins/sweet-alert2/sweetalert2.js", ['depends' => 'app\assets\VeltrixAsset']);
+$this->registerCssFile("@web/js/veltrix/plugins/sweet-alert2/sweetalert2.css", ['depends' => 'app\assets\VeltrixAsset']);
 
 use yii\helpers\Html;
 use yii\web\View;
@@ -56,13 +58,13 @@ use yii\widgets\ActiveForm;
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Vente
                 </label>
-                <input class="col-sm-9 col-form-label" name="date" type="date"
+                <input disabled class="col-sm-9 col-form-label" name="date" type="date"
                        value="<?= $this->params['item']->sale != null ? gmdate('d/m/Y', $this->params['item']->sale->date) : '' ?>">
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Client
                 </label>
-                <select name="clientId" class="col-sm-9 col-form-label form-control">
+                <select disabled name="clientId" class="col-sm-9 col-form-label form-control">
                     <?php foreach ($this->params['clients'] as $client) { ?>
                         <option <?= $this->params['item']->client->id === $client->id ? 'selected' : '' ?>
                                 value="<?= $client->id ?>"><?= $client->name . ' ' . $client->firstname ?></option>
@@ -72,16 +74,29 @@ use yii\widgets\ActiveForm;
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Adjudication
                 </label>
-                <input class="col-sm-9 col-form-label" name="adjudication" type="number"
+                <input disabled class="col-sm-9 col-form-label" name="adjudication" type="number"
                        value="<?= $this->params['item']->adjudication ?>">
             </div>
-            <?= Html::submitButton(\Yii::t('login', 'Modifier'), ['class' => 'btn btn-primary', 'name' => 'itemId', 'value' => $this->params['item']->id]) ?>
-            <?php ActiveForm::end() ?>
-
-            <?php ActiveForm::begin(['action' => ['site/deleteitem']]) ?>
-            <?= Html::submitButton(\Yii::t('login', 'Supprimer'), ['class' => 'btn btn-primary', 'name' => 'itemId', 'value' => $this->params['item']->id]) ?>
-            <?php ActiveForm::end() ?>
+            <div class="row">
+                <div>
+                    <?= Html::submitButton(\Yii::t('login', 'Modifier'), ['class' => 'btn btn-primary col-sm-offset-2', 'name' => 'itemId', 'value' => $this->params['item']->id]) ?>
+                </div>
+                <?php ActiveForm::end() ?>
+                <div>
+                    <?php
+                    if ($this->params['item']->client === null) {
+                        ?>
+                        <?php ActiveForm::begin(['action' => ['site/deleteitem']]) ?>
+                        <?= Html::submitButton(\Yii::t('login', 'Supprimer'), ['class' => 'btn btn-primary col-sm-offset-2', 'name' => 'itemId', 'value' => $this->params['item']->id]) ?>
+                        <?php ActiveForm::end() ?>
+                    <?php } else { ?>
+                        <button class="btn btn-primary col-sm-offset-2" onclick="cantDelete()" type="button">Supprimer
+                        </button>
+                    <?php } ?>
+                </div>
+            </div>
         </div>
+
     </div>
 <?php
 $script = <<<JS
@@ -90,6 +105,14 @@ $script = <<<JS
      "width":128,
      "height":128,
     });
+
+    function cantDelete(){
+        Swal.fire(
+          'Erreur',
+          ' Cet item a été adjugé - Suppression impossible. Vous devez supprimer l’acquisition depuis l’onglet « Ventes »',
+        );
+    }
+
 JS;
 
 $this->registerJs($script, View::POS_END);
