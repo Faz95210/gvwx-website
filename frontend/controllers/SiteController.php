@@ -573,19 +573,15 @@ class SiteController extends Controller {
             $mandant->mail = Yii::$app->request->post('mail');
             $mandant->update();
         }
-        header("Location: " . Yii::$app->homeUrl . "?r=site/mandant&mandantId=" . Yii::$app->request->post('mandantId'));
-        exit;
+        $this->redirect(['/site/mandant', 'mandantId' => Yii::$app->request->post('mandantId')]);
     }
 
     public function actionDeletemandant() {
-        echo 1;
-        exit;
         $mandant = Mandant::findOne(['id' => Yii::$app->request->post('deleteMandant')]);
         if ($mandant !== null) {
             $mandant->delete();
         }
-        header("Location: " . Yii::$app->homeUrl . "?r=site/mandants");
-        exit;
+        $this->redirect(['/site/mandants']);
     }
 
     public function actionDeleteclient() {

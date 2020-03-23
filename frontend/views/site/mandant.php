@@ -56,9 +56,10 @@ use yii\widgets\ActiveForm;
                        class="col-sm-9 col-form-label form-control" type="text"
                        placeholder="">
             </div>
+            <input type="hidden" name="mandantId" value="<?= $this->params['mandant']->id ?>">
+            <?php ActiveForm::end() ?>
             <div class="row">
                 <?= Html::submitButton(\Yii::t('login', 'Modifier'), ['class' => 'btn btn-primary col-sm-offset-2', 'form' => 'editForm', 'name' => 'mandantId', 'value' => $this->params['mandant']->id]) ?>
-                <?php ActiveForm::end() ?>
 
                 <?php if (!$this->params['mandant']->soldSomething) { ?>
                     <?php ActiveForm::begin(['id' => 'removeForm', 'action' => ['site/deletemandant']]) ?>
@@ -89,8 +90,8 @@ use yii\widgets\ActiveForm;
                     <tbody>
                     <?php foreach ($this->params['mandant']->items as $item) { ?>
                         <tr>
-                            <td> <?= gmdate('d/m/Y', $item->sale->date) ?> </td>
-                            <td> <?= $item->name ?>"</td>
+                            <td> <?= $item->sale->date ? gmdate('d/m/Y', $item->sale->date) : '' ?> </td>
+                            <td> <?= $item->name ?></td>
                             <td> <?= $item->adjudication ?></td>
                         </tr>
                     <?php } ?>
