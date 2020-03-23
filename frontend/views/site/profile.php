@@ -14,10 +14,10 @@ use yii\widgets\ActiveForm; ?>
         <?php ActiveForm::begin(['action' => ['site/editprofile']]) ?>
         <div class="form-group row">
             <div class="col-sm-2 col-form-label">
-                <label>Votre Nom : <span style="margin-left: 10px"><?= $user->name ?></span></label>
+                <label>Votre Nom : </label>
             </div>
             <div class="col-sm-2 col-form-label">
-                <input name="name" required class="input" type="text" placeholder="">
+                <input name="name" required class="input" type="text" placeholder="" value="<?= $user->name ?>">
             </div>
             <div class="col-sm-2 col-form-label">
                 <button type='submit' class="btn btn-success" name="field" value="name"><i class="ti ti-check"></i>
@@ -28,10 +28,11 @@ use yii\widgets\ActiveForm; ?>
         <?php ActiveForm::begin(['action' => ['site/editprofile']]) ?>
         <div class="form-group row">
             <div class="col-sm-2 col-form-label">
-                <label>Votre Prenom : <span style="margin-left: 10px"><?= $user->firstname ?></span></label>
+                <label>Votre Prenom : </label>
             </div>
             <div class="col-sm-2 col-form-label">
-                <input name="firstname" required class="input" type="text" placeholder="">
+                <input name="firstname" required class="input" value="<?= $user->firstname ?>" type="text"
+                       placeholder="">
             </div>
             <div class="col-sm-2 col-form-label">
                 <button type='submit' class="btn btn-success" name="field" value="firstname"><i class="ti ti-check"></i>
@@ -78,7 +79,7 @@ use yii\widgets\ActiveForm; ?>
                     <input type="hidden" name="field" value="marianne">
                     <?php ActiveForm::end() ?>
 
-                    <img id='preview-marianne' class=" text-center" alt="preview" width="50" height="50"
+                    <img id='preview-marianne' class="text-center" alt="preview" width="50" height="50"
                          src="<?= $user->marianne ?>"/><br>
                     <input onchange="encodeImageFileAsURL(this, 'marianne', 'preview-marianne', 'editMarianne')"
                            type="file" class="filestyle" data-input="false"
