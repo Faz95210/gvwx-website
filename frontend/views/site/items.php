@@ -12,7 +12,8 @@ use yii\widgets\ActiveForm;
 
 <div class="card">
     <div class="card-body">
-        <input class="input is-focused" placeholder="rechercher" type="text" name="search"/>
+
+        <!--        <input class="input is-focused" placeholder="rechercher" type="text" name="search"/>-->
         <div class="table-responsive-lg">
             <table class="table table-bordered table-hoverable">
                 <thead class="thead-default">
@@ -26,7 +27,6 @@ use yii\widgets\ActiveForm;
                         <td><?= $item->id ?></td>
                         <td><?= $item->name ?></td>
                     </tr>
-
                     <?
                 } ?>
                 </tbody>
@@ -45,19 +45,19 @@ use yii\widgets\ActiveForm;
         <div class="form-group row">
             <label class="col-sm-2 col-form-label" for="name-input">Nom</label>
             <input class="col-sm-9 col-form-label form-control" id="name-input" name="name" type="text"
-                   placeholder="Text input">
+                   placeholder="">
         </div>
         <div class="form-group row">
             <label class="col-sm-2 col-form-label" for="description-input">Description</label>
             <textarea maxlength="300" id="description-input" name="description"
                       class="col-sm-9 col-form-label form-control" type="text"
-                      placeholder="Text input">
+                      placeholder="">
             </textarea>
         </div>
         <div class="form-group row">
             <label class="col-sm-2 col-form-label" for="estimation-input">Estimation</label>
             <input id="estimation-input" name="estimation" class="col-sm-9 col-form-label form-control" type="number"
-                   placeholder="Text input">
+                   placeholder="">
         </div>
         <input type="hidden" id="base64" name="picture">
         <div class="form-group row">

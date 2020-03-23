@@ -15,8 +15,7 @@ use yii\widgets\ActiveForm;
 
     <div class="card">
         <div class="card-body">
-
-            <?php ActiveForm::begin(['action' => ['site/edititem']]) ?>
+            <?php ActiveForm::begin(['action' => ['site/edititem'], 'id' => 'editItem']) ?>
             <input type="hidden" id="itemId" value="<?= $this->params['item']->id ?>">
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Nom :</label>
@@ -32,22 +31,19 @@ use yii\widgets\ActiveForm;
                 <label class="col-sm-2 col-form-label">Estimation :</label>
                 <input class="col-sm-9 col-form-label form-control" name="estimation" type="number"
                        value="<?= $this->params['item']->estimation ?>">
-
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Photo</label>
                 <img class="" name="picture" width="50px" height="50px"
                      src="<?= $this->params['item']->picture ?>">
                 <input type="hidden" value='<?= $this->params['item']->picture ?>' name='picture'/>
-
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">QR</label>
                 <div class="col-sm-9 col-form-label" id="qrcode"></div>
             </div>
             <div class="form-group row">
-                <label class="col-sm-2 col-form-label">Mandant
-                </label>
+                <label class="col-sm-2 col-form-label">Mandant</label>
                 <select name="mandantId" class="col-sm-9 col-form-label form-control">
                     <?php foreach ($this->params['mandants'] as $mandant) { ?>
                         <option <?= $this->params['item']->mandant_id === $mandant->id ? 'selected' : '' ?>
@@ -56,15 +52,14 @@ use yii\widgets\ActiveForm;
                 </select>
             </div>
             <div class="form-group row">
-                <label class="col-sm-2 col-form-label">Vente
-                </label>
+                <label class="col-sm-2 col-form-label">Vente</label>
                 <input disabled class="col-sm-9 col-form-label" name="date" type="date"
                        value="<?= $this->params['item']->sale != null ? gmdate('d/m/Y', $this->params['item']->sale->date) : '' ?>">
             </div>
             <div class="form-group row">
-                <label class="col-sm-2 col-form-label">Client
-                </label>
+                <label class="col-sm-2 col-form-label">Client</label>
                 <select disabled name="clientId" class="col-sm-9 col-form-label form-control">
+                    <option>-</option>
                     <?php foreach ($this->params['clients'] as $client) { ?>
                         <option <?= $this->params['item']->client->id === $client->id ? 'selected' : '' ?>
                                 value="<?= $client->id ?>"><?= $client->name . ' ' . $client->firstname ?></option>
@@ -72,22 +67,23 @@ use yii\widgets\ActiveForm;
                 </select>
             </div>
             <div class="form-group row">
-                <label class="col-sm-2 col-form-label">Adjudication
-                </label>
+                <label class="col-sm-2 col-form-label">Adjudication</label>
                 <input disabled class="col-sm-9 col-form-label" name="adjudication" type="number"
                        value="<?= $this->params['item']->adjudication ?>">
             </div>
+            <input type="hidden" name="itemId" value="<?= $this->params['item']->id ?>">
+            <?php ActiveForm::end() ?>
+
             <div class="row">
                 <div>
-                    <?= Html::submitButton(\Yii::t('login', 'Modifier'), ['class' => 'btn btn-primary col-sm-offset-2', 'name' => 'itemId', 'value' => $this->params['item']->id]) ?>
+                    <?= Html::submitButton(\Yii::t('login', 'Modifier'), ['form' => 'editItem', 'class' => 'btn btn-primary col-sm-offset-2', 'name' => 'itemId', 'value' => $this->params['item']->id]) ?>
                 </div>
-                <?php ActiveForm::end() ?>
                 <div>
                     <?php
                     if ($this->params['item']->client === null) {
                         ?>
-                        <?php ActiveForm::begin(['action' => ['site/deleteitem']]) ?>
-                        <?= Html::submitButton(\Yii::t('login', 'Supprimer'), ['class' => 'btn btn-primary col-sm-offset-2', 'name' => 'itemId', 'value' => $this->params['item']->id]) ?>
+                        <?php ActiveForm::begin(['id' => 'deleteItem', 'action' => ['site/deleteitem']]) ?>
+                        <?= Html::submitButton(\Yii::t('login', 'Supprimer'), ['form' => 'deleteItem', 'class' => 'btn btn-primary col-sm-offset-2', 'name' => 'itemId', 'value' => $this->params['item']->id]) ?>
                         <?php ActiveForm::end() ?>
                     <?php } else { ?>
                         <button class="btn btn-primary col-sm-offset-2" onclick="cantDelete()" type="button">Supprimer

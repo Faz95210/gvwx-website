@@ -546,14 +546,9 @@ class SiteController extends Controller {
             $item->picture = Yii::$app->request->post('picture');
             $item->mandant_id = Yii::$app->request->post('mandantId');
             $item->adjudication = Yii::$app->request->post('adjudication');
-            $item->update(false);
+            $item->update();
         }
-        if (isset($_REQUEST["destination"])) {
-            header("Location: {$_REQUEST["destination"]}");
-        } else if (isset($_SERVER["HTTP_REFERER"])) {
-            header("Location: {$_SERVER["HTTP_REFERER"]}");
-        }
-        exit;
+        $this->redirect(['/site/item', 'itemId' => Yii::$app->request->post('itemId')]);
     }
 
     public function actionDeleteitem() {
@@ -561,8 +556,7 @@ class SiteController extends Controller {
         if ($item !== null) {
             $item->delete();
         }
-        header("Location: " . Yii::$app->homeUrl . "?r=site%2Fitems");
-        exit;
+        $this->redirect(['/site/items']);
     }
 
     public function actionEditmandant() {
@@ -757,7 +751,6 @@ class SiteController extends Controller {
 
         $pdf->SetXY($pdf->GetPageWidth() - 40, $pdf->GetPageHeight() - 40);
         if ($user->marianne !== null) {
-
             $temp = tmpfile();
             $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $user->marianne));
 
@@ -768,6 +761,7 @@ class SiteController extends Controller {
             $pdf->Cell(40, 5, 'LOGO', '');
         }
         $pdf->Output();
+        exit;
     }
 
     public function actionClientexcel() {
