@@ -17,7 +17,7 @@ use yii\widgets\ActiveForm; ?>
                 <label>Votre Nom : <span style="margin-left: 10px"><?= $user->name ?></span></label>
             </div>
             <div class="col-sm-2 col-form-label">
-                <input name="name" required class="input" type="text" placeholder="Text input">
+                <input name="name" required class="input" type="text" placeholder="">
             </div>
             <div class="col-sm-2 col-form-label">
                 <button type='submit' class="btn btn-success" name="field" value="name"><i class="ti ti-check"></i>
@@ -31,7 +31,7 @@ use yii\widgets\ActiveForm; ?>
                 <label>Votre Prenom : <span style="margin-left: 10px"><?= $user->firstname ?></span></label>
             </div>
             <div class="col-sm-2 col-form-label">
-                <input name="firstname" required class="input" type="text" placeholder="Text input">
+                <input name="firstname" required class="input" type="text" placeholder="">
             </div>
             <div class="col-sm-2 col-form-label">
                 <button type='submit' class="btn btn-success" name="field" value="firstname"><i class="ti ti-check"></i>

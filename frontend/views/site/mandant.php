@@ -18,43 +18,43 @@ use yii\widgets\ActiveForm;
                 <label class="col-sm-2 col-form-label">Nom</label>
                 <input name="name" class="col-sm-9 col-form-label form-control" type="text"
                        value="<?= $this->params['mandant']->name ?>"
-                       placeholder="Text input">
+                       placeholder="">
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Prenom</label>
                 <input name="firstname" value="<?= $this->params['mandant']->firstname ?>"
                        class="col-sm-9 col-form-label form-control" type="text"
-                       placeholder="Text input">
+                       placeholder="">
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Adresse</label>
                 <input name="address" value="<?= $this->params['mandant']->address ?>"
                        class="col-sm-9 col-form-label form-control" type="text"
-                       placeholder="Text input">
+                       placeholder="">
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Code Postal</label>
                 <input name="postal" value="<?= $this->params['mandant']->postal ?>"
                        class="col-sm-9 col-form-label form-control" type="text"
-                       placeholder="Text input">
+                       placeholder="">
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Phone</label>
                 <input name="phone" value="<?= $this->params['mandant']->phone ?>"
                        class="col-sm-9 col-form-label form-control" type="text"
-                       placeholder="Text input">
+                       placeholder="">
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">City</label>
                 <input name="city" value="<?= $this->params['mandant']->city ?>"
                        class="col-sm-9 col-form-label form-control" type="text"
-                       placeholder="Text input">
+                       placeholder="">
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Mail</label>
                 <input name="mail" value="<?= $this->params['mandant']->mail ?>"
                        class="col-sm-9 col-form-label form-control" type="text"
-                       placeholder="Text input">
+                       placeholder="">
             </div>
             <div class="row">
                 <?= Html::submitButton(\Yii::t('login', 'Modifier'), ['class' => 'btn btn-primary col-sm-offset-2', 'form' => 'editForm', 'name' => 'mandantId', 'value' => $this->params['mandant']->id]) ?>

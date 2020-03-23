@@ -17,6 +17,7 @@ use PHPExcel_IOFactory;
 use PHPExcel_Settings;
 use Yii;
 use yii\base\InvalidArgumentException;
+use yii\base\View;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\BadRequestHttpException;
@@ -450,7 +451,9 @@ class SiteController extends Controller {
     }
 
     public function actionClients() {
-        $clients = Client::findAll(['user_id' => Yii::$app->user->id]);
+        $clients = Client::find()->where(['user_id' => Yii::$app->user->id])
+            ->orderBy(['name' => SORT_ASC])
+            ->all();
         $this->view->params = ['clients' => ($clients !== null ? $clients : [])];
         return $this->render("clients");
     }
@@ -469,13 +472,12 @@ class SiteController extends Controller {
 
     public function actionNewclient() {
         Client::newClient(Yii::$app->request->post());
-        return $this->actionClients();
+        return $this->redirect(['/site/clients']);
     }
 
     public function actionEditclient() {
         Client::editClient(Yii::$app->request->post());
-
-        return $this->actionClient(Yii::$app->request->post('clientId'));
+        return $this->redirect(['/site/clients', 'clientId' => Yii::$app->request->post('clientId')]);
     }
 
     public function actionPvvente() {

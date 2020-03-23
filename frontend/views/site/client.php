@@ -17,37 +17,37 @@ ActiveForm::begin(['action' => ['site/editclient'], 'id' => 'editClient'])
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Nom</label>
                 <input name="name" class="col-sm-6" type="text" value="<?= $this->params['client']->name ?>"
-                       placeholder="Text input">
+                       placeholder="">
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Prenom</label>
                 <input name="firstname" value="<?= $this->params['client']->firstname ?>" class="col-sm-6 " type="text"
-                       placeholder="Text input">
+                       placeholder="">
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Adresse</label>
                 <input name="address" value="<?= $this->params['client']->address ?>" class="col-sm-6 " type="text"
-                       placeholder="Text input">
+                       placeholder="">
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Code Postal</label>
                 <input name="postal" value="<?= $this->params['client']->postal ?>" class="col-sm-6 " type="text"
-                       placeholder="Text input">
+                       placeholder="">
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Telephone</label>
                 <input name="phone" value="<?= $this->params['client']->phone ?>" class="col-sm-6 " type="text"
-                       placeholder="Text input">
+                       placeholder="">
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Ville</label>
                 <input name="city" value="<?= $this->params['client']->city ?>" class="col-sm-6 " type="text"
-                       placeholder="Text input">
+                       placeholder="">
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Mail</label>
                 <input name="mail" value="<?= $this->params['client']->mail ?>" class="col-sm-6 " type="text"
-                       placeholder="Text input">
+                       placeholder="">
             </div>
             <input type="hidden" name="clientId" value="<?= $this->params['client']->id ?>">
             <?= Html::submitButton(\Yii::t('login', 'Modifier'), ['class' => 'btn btn-primary', 'name' => 'edit-client-button']) ?>

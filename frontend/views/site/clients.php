@@ -11,20 +11,20 @@ use yii\widgets\ActiveForm;
 ?>
 <div class="card">
     <div class="card-body">
-        <input class="input is-focused" placeholder="rechercher" type="text" name="search"/>
+        <!--        <input class="input is-focused" placeholder="rechercher" type="text" name="search"/>-->
         <div class="table-container">
             <table class="table is-bordered is-hoverable is-fullwidth">
                 <thead>
                 <tr>
-                    <th>Prenom</th>
                     <th>Nom</th>
+                    <th>Prenom</th>
                 </tr>
                 </thead>
                 <tbody>
                 <?php foreach ($this->params['clients'] as $client) { ?>
                     <tr onclick="toClient('<?= $client->id ?>')">
-                        <td> <?= $client->firstname ?> </td>
                         <td> <?= $client->name ?> </td>
+                        <td> <?= $client->firstname ?> </td>
                     </tr>
                 <?php } ?>
                 </tbody>
@@ -44,43 +44,43 @@ use yii\widgets\ActiveForm;
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">Nom</label>
             <div class="col-sm-2 col-form-label">
-                <input name="name" class="input" type="text" placeholder="Text input">
+                <input name="name" class="input" type="text" placeholder="">
             </div>
         </div>
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">Prenom</label>
             <div class="col-sm-2 col-form-label">
-                <input name="firstname" class="input" type="text" placeholder="Text input">
+                <input name="firstname" class="input" type="text" placeholder="">
             </div>
         </div>
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">Adresse</label>
             <div class="col-sm-2 col-form-label">
-                <input name="address" class="input" type="text" placeholder="Text input">
+                <input name="address" class="input" type="text" placeholder="">
             </div>
         </div>
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">Code Postal</label>
             <div class="col-sm-2 col-form-label">
-                <input name="postal" class="input" type="text" placeholder="Text input">
+                <input name="postal" class="input" type="text" placeholder="">
             </div>
         </div>
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">Telephone</label>
             <div class="col-sm-2 col-form-label">
-                <input name="phone" class="input" type="text" placeholder="Text input">
+                <input name="phone" class="input" type="text" placeholder="">
             </div>
         </div>
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">Ville</label>
             <div class="col-sm-2 col-form-label">
-                <input name="city" class="input" type="text" placeholder="Text input">
+                <input name="city" class="input" type="text" placeholder="">
             </div>
         </div>
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">Mail</label>
             <div class="col-sm-2 col-form-label">
-                <input name="mail" class="input" type="text" placeholder="Text input">
+                <input name="mail" class="input" type="text" placeholder="">
             </div>
         </div>
         <?= Html::submitButton(\Yii::t('login', 'Ajouter'), ['class' => 'btn btn-primary', 'name' => 'new-client-button']) ?>
