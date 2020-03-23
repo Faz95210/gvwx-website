@@ -537,7 +537,7 @@ class SiteController extends Controller {
     }
 
     public function actionAddsalestep() {
-        SaleStep::newSaleStep(Yii::$app->request->post());
+       return SaleStep::newSaleStep(Yii::$app->request->post());
     }
 
     public function actionEdititem() {

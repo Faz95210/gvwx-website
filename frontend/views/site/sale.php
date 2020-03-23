@@ -41,7 +41,7 @@ use yii\widgets\ActiveForm;
                     'target' => '_blank',
                 ]); ?>    </p>
             <p>Liste des objets proposées :
-                <button class="btn btn-primary" onclick="addSection()">Ajouter</button>
+                <button type="button" class="btn btn-primary" onclick="addSection()">Ajouter</button>
             </p>
         </div>
     </div>
@@ -56,14 +56,48 @@ $script = <<<JS
     function addSection(){
         $.get('###URL###').done(
             function (data){
-                console.log(data);
-                const container =document.getElementById('steps-containers');
+                const container = document.getElementById('steps-containers');
                 container.innerHTML += data;
             }
         );
     }
+    
+     function onChangeItem(e, id) {
+        console.log(e.parentEl);
+        const option = e.options[e.selectedIndex];
+        const desc = option.getAttribute('description');
+        const estimation = option.getAttribute('estimation');
+        document.getElementById('item-description' + id).innerText = desc;
+        document.getElementById('item-estimation' + id).innerText = estimation;
+    }
+
+    function saveSaleStep(id) {
+        const form = document.getElementById('form' + id);
+        const params = {
+            adjudication: form.elements["adjudication"].value,
+            itemId: form.elements["itemId"].value,
+            clientId: form.elements["clientId"].value,
+            saleId: '###SALE_ID###',
+        };
+        const url = '###URL2###';
+        console.log(url);
+        $.post(url
+            , params).done(function (data) {
+            console.log(data);
+            if (data > 0) {
+                document.getElementById('edit-step' + id).hidden = false;
+                document.getElementById('edit-step' + id).value = data;
+                document.getElementById('remove-step' + id).hidden = false;
+                document.getElementById('remove-step' + id).value = data;
+                document.getElementById('add-step' + id).hidden = true;
+            }
+        })
+    }
 JS;
+
 $script = str_replace('###URL###', Yii::$app->urlManager->createAbsoluteUrl(['site/widgetloader', 'widget' => 'SaleStepWidget', 'saleId' => $this->params['sale']->id]), $script);
+$script = str_replace('###URL2###', Yii::$app->urlManager->createAbsoluteUrl(['site/addsalestep', 'widget' => 'SaleStepWidget']), $script);
+$script = str_replace('###SALE_ID###', Yii::$app->request->get('saleId'), $script);
 
 $this->registerJs($script, View::POS_END);
 ?>

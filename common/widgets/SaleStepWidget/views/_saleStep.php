@@ -71,38 +71,3 @@ $id = time();
     </div>
 </div>
 
-<script>
-    function onChangeItem(e, id) {
-        console.log(e.parentEl);
-        const option = e.options[e.selectedIndex];
-        const desc = option.getAttribute('description');
-        const estimation = option.getAttribute('estimation');
-        document.getElementById('item-description' + id).innerText = desc;
-        document.getElementById('item-estimation' + id).innerText = estimation;
-    }
-
-    function saveSaleStep(id) {
-        const form = document.getElementById('form' + id);
-        const params = {
-            adjudication: form.elements["adjudication"].value,
-            itemId: form.elements["itemId"].value,
-            clientId: form.elements["clientId"].value,
-            saleId:<?=$this->params['saleId'] ?>,
-        }
-        console.log();
-        console.log(form.elements["itemId"].value);
-        console.log(form.elements["clientId"].value);
-        console.log(form.elements["clientId"].value);
-        $.post('<?= Yii::$app->urlManager->createAbsoluteUrl(['site/addsalestep', 'widget' => 'SaleStepWidget']) ?>'
-            , params).done(function (data) {
-            console.log(data);
-            if (data > 0) {
-                document.getElementById('edit-step' + id).hidden = false;
-                document.getElementById('edit-step' + id).value = data;
-                document.getElementById('remove-step' + id).hidden = false;
-                document.getElementById('remove-step' + id).value = data;
-                document.getElementById('add-step' + id).hidden = false;
-            }
-        })
-    }
-</script>
