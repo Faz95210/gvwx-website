@@ -47,9 +47,9 @@ class Sale extends ActiveRecord {
         }
         $this->prices = [
             'price' => $totalPrice,
-            'fees' => $totalPrice * 20 / 100,
-            'feetax' => ($totalPrice * 20 / 100) - (($totalPrice * 20 / 100) / 1.2),
-            'total' => $totalPrice + ($totalPrice * 20 / 100)
+            'fees' => round($totalPrice * 20 / 100, 2),
+            'feetax' => round(($totalPrice * 20 / 100) - (($totalPrice * 20 / 100) / 1.2), 2),
+            'total' => round($totalPrice + ($totalPrice * 20 / 100), 2)
         ];
     }
 
