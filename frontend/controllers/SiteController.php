@@ -114,6 +114,16 @@ class SiteController extends Controller {
                             'reset-password',
                             'widgetloader',
                             'request-password-reset',
+
+                        ],
+                        'allow' => true,
+                        //'roles' => ['?'],
+                    ],
+                    [
+                        'actions' => [
+                            'logout',
+                            'index',
+                            'addsalestep',
                             'items',
                             'itemsexcel',
                             'item',
@@ -143,15 +153,6 @@ class SiteController extends Controller {
                             'editclient',
                             'deleteclient',
                             'editsalestep'
-                        ],
-                        'allow' => true,
-                        //'roles' => ['?'],
-                    ],
-                    [
-                        'actions' => [
-                            'logout',
-                            'index',
-                            'addsalestep',
                         ],
                         'allow' => true,
                         'roles' => ['@'],
@@ -398,6 +399,15 @@ class SiteController extends Controller {
             $mandant->getItems();
         }
         $this->view->params['mandant'] = $mandant;
+        $dates = [];
+        foreach ($mandant->items as $item) {
+            $sale = $item->sale;
+            if ($sale->date != null) {
+                $dates[] = $sale->date;
+            }
+        }
+        $this->view->params['salesDate'] = array_unique($dates);
+
         return $this->render("mandant");
     }
 
@@ -433,10 +443,12 @@ class SiteController extends Controller {
     public function actionSale() {
         $sale = null;
         $saleId = Yii::$app->request->get("saleId", -1);
+
         if ($saleId != -1) {
             $sale = Sale::findOne(['id' => $saleId]);
-            $sale->getSalesStep();
+            $sale->getSalesStep(null);
         }
+
         $items = Item::findAll(['user_id' => Yii::$app->user->id]);
         $this->view->params['sale'] = $sale;
         $this->view->params['items'] = $items;
@@ -466,6 +478,13 @@ class SiteController extends Controller {
             $client = Client::findOne(['id' => $clientId]);
             $client->getSales();
         }
+        $dates = [];
+        foreach ($client->sales as $sale) {
+            if ($sale->date !== null) {
+                $dates[] = $sale->date;
+            }
+        }
+        $this->view->params['salesDate'] = array_unique($dates);
         $this->view->params['client'] = $client;
         return $this->render("client");
     }
@@ -481,7 +500,10 @@ class SiteController extends Controller {
     }
 
     public function actionPvvente() {
-        $sale = Sale::findOne(['id' => Yii::$app->request->get('saleId')]);
+        $sale = Sale::find()
+            ->where(['id' => Yii::$app->request->get('saleId')])
+            ->andWhere(['date' => Yii::$app->request->post('dateSale')])
+            ->all();
         $sale->getSalesStep();
         $pdf = new FPDF();
         $pdf->SetTitle("PV " . $sale->date);
@@ -500,7 +522,6 @@ class SiteController extends Controller {
         }
         header('Content-type: application/pdf;Content-Disposition: attachment;filename="PV' . $sale->date . '.pdf"');
         $pdf->Output();
-
     }
 
 // Better table
@@ -531,13 +552,12 @@ class SiteController extends Controller {
             $pdf->Cell(40 * 4, 0, '', 'T');
             fclose($temp);
             $pdf->Ln();
-
         }
         // Closing line
     }
 
     public function actionAddsalestep() {
-       return SaleStep::newSaleStep(Yii::$app->request->post());
+        return SaleStep::newSaleStep(Yii::$app->request->post());
     }
 
     public function actionEdititem() {
@@ -547,7 +567,6 @@ class SiteController extends Controller {
             $item->description = Yii::$app->request->post('description');
             $item->picture = Yii::$app->request->post('picture');
             $item->mandant_id = Yii::$app->request->post('mandantId');
-            $item->adjudication = Yii::$app->request->post('adjudication');
             $item->update();
         }
         $this->redirect(['/site/item', 'itemId' => Yii::$app->request->post('itemId')]);
@@ -612,9 +631,10 @@ class SiteController extends Controller {
         $sale = Sale::find()
             ->innerJoin('sale_step', 'sale_step.sale_id = sale.id')
             ->where(['sale_step.client_id' => Yii::$app->request->post('clientId')])
+            ->andWhere(['date' => Yii::$app->request->post('dateSale')])
             ->one();
         if ($sale != null) {
-            $sale->getSalesStep();
+            $sale->getSalesStep(Yii::$app->request->post('clientId'));
             $sale->getPrices();
         }
         $pdf = new FPDF();

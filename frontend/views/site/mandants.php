@@ -12,7 +12,7 @@ use yii\widgets\ActiveForm;
 <div class="card">
     <div class="card-body">
 
-        <input class="input is-focused" placeholder="rechercher" type="text" name="search"/>
+        <!--        <input class="input is-focused" placeholder="rechercher" type="text" name="search"/>-->
         <div class="table-container">
             <table class="table is-bordered is-hoverable is-fullwidth">
                 <thead>

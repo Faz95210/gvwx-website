@@ -39,6 +39,7 @@ $id = time();
         <div class="form-group row">
             <label class="col-sm-2"> Client : </label>
             <select name="clientId" class="form-control col-sm-8">
+                <option></option>
                 <?php foreach ($this->params['clients'] as $client) { ?>
                     <option <?= ($step !== null && $client->id === $step->client->id) ? 'selected' : '' ?>
                             value="<?= $client->id ?>"> <?= $client->name . ' ' . $client->firstname ?></option>
@@ -50,7 +51,7 @@ $id = time();
                 Adjudication :
             </label>
             <input class="form-control col-sm-8" type="number"
-                   value="<?= $step !== null ? $step->item->adjudication : 0 ?>"
+                   value="<?= $step !== null ? $step->item->adjudication : '' ?>"
                    name="adjudication">
 
         </div>

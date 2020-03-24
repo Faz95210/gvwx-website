@@ -26,10 +26,12 @@ class Sale extends ActiveRecord {
         return 'sale';
     }
 
-    public function getSalesStep() {
-        $saleSteps = SaleStep::findAll(['sale_id' => $this->id]);
-        if ($saleSteps != null) $this->saleSteps = $saleSteps;
-        foreach ($saleSteps as $saleStep) {
+    public function getSalesStep($clientId = null) {
+        $saleSteps = SaleStep::find()->where(['sale_id' => $this->id]);
+        if ($clientId !== null)
+            $saleSteps->andWhere(['client_id' => $clientId]);
+        $this->saleSteps = $saleSteps->all();
+        foreach ($this->saleSteps as $saleStep) {
             $saleStep->getItem();
             $saleStep->getClient();
         }
@@ -37,7 +39,7 @@ class Sale extends ActiveRecord {
 
     public function getPrices() {
         if ($this->saleSteps == []) {
-            $this->getSalesStep();
+            $this->getSalesStep(null);
         }
         $totalPrice = 0;
         foreach ($this->saleSteps as $saleStep) {

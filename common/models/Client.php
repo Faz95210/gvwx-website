@@ -49,7 +49,7 @@ class Client extends ActiveRecord {
         $this->sales = Sale::find()->innerJoin('sale_step', 'sale_step.sale_id = sale.id')->where(['client_id' => $this->id])->all();
         if ($this->sales != null) {
             foreach ($this->sales as $sale) {
-                $sale->getSalesStep();
+                $sale->getSalesStep($this->id);
             }
         }
     }

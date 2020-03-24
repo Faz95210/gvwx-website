@@ -89,6 +89,11 @@ ActiveForm::begin(['action' => ['site/editclient'], 'id' => 'editClient'])
                 </table>
                 <?php if (count($this->params['client']->sales) > 0) { ?>
                     <?php ActiveForm::begin(['action' => ['site/generatefacture'], 'id' => 'generateFacture']) ?>
+                    <select name="dateSale">
+                        <?php foreach ($this->params['salesDate'] as $date) { ?>
+                            <option value="<?= $date ?>"><?= gmdate('d/m/Y', $date) ?></option>
+                        <?php } ?>
+                    </select>
                     <?= Html::submitButton(\Yii::t('login', 'Facture'), ['class' => 'btn btn-primary', 'name' => 'clientId', 'value' => $this->params['client']->id]) ?>
                     <?php ActiveForm::end() ?>
                 <?php } else { ?>

@@ -99,6 +99,11 @@ use yii\widgets\ActiveForm;
                 </table>
 
                 <?php ActiveForm::begin(['action' => ['site/facturemandant']]) ?>
+                <select name="dateSale">
+                    <?php foreach ($this->params['salesDate'] as $date) { ?>
+                        <option value="<?= $date ?>"><?= gmdate('d/m/Y', $date) ?></option>
+                    <?php } ?>
+                </select>
                 <?= Html::submitButton(\Yii::t('login', 'Facture'), ['class' => 'btn btn-primary', 'name' => 'mandantId', 'value' => $this->params['mandant']->id]) ?>
                 <?php ActiveForm::end() ?>
             </div>
