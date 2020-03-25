@@ -24,10 +24,10 @@ use yii\web\IdentityInterface;
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
+ * @property integer $license_date
+ * @property boolean $license_paid
  * @property string $password write-only password
  *
- * @property Device[] $devices
- * @property UserSettings $settings
  */
 class User extends ActiveRecord implements IdentityInterface {
     const STATUS_DELETED = 0;

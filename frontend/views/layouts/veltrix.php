@@ -50,7 +50,7 @@ VeltrixAsset::register($this);
 </div>
 
 <footer class="footer">
-    © <?php echo date("Y"); ?> NConcepts.
+    © <?php echo date("Y"); ?> GVX.
 </footer>
 <!--
 <footer class="footer">

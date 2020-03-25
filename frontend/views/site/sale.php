@@ -64,8 +64,15 @@ $script = <<<JS
     function addSection(){
         $.get('###URL###').done(
             function (data){
-                const container = document.getElementById('steps-containers');
-                container.innerHTML += data;
+                if (data == -1) {
+                     Swal.fire(
+          'Erreur',
+          'Aucun item disponible à la vente. Ajoutez en via la page items',
+        );
+                } else {
+                    const container = document.getElementById('steps-containers');
+                    container.innerHTML += data;
+                }
             }
         );
     }
