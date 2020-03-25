@@ -105,7 +105,7 @@ $script = <<<JS
     function cantDelete(){
         Swal.fire(
           'Erreur',
-          ' Cet item a été adjugé - Suppression impossible. Vous devez supprimer l’acquisition depuis l’onglet « Ventes »',
+          'Cet item a été adjugé - Suppression impossible. Vous devez supprimer l’acquisition depuis l’onglet « Ventes »',
         );
     }
 

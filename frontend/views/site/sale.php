@@ -3,6 +3,8 @@ $this->registerCssFile("@web/css/veltrix/chartist/css/chartist.min.css");
 $this->registerJsFile("@web/js/veltrix/chartist/js/chartist.min.js", ['depends' => 'app\assets\VeltrixAsset']);
 $this->registerJsFile("@web/js/veltrix/chartist/js/chartist-plugin-tooltip.min.js", ['depends' => 'app\assets\VeltrixAsset']);
 $this->registerJsFile("@web/js/veltrix/pages/dashboard.js", ['depends' => 'app\assets\VeltrixAsset']);
+$this->registerJsFile("@web/js/veltrix/plugins/sweet-alert2/sweetalert2.js", ['depends' => 'app\assets\VeltrixAsset']);
+$this->registerCssFile("@web/js/veltrix/plugins/sweet-alert2/sweetalert2.css", ['depends' => 'app\assets\VeltrixAsset']);
 
 use common\widgets\SaleStepWidget\SaleStepWidget;
 use yii\helpers\Html;
@@ -26,10 +28,16 @@ use yii\widgets\ActiveForm;
 
                 <?php ActiveForm::begin(['action' => ['site/deletesale']]) ?>
                 <?= Html::submitButton(\Yii::t('login', 'Modifier'), ['form' => 'editSale', 'class' => ' btn btn-primary ', 'name' => 'edit-sale-button', 'value' => $this->params['sale']->id]) ?>
-                <button type="submit" class=" btn btn-danger" name="saleId" value="<?= $this->params['sale']->id ?>">
-                    Supprimer
-                </button>
+                <?php if (count($this->params['sale']->saleSteps) <= 0) { ?>
+                    <button type="submit" class="btn btn-danger" name="saleId" value="<?= $this->params['sale']->id ?>">
+                        Supprimer
+                    </button>
+                <?php } else { ?>
+                    <button class="btn btn-danger" onclick="cantDelete()" type="button">Supprimer
+                    </button>
+                <?php } ?>
                 <?php ActiveForm::end() ?>
+
             </div>
 
             <p>Generation PV de vente :
@@ -94,6 +102,13 @@ $script = <<<JS
             }
         })
     }
+        function cantDelete(){
+        Swal.fire(
+          'Erreur',
+          'Cette vente contient un ou plusieurs items - Suppression impossible. Vous devez supprimer le ou les items',
+        );
+    }
+
 JS;
 
 $script = str_replace('###URL###', Yii::$app->urlManager->createAbsoluteUrl(['site/widgetloader', 'widget' => 'SaleStepWidget', 'saleId' => $this->params['sale']->id]), $script);
