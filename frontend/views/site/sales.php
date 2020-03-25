@@ -35,7 +35,7 @@ use yii\widgets\ActiveForm;
         <label class="col-sm-2 col-form-label">
             Date :
         </label>
-        <input class="col-lg-4 col-form-label" type="date" name="date">
+        <input class="col-lg-4 col-form-label" type="text" name="date">
         <?= Html::submitButton(\Yii::t('login', 'Ajouter'), ['class' => 'btn btn-primary col-lg-2 col-lg-offset-2', 'name' => 'new-sale-button']) ?>
         <?php ActiveForm::end() ?>
 

@@ -53,7 +53,7 @@ use yii\widgets\ActiveForm;
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Vente :</label>
-                <input disabled class="col-sm-9 col-form-label" name="date" type="date"
+                <input disabled class="col-sm-9 col-form-label" name="date" type="text"
                        value="<?= $this->params['item']->sale != null ? gmdate('d/m/Y', $this->params['item']->sale->date) : '' ?>">
             </div>
             <div class="form-group row">

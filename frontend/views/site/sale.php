@@ -18,7 +18,7 @@ use yii\widgets\ActiveForm;
                 <label class="col-sm-2 col-form-label">
                     Sale
                 </label>
-                <input class="col-sm-2" type="date" name="dateSale"
+                <input class="col-sm-2" type="text" name="dateSale"
                        value="<?= gmdate('d/m/Y', $this->params['sale']->date) ?>">
             </div>
             <?php ActiveForm::end() ?>
