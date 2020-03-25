@@ -49,7 +49,7 @@ class Sale extends ActiveRecord {
             'price' => $totalPrice,
             'fees' => round($totalPrice * 20 / 100, 2),
             'feetax' => round(($totalPrice * 20 / 100) - (($totalPrice * 20 / 100) / 1.2), 2),
-            'total' => round($totalPrice + ($totalPrice * 20 / 100), 2)
+            'total' => $totalPrice + round($totalPrice * 20 / 100, 2)
         ];
     }
 

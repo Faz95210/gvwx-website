@@ -77,6 +77,7 @@ $script = <<<JS
             adjudication: form.elements["adjudication"].value,
             itemId: form.elements["itemId"].value,
             clientId: form.elements["clientId"].value,
+            lotNumber: form.elements["lotNumber"].value,
             saleId: '###SALE_ID###',
         };
         const url = '###URL2###';

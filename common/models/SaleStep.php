@@ -45,6 +45,7 @@ class SaleStep extends ActiveRecord {
             "item_id" => $post['itemId'],
             "client_id" => $post['clientId'],
             "sale_id" => $post['saleId'],
+            "lot_number" => $post['lotNumber'],
         ]);
         $res1 = $sale->save();
         $item = Item::findOne(['id' => $post['itemId']]);

@@ -707,7 +707,7 @@ class SiteController extends Controller {
         $pdf->SetFont('Arial', 'U', $fontSize['regular']);
         $pdf->Cell(40, 10, "Date de vente :");
         $pdf->SetFont('Arial', '', $fontSize['regular']);
-        $pdf->Cell(40, 10, gmdate('D d M Y', $sale->date));
+        $pdf->Cell(40, 10, gmdate('d/m/Y', $sale->date));
 
         //TABLE price
         $pdf->Ln();
@@ -744,7 +744,7 @@ class SiteController extends Controller {
         $pdf->SetFont('Arial', 'U', $fontSize['regular']);
         $pdf->SetX(12);
 
-        $pdf->Cell(14, 5, "Lot(s) acquis :", '');
+        $pdf->Cell(25, 5, "Lot(s) acquis :", '');
         $pdf->SetFont('Arial', '', $fontSize['regular']);
         $pdf->Cell(40, 5, count($sale->saleSteps), '');
 
@@ -755,15 +755,18 @@ class SiteController extends Controller {
         $pdf->Cell(14, 5, "Detail :", '');
 
         $pdf->Ln();
+        $pdf->Ln();
+        $pdf->SetX(30);
         $pdf->SetFont('Arial', 'b', $fontSize['regular']);
         $pdf->Cell(40, 5, "N du lot", 'T');
-        $pdf->Cell(40, 5, "Nom du lot :", 'T');
+        $pdf->Cell(80, 5, "Nom du lot :", 'T');
         $pdf->Cell(40, 5, "Mont d'adjudication :", 'T');
         $pdf->SetFont('Arial', '', $fontSize['regular']);
         foreach ($sale->saleSteps as $saleStep) {
             $pdf->Ln();
-            $pdf->Cell(40, 5, $saleStep->item->id, '');
-            $pdf->Cell(40, 5, $saleStep->item->name, '');
+            $pdf->SetX(30);
+            $pdf->Cell(40, 5, $saleStep->lot_number, '');
+            $pdf->Cell(80, 5, $saleStep->item->name, '');
             $pdf->Cell(40, 5, $saleStep->item->adjudication, '');
         }
 
@@ -894,6 +897,7 @@ class SiteController extends Controller {
             $step = SaleStep::findOne(['id' => $post['saleStepEdit']]);
             if ($step !== null) {
                 $step->client_id = $post['clientId'];
+                $step->lot_number = $post['lotNumber'];
                 $step->save();
             }
             return $this->redirect(['site/sale', 'saleId' => $step->sale_id]);

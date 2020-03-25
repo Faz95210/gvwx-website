@@ -37,6 +37,12 @@ $id = time();
             </tbody>
         </table>
         <div class="form-group row">
+            <label class="col-sm-2">Numero de lot : </label>
+            <input class="col-sm-8 form-control" name="lotNumber" type="number"
+                   value="<?= $step !== null ? $step->lot_number : '' ?>">
+        </div>
+
+        <div class="form-group row">
             <label class="col-sm-2"> Client : </label>
             <select name="clientId" class="form-control col-sm-8">
                 <option></option>
