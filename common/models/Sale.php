@@ -4,6 +4,7 @@
 namespace common\models;
 
 
+use DateTime;
 use yii\db\ActiveRecord;
 
 /**
@@ -55,8 +56,9 @@ class Sale extends ActiveRecord {
 
     public static function newSale(array $post) {
 
+        $date = DateTime::createFromFormat('d/m/Y', $post['date']);
         $sale = new Sale([
-            'date' => strtotime($post['date']),
+            'date' => $date->getTimestamp(),
             'user_id' => \Yii::$app->user->id
         ]);
         return $sale->save();

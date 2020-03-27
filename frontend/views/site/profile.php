@@ -103,9 +103,9 @@ use yii\widgets\ActiveForm; ?>
         <div class="row">
             <span class="col-lg-12 text-center">
                 <?php if ($user->license_date !== null) { ?>
-                    License valable jusqu'au <strong><?= gmdate("d/m/y", $user->license_date) ?></strong>.
+                    Licence valable jusqu'au <strong><?= gmdate("d/m/y", $user->license_date) ?></strong>.
                 <?php } else { ?>
-                    Pas de license pour le moment.
+                    Pas de licence pour le moment.
                 <?php } ?>
             </span>
         </div>
