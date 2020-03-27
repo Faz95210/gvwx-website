@@ -418,7 +418,7 @@ class SiteController extends Controller {
     }
 
     public function actionSales() {
-        $sales = Sale::findAll(['user_id' => Yii::$app->user->id]);
+        $sales = Sale::find()->where(['user_id' => Yii::$app->user->id])->orderBy(['date' => SORT_DESC])->all();
         $this->view->params = ['sales' => ($sales !== null ? $sales : [])];
         return $this->render("sales");
     }
