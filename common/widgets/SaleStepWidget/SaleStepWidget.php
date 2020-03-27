@@ -35,11 +35,15 @@ class SaleStepWidget extends Widget {
         $this->view->params['saleId'] = $this->saleId;
         $items = Item::findAll(['user_id' => \Yii::$app->user->getId()]);
         $this->view->params['items'] = [];
-        foreach ($items as $item) {
-            $item->getSale();
-            if ($item->sale == null) {
-                $this->view->params['items'][] = $item;
+        if ($this->stepId == -1) {
+            foreach ($items as $item) {
+                $item->getSale();
+                if ($item->sale == null) {
+                    $this->view->params['items'][] = $item;
+                }
             }
+        } else {
+            $this->view->params['items'] = $items;
         }
         if ($this->stepId === -1 && count($this->view->params['items']) <= 0) {
             return -1;

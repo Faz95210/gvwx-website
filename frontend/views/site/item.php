@@ -53,8 +53,8 @@ use yii\widgets\ActiveForm;
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Vente :</label>
-                <input disabled class="col-sm-9 col-form-label" name="date" type="text"
-                       value="<?= $this->params['item']->sale != null ? gmdate('d/m/Y', $this->params['item']->sale->date) : '' ?>">
+                <p class="col-sm-9 col-form-label"
+                   type="date"><?= $this->params['item']->sale != null ? gmdate('d/m/Y', $this->params['item']->sale->date) : '' ?></p>
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Client :</label>
@@ -68,8 +68,8 @@ use yii\widgets\ActiveForm;
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Adjudication :</label>
-                <input disabled class="col-sm-9 col-form-label" name="adjudication" type="number"
-                       value="<?= $this->params['item']->adjudication ?>">
+                <p disabled class="col-sm-9 col-form-label" name="adjudication"
+                   type="number"><?= $this->params['item']->adjudication ?></p>
             </div>
             <input type="hidden" name="itemId" value="<?= $this->params['item']->id ?>">
             <?php ActiveForm::end() ?>
