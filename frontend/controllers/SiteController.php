@@ -7,6 +7,7 @@ use common\models\Client;
 use common\models\Item;
 use common\models\LoginForm;
 use common\models\User;
+use DateTime;
 use frontend\models\SignupForm;
 use common\models\Mandant;
 use common\models\Sale;
@@ -569,6 +570,10 @@ class SiteController extends Controller {
             $item->description = Yii::$app->request->post('description');
             $item->picture = Yii::$app->request->post('picture');
             $item->mandant_id = Yii::$app->request->post('mandantId');
+
+            $date = DateTime::createFromFormat('d/m/Y H:i:s',
+                Yii::$app->request->post('date_mandat') . " 00:00:00");
+            $item->date_mandat = $date->getTimestamp();
             $item->update();
         }
         $this->redirect(['/site/item', 'itemId' => Yii::$app->request->post('itemId')]);

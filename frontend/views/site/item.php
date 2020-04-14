@@ -60,6 +60,12 @@ use yii\widgets\ActiveForm;
                 </select>
             </div>
             <div class="form-group row">
+                <label class="col-sm-2 col-form-label" for="mandat-input">Date Mandat</label>
+                <input id="mandat-input" required name="date_mandat" class="col-sm-9 col-form-label form-control"
+                       type="date" value="<?= gmdate('d/m/Y', $this->params['item']->date_mandat) ?>"
+                       placeholder="">
+            </div>
+            <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Vente :</label>
                 <p class="col-sm-9 col-form-label"
                    type="date"><?= $this->params['item']->sale != null ? gmdate('d/m/Y', $this->params['item']->sale->date) : '' ?></p>
