@@ -904,6 +904,7 @@ class SiteController extends Controller {
             $step = SaleStep::findOne(['id' => $post['saleStepEdit']]);
             if ($step !== null) {
                 $step->client_id = $post['clientId'];
+                $step->adjudicataire_number = $post['adjudicataire_number'];
                 $step->lot_number = $post['lotNumber'];
                 $step->save();
             }

@@ -16,7 +16,8 @@ $id = time();
                 <?php foreach ($this->params['items'] as $item) { ?>
                     <option <?= ($step !== null && $item->id === $step->item_id) ? 'selected' : '' ?>
                             value="<?= $item->id ?>" description="<?= $item->description ?>"
-                            estimation="<?= $item->estimation ?>">
+                            estimation="<?= $item->estimation ?>"
+                            date_mandat="<?= gmdate('d/m/Y', $item->date_mandat) ?>">
                         <?= $item->name ?>
                     </option>
                 <?php } ?>
@@ -27,12 +28,22 @@ $id = time();
             <tr>
                 <td>Description :</td>
                 <td>Estimation :</td>
+                <td>Date mandat :</td>
             </tr>
             <thead>
             <tbody>
             <tr>
                 <td id="item-description<?= $id ?>"> <?= $step !== null ? $step->item->description : $this->params['items'][0]->description ?></td>
                 <td id="item-estimation<?= $id ?>"> <?= $step !== null ? $step->item->estimation : $this->params['items'][0]->estimation ?></td>
+                <td id="item-date_mandat<?= $id ?>">
+                    <?php
+                    if ($step === null) {
+                        echo gmdate('d/m/Y', $this->params['items'][0]->date_mandat);
+                    } else {
+                        echo gmdate('d/m/Y', $step->item->date_mandat);
+                    }
+                    ?>
+                </td>
             </tr>
             </tbody>
         </table>
@@ -40,6 +51,11 @@ $id = time();
             <label class="col-sm-2">Numero de lot : </label>
             <input class="col-sm-8 form-control" name="lotNumber" type="number"
                    value="<?= $step !== null ? $step->lot_number : '' ?>">
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2">Numero Adjudicataire : </label>
+            <input class="col-sm-8 form-control" name="adjudicataire_number" type="number"
+                   value="<?= $step !== null ? $step->adjudicataire_number : '' ?>">
         </div>
 
         <div class="form-group row">

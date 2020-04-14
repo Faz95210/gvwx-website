@@ -13,6 +13,8 @@ use yii\db\ActiveRecord;
  * @property integer $sale_id
  * @property integer $client_id
  * @property integer $item_id
+ * @property integer $adjudicataire_number
+ * @property integer $lot_number
  *
  */
 class SaleStep extends ActiveRecord {
@@ -46,6 +48,7 @@ class SaleStep extends ActiveRecord {
             "client_id" => $post['clientId'],
             "sale_id" => $post['saleId'],
             "lot_number" => $post['lotNumber'],
+            "adjudicataire_number" => $post['adjudicataire_number'],
         ]);
         $res1 = $sale->save();
         $item = Item::findOne(['id' => $post['itemId']]);
@@ -61,7 +64,7 @@ class SaleStep extends ActiveRecord {
      */
     public function rules() {
         return [
-            [['client_id', 'sale_id'], 'required']
+            [['sale_id'], 'required']
         ];
     }
 }

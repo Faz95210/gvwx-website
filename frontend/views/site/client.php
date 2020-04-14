@@ -103,6 +103,12 @@ ActiveForm::begin(['action' => ['site/editclient'], 'id' => 'editClient'])
                             <option value="<?= $date ?>"><?= gmdate('d/m/Y', $date) ?></option>
                         <?php } ?>
                     </select>
+
+                    <select name="fees">
+                        <option value="14.5">14,5%</option>
+                        <option value="20">20%</option>
+                        <option value="25">25%</option>
+                    </select>
                     <?= Html::submitButton(\Yii::t('login', 'Facture'), ['class' => 'btn btn-primary', 'name' => 'clientId', 'value' => $this->params['client']->id]) ?>
                     <?php ActiveForm::end() ?>
                 <?php } else { ?>

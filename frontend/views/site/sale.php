@@ -27,7 +27,7 @@ use yii\widgets\ActiveForm;
             <input type="hidden" name="saleId" value=" <?= $this->params['sale']->id ?>">
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">
-                    Sale
+                    Date
                 </label>
                 <input class="col-sm-2" type="text" name="dateSale"
                        value="<?= gmdate('d/m/Y', $this->params['sale']->date) ?>">
@@ -91,8 +91,10 @@ $script = <<<JS
         const option = e.options[e.selectedIndex];
         const desc = option.getAttribute('description');
         const estimation = option.getAttribute('estimation');
+        const date_mandat = option.getAttribute('date_mandat');
         document.getElementById('item-description' + id).innerText = desc;
         document.getElementById('item-estimation' + id).innerText = estimation;
+        document.getElementById('item-date_mandat' + id).innerText = date_mandat;
     }
 
     function saveSaleStep(id) {
