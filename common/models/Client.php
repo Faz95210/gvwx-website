@@ -1,0 +1,79 @@
+<?php
+
+
+namespace common\models;
+
+
+use yii\db\ActiveRecord;
+
+/**
+ * User model
+ *
+ * @property integer $id
+ * @property string $name
+ * @property string $firstname
+ * @property string $address
+ * @property string $postal
+ * @property string $city
+ * @property string $phone
+ * @property string $mail
+ * @property integer $user_id
+ *
+ */
+class Client extends ActiveRecord {
+
+    public $sales = [];
+
+    /**
+     * {@inheritdoc}
+     */
+    public static function tableName() {
+        return 'client';
+    }
+
+    public static function editClient(array $post) {
+        $client = self::findOne(['id' => $post['clientId']]);
+        if ($client == null) return;
+        $client->name = $post['name'];
+        $client->firstname = $post['firstname'];
+        $client->address = $post['address'];
+        $client->phone = $post['phone'];
+        $client->postal = $post['postal'];
+        $client->city = $post['city'];
+        $client->mail = $post['mail'];
+        $client->update();
+    }
+
+
+    public function getSales() {
+        $this->sales = Sale::find()->innerJoin('sale_step', 'sale_step.sale_id = sale.id')->where(['client_id' => $this->id])->all();
+        if ($this->sales != null) {
+            foreach ($this->sales as $sale) {
+                $sale->getSalesStep($this->id);
+            }
+        }
+    }
+
+    public static function newClient(array $post) {
+        $client = new Client([
+            "name" => $post['name'],
+            "firstname" => $post['firstname'],
+            "address" => $post['address'],
+            "city" => $post['city'],
+            "postal" => $post['postal'],
+            "phone" => $post['phone'],
+            "mail" => $post['mail'],
+            "user_id" => \Yii::$app->user->id,
+        ]);
+        return $client->save();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function rules() {
+        return [
+            [['name', 'firstname'], 'required']
+        ];
+    }
+}

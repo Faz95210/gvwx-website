@@ -1,0 +1,30 @@
+{
+    "name": "cinghie/yii2-cookie-consent",
+    "description": "Yii2 Cookie Consent to alerting users about the use of cookies on your Yii2 website.",
+    "keywords": [
+        "yii2", 
+        "yii2 cookie", 
+        "yii2 cookie law", 
+        "yii2 cookie consent",
+        "yii2 eu cookie consent"
+    ],
+    "homepage": "https://github.com/cinghie/yii2-cookie-consent",
+    "type": "yii2-extension",
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Gogodigital.it",
+            "email": "info@gogodigital.it",
+            "homepage": "http://www.gogodigital.it/"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "^2.0.14",
+        "bower-asset/cookieconsent": "^2.0.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "cinghie\\cookieconsent\\": ""
+        }
+    }
+}

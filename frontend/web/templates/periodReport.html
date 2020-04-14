@@ -1,0 +1,20 @@
+<body>
+<div class="container-fluid">
+    <div class="page-title-box">
+        <div class="row align-items-center">
+            <div class="col-sm-12">
+                <h3>Rapport ###PERIOD_LABEL###</h3>
+            </div>
+        </div>
+        <div class="row align-items-center">
+            <div class="col-sm-12">
+                <p>Bonjour, ##USER-givenname## ##USER-name##, voici le rapport ###PERIOD_LABEL### de vos
+                    déplacements.</p>
+            </div>
+        </div>
+        ##ARRAY-Trip->=:created_at:###PERIOD_FROM###;<=:created_at:###PERIOD_TO###-=gmdate|"Y/m/d"|$start_date_time;Date
+        Départ:startCoordinate.address.label;Addresse Départ:stopCoordinate.address.label;Addresse
+        Destination:duration;Durée:distance;Distance:=sprintf|%s %s|$vehicle.brand|$vehicle.model;Vehicule##
+    </div>
+</div>
+</body>
