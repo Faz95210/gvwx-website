@@ -50,13 +50,17 @@ use yii\widgets\ActiveForm;
             </div>
 
             <p>Generation PV de vente :
-                <?= Html::a('Génerer', [
-                    'site/pvvente',
-                    'saleId' => $this->params['sale']->id,
-                ], [
-                    'class' => 'btn btn-primary',
-                    'target' => '_blank',
-                ]); ?>    </p>
+
+                <?php ActiveForm::begin(['action' => ['site/pvvente']]) ?>
+                <input type="hidden" name="saleId" value="<?= $this->params['sale']->id ?>"/>
+                <select name="fees">
+                    <option value="14.4">14,40%</option>
+                    <option value="20">20%</option>
+                    <option value="25">25%</option>
+                </select>
+                <?= Html::submitButton(\Yii::t('login', 'Generer'), ['class' => ' btn btn-primary']) ?>
+                <?php ActiveForm::end() ?>
+            </p>
             <p>Liste des objets proposées :
                 <button type="button" class="btn btn-primary" onclick="addSection()">Ajouter</button>
             </p>

@@ -16,6 +16,10 @@ use Fpdf\Fpdf;
 use PHPExcel;
 use PHPExcel_IOFactory;
 use PHPExcel_Settings;
+use PhpOffice\PhpWord\IOFactory;
+use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Style\Font;
+use PhpOffice\PhpWord\TemplateProcessor;
 use Yii;
 use yii\base\InvalidArgumentException;
 use yii\base\View;
@@ -33,7 +37,7 @@ class SiteController extends Controller {
 
 
     private function getStatusCodeMessage($status) {
-        $codes = Array(
+        $codes = array(
             // Success 2xx
             200 => 'OK',
             201 => 'Created',
@@ -504,59 +508,34 @@ class SiteController extends Controller {
 
     public function actionPvvente() {
         $sale = Sale::find()
-            ->where(['id' => Yii::$app->request->get('saleId')])
-            ->andWhere(['date' => Yii::$app->request->post('dateSale')])
-            ->all();
+            ->where(['id' => Yii::$app->request->post('saleId')])
+            ->one();
         $sale->getSalesStep();
         $pdf = new FPDF();
         $pdf->SetTitle("PV " . $sale->date);
-        if ($sale == null) {
-            $pdf->AddPage();
-            $pdf->SetFont('Arial', 'B', 16);
-            $pdf->Cell(40, 10, 'Error!');
-        } else {
-            $pdf->AddPage();
-            $pdf->SetFont('Arial', 'B', 16);
-            $pdf->Cell(40, 10, gmdate('d/m/Y', $sale->date));
-            $pdf->Ln();
-            $pdf->Ln();
-            $pdf->SetFont('Arial', '', 13);
-            $this->improvedTable($pdf, $sale->saleSteps);
-        }
-        header('Content-type: application/pdf;Content-Disposition: attachment;filename="PV' . $sale->date . '.pdf"');
-        $pdf->Output();
-    }
+        $templateProcessor = new TemplateProcessor("../assets/modelpvvente.docx");
+        $templateProcessor->setValue('DATE', gmdate('d/m/Y', $sale->date));
+        $templateProcessor->setValue('AMOUNT', Yii::$app->request->post('fees'));
 
-// Better table
-    private function improvedTable(FPDF &$pdf, $saleSteps) {
-        // Column widths
-        $w = array(40, 35, 40, 45);
-        // Header
-        $pdf->Cell(40, 7, 'name', 1, 0, 'C');
-        $pdf->Cell(40, 7, 'description', 1, 0, 'C');
-        $pdf->Cell(40, 7, 'adjudication', 1, 0, 'C');
-        $pdf->Cell(40, 7, 'picture', 1, 0, 'C');
-        $pdf->Ln();
-        // Data
-        foreach ($saleSteps as $saleStep) {
-            $pdf->Cell(40, 30, $saleStep->item->name, 'LR');
-            $pdf->Cell(40, 30, $saleStep->item->description, 'LR');
-            $pdf->Cell(40, 30, $saleStep->item->adjudication, 'LR');
-            $temp = tmpfile();
-            $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $saleStep->item->picture));
-
-            fwrite($temp, $data);
-            preg_match('/data:image\/(.*);base64/', $saleStep->item->picture, $type);
-            $pdf->SetX(40 * 3 + 10);
-            $pdf->Cell(40, 30, '', 'LR');
-            $pdf->SetX(40 * 3 + 15);
-            $pdf->Image(stream_get_meta_data($temp)['uri'], null, null, 30, 30, $type[1]);
-            $pdf->SetX(10);
-            $pdf->Cell(40 * 4, 0, '', 'T');
-            fclose($temp);
-            $pdf->Ln();
+        $totalPrice = 0;
+        $values = [];
+        foreach ($sale->saleSteps as $saleStep) {
+            $values[] = [
+                'ITEMID' => $saleStep->id,
+                'ITEMNAME' => $saleStep->item->name,
+                'ITEMDESC' => $saleStep->item->description,
+                'ITEMPRICE' => $saleStep->item->adjudication,
+            ];
+            $totalPrice += $saleStep->item->adjudication;
         }
-        // Closing line
+        $templateProcessor->cloneRowAndSetValues('ITEMID', $values);
+
+        $templateProcessor->setValue('SUMPRICES', $totalPrice);
+        $templateProcessor->setValue('SUMFEES', $totalPrice * (Yii::$app->request->post('fees') / 100));
+
+        header('Content-Disposition: attachment;filename="PVVENTE_' . $sale->date . '.docx"');
+        $templateProcessor->saveAs('php://output');
+        exit;
     }
 
     public function actionAddsalestep() {
@@ -621,20 +600,9 @@ class SiteController extends Controller {
 
     public function actionGeneratefacture() {
 
-        $fontSize = [
-            'header' => '20',
-            'table' => '13',
-            'client' => '8',
-            'regular' => '10',
-        ];
+        /* Note: any element you append to a document must reside inside of a Section. */
 
-        $widths = [
-            'info' => ['name' => '24', 'value' => '25'],
-            'facture' => '13',
-            'defails' => '10',
-        ];
-
-
+// Adding an empty Section to the document...
         $sale = Sale::find()
             ->innerJoin('sale_step', 'sale_step.sale_id = sale.id')
             ->where(['sale_step.client_id' => Yii::$app->request->post('clientId')])
@@ -642,12 +610,10 @@ class SiteController extends Controller {
             ->one();
         if ($sale != null) {
             $sale->getSalesStep(Yii::$app->request->post('clientId'));
-            $sale->getPrices();
+            $sale->getPrices(Yii::$app->request->post('fees'));
         }
-        $pdf = new FPDF();
-        $pdf->SetTitle("Facture " . $sale->date);
-        $pdf->AddPage();
-        $pdf->SetFont('Arial', '', $fontSize['header']);
+
+        $templateProcessor = new TemplateProcessor("../assets/modelFacture.docx");
         $user = User::findOne(['id' => Yii::$app->user->id]);
         if ($user->logo != null) {
 
@@ -655,140 +621,53 @@ class SiteController extends Controller {
             $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $user->logo));
 
             fwrite($temp, $data);
-            preg_match('/data:image\/(.*);base64/', $user->logo, $type);
-            $pdf->Image(stream_get_meta_data($temp)['uri'], null, null, 30, 30, $type[1]);
+            $templateProcessor->setImageValue('logo', stream_get_meta_data($temp)['uri']);
+
         } else {
-            $pdf->Cell(40, 10, 'LOGO', '');
+            $templateProcessor->setValue('logo', $sale->saleSteps[0]->client->name);
+
         }
 
-        $pdf->SetX($pdf->GetPageWidth() - 60);
-
-        //Client Info
-        $pdf->SetFont('Arial', 'B', $fontSize['client']);
-        $pdf->Cell($widths['info']['name'], 5, 'Nom :', 'LT');
-        $pdf->SetFont('Arial', '', $fontSize['client']);
-        $pdf->Cell($widths['info']['value'], 5, $sale->saleSteps[0]->client->name, 'RT');
-        $pdf->Ln();
-        $pdf->SetX($pdf->GetPageWidth() - 60);
-//        $pdf->SetXY($pdf->GetPageWidth() - 40, $pdf->GetY() + 2);
-        $pdf->SetFont('Arial', 'B', $fontSize['client']);
-        $pdf->Cell($widths['info']['name'], 5, 'Prenom :', 'L');
-        $pdf->SetFont('Arial', '', $fontSize['client']);
-        $pdf->Cell($widths['info']['value'], 5, $sale->saleSteps[0]->client->firstname, 'R');
-        $pdf->Ln();
-        $pdf->SetX($pdf->GetPageWidth() - 60);
-        $pdf->SetFont('Arial', 'B', $fontSize['client']);
-        $pdf->Cell($widths['info']['name'], 5, 'Adresse :', 'L');
-        $pdf->SetFont('Arial', '', $fontSize['client']);
-        $pdf->Cell($widths['info']['value'], 5, $sale->saleSteps[0]->client->address, 'R');
-        $pdf->Ln();
-        $pdf->SetX($pdf->GetPageWidth() - 60);
-        $pdf->SetFont('Arial', 'B', $fontSize['client']);
-        $pdf->Cell($widths['info']['name'], 5, 'Code Postal :', 'L');
-        $pdf->SetFont('Arial', '', $fontSize['client']);
-        $pdf->Cell($widths['info']['value'], 5, $sale->saleSteps[0]->client->postal, 'R');
-        $pdf->Ln();
-        $pdf->SetX($pdf->GetPageWidth() - 60);
-        $pdf->SetFont('Arial', 'B', $fontSize['client']);
-        $pdf->Cell($widths['info']['name'], 5, 'Ville :', 'L');
-        $pdf->SetFont('Arial', '', $fontSize['client']);
-        $pdf->Cell($widths['info']['value'], 5, $sale->saleSteps[0]->client->city, 'R');
-        $pdf->Ln();
-        $pdf->SetX($pdf->GetPageWidth() - 60);
-        $pdf->SetFont('Arial', 'B', $fontSize['client']);
-        $pdf->Cell($widths['info']['name'], 5, 'Telephone :', 'L');
-        $pdf->SetFont('Arial', '', $fontSize['client']);
-        $pdf->Cell($widths['info']['value'], 5, $sale->saleSteps[0]->client->phone, 'R');
-        $pdf->Ln();
-        $pdf->SetX($pdf->GetPageWidth() - 60);
-        $pdf->SetFont('Arial', 'B', $fontSize['client']);
-        $pdf->Cell($widths['info']['name'] - 10, 5, 'Email :', 'LB');
-        $pdf->SetFont('Arial', '', $fontSize['client']);
-        $pdf->Cell($widths['info']['value'] + 10, 5, $sale->saleSteps[0]->client->mail, 'RB');
-        $pdf->Ln();
-        $pdf->Ln();
-
-        $pdf->SetFont('Arial', 'B', $fontSize['header']);
-        $pdf->Cell(40, 7, "BUREAU D'ADJUDICATION");
-        $pdf->Ln();
-        $pdf->SetFont('Arial', 'U', $fontSize['regular']);
-        $pdf->Cell(40, 10, "Date de vente :");
-        $pdf->SetFont('Arial', '', $fontSize['regular']);
-        $pdf->Cell(40, 10, gmdate('d/m/Y', $sale->date));
-
-        //TABLE price
-        $pdf->Ln();
-        $pdf->SetLeftMargin(40);
-        $pdf->Cell(40, 10, "TOTAL ADJUDICATION", 'LT');
-        $pdf->SetLeftMargin(40);
-        $pdf->Cell(40, 10, $sale->prices['price'], 'RT');
-        $pdf->Ln();
-        $pdf->SetLeftMargin(40);
-        $pdf->Cell(40, 10, "FRAIS 20% TTC", 'L');
-        $pdf->SetLeftMargin(40);
-        $pdf->Cell(40, 10, $sale->prices['fees'], 'R');
-        $pdf->Ln();
-        $pdf->SetLeftMargin(40);
-        $pdf->Cell(40, 10, "TVA SUR FRAIS", 'L');
-        $pdf->SetLeftMargin(40);
-        $pdf->Cell(40, 10, $sale->prices['feetax'], 'R');
-        $pdf->Ln();
-        $pdf->SetLeftMargin(40);
-        $pdf->Cell(40, 10, "TOTAL TVA", 'L');
-        $pdf->SetLeftMargin(40);
-        $pdf->Cell(40, 10, $sale->prices['feetax'], 'R');
-        $pdf->Ln();
-        $pdf->SetFont('Arial', 'B', $fontSize['table']);
-
-        $pdf->SetLeftMargin(40);
-        $pdf->Cell(40, 10, "TOTAL", 'LBT');
-        $pdf->SetLeftMargin(40);
-        $pdf->Cell(40, 10, $sale->prices['total'], 'RTB');
-
-
-        $pdf->Ln();
-        $pdf->Ln();
-        $pdf->SetFont('Arial', 'U', $fontSize['regular']);
-        $pdf->SetX(12);
-
-        $pdf->Cell(25, 5, "Lot(s) acquis :", '');
-        $pdf->SetFont('Arial', '', $fontSize['regular']);
-        $pdf->Cell(40, 5, count($sale->saleSteps), '');
-
-        $pdf->Ln();
-        $pdf->SetFont('Arial', 'U', $fontSize['regular']);
-        $pdf->SetX(12);
-
-        $pdf->Cell(14, 5, "Detail :", '');
-
-        $pdf->Ln();
-        $pdf->Ln();
-        $pdf->SetX(30);
-        $pdf->SetFont('Arial', 'b', $fontSize['regular']);
-        $pdf->Cell(40, 5, "N du lot", 'T');
-        $pdf->Cell(80, 5, "Nom du lot :", 'T');
-        $pdf->Cell(40, 5, "Mont d'adjudication :", 'T');
-        $pdf->SetFont('Arial', '', $fontSize['regular']);
-        foreach ($sale->saleSteps as $saleStep) {
-            $pdf->Ln();
-            $pdf->SetX(30);
-            $pdf->Cell(40, 5, $saleStep->lot_number, '');
-            $pdf->Cell(80, 5, $saleStep->item->name, '');
-            $pdf->Cell(40, 5, $saleStep->item->adjudication, '');
-        }
-
-        $pdf->SetXY($pdf->GetPageWidth() - 40, $pdf->GetPageHeight() - 40);
-        if ($user->marianne !== null) {
+        if ($user->marianne != null) {
             $temp = tmpfile();
             $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $user->marianne));
 
             fwrite($temp, $data);
-            preg_match('/data:image\/(.*);base64/', $user->marianne, $type);
-            $pdf->Image(stream_get_meta_data($temp)['uri'], null, null, 15, 15, $type[1]);
+            $templateProcessor->setImageValue('marianne', stream_get_meta_data($temp)['uri']);
         } else {
-            $pdf->Cell(40, 5, 'LOGO', '');
+
+            $templateProcessor->setValue('marianne', $sale->saleSteps[0]->client->name);
         }
-        $pdf->Output();
+
+        $templateProcessor->setValue('NAME', $sale->saleSteps[0]->client->name);
+        $templateProcessor->setValue('FIRSTNAME', $sale->saleSteps[0]->client->firstname);
+        $templateProcessor->setValue('ADRESSE', $sale->saleSteps[0]->client->address);
+        $templateProcessor->setValue('POSTAL', $sale->saleSteps[0]->client->postal);
+        $templateProcessor->setValue('CITY', $sale->saleSteps[0]->client->city);
+        $templateProcessor->setValue('PHONE', $sale->saleSteps[0]->client->phone);
+        $templateProcessor->setValue('MAIL', $sale->saleSteps[0]->client->mail);
+
+        $templateProcessor->setValue('DATE', gmdate('d/m/Y', $sale->date));
+
+        $templateProcessor->setValue('FEE', Yii::$app->request->post('fees'));
+        $templateProcessor->setValue('TOTALRAW', $sale->prices['price']);
+        $templateProcessor->setValue('TOTALFEE', $sale->prices['fees']);
+        $templateProcessor->setValue('RAWPLUSFEE', $sale->prices['feetax']);
+        $templateProcessor->setValue('TOTAL', $sale->prices['total']);
+
+        $templateProcessor->setValue('QUANTITY', count($sale->saleSteps));
+
+        $values = [];
+        foreach ($sale->saleSteps as $saleStep) {
+            $values[] = [
+                'ITEMID' => $saleStep->id,
+                'ITEMNAME' => $saleStep->item->name,
+                'ITEMPRICE' => $saleStep->item->adjudication,
+            ];
+        }
+        $templateProcessor->cloneRowAndSetValues('ITEMID', $values);
+        header('Content-Disposition: attachment;filename="Facture_' . $sale->saleSteps[0]->client->name . '_' . $sale->saleSteps[0]->client->firstname . '.docx"');
+        $templateProcessor->saveAs('php://output');
         exit;
     }
 

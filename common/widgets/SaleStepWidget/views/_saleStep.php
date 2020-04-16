@@ -37,11 +37,18 @@ $id = time();
                 <td id="item-estimation<?= $id ?>"> <?= $step !== null ? $step->item->estimation : $this->params['items'][0]->estimation ?></td>
                 <td id="item-date_mandat<?= $id ?>">
                     <?php
+                    $date = "";
                     if ($step === null) {
-                        echo gmdate('d/m/Y', $this->params['items'][0]->date_mandat);
+                        $date = $this->params['items'][0]->date_mandat;
                     } else {
-                        echo gmdate('d/m/Y', $step->item->date_mandat);
+                        $date = $step->item->date_mandat;
                     }
+                    if ($date == null || $date == "") {
+                        echo '';
+                    } else {
+                        echo gmdate('d/m/Y', $date);
+                    }
+
                     ?>
                 </td>
             </tr>

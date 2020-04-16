@@ -38,7 +38,7 @@ class Sale extends ActiveRecord {
         }
     }
 
-    public function getPrices() {
+    public function getPrices($fee) {
         if ($this->saleSteps == []) {
             $this->getSalesStep(null);
         }
@@ -48,9 +48,9 @@ class Sale extends ActiveRecord {
         }
         $this->prices = [
             'price' => $totalPrice,
-            'fees' => round($totalPrice * 20 / 100, 2),
-            'feetax' => round(($totalPrice * 20 / 100) - (($totalPrice * 20 / 100) / 1.2), 2),
-            'total' => $totalPrice + round($totalPrice * 20 / 100, 2)
+            'fees' => round($totalPrice * $fee / 100, 2),
+            'feetax' => round(($totalPrice * $fee / 100) - (($totalPrice * $fee / 100) / 1.2), 2),
+            'total' => $totalPrice + round($totalPrice * $fee / 100, 2)
         ];
     }
 
