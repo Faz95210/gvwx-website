@@ -54,7 +54,7 @@ use yii\widgets\ActiveForm;
                 <?php ActiveForm::begin(['action' => ['site/pvvente']]) ?>
                 <input type="hidden" name="saleId" value="<?= $this->params['sale']->id ?>"/>
                 <select name="fees">
-                    <option value="14.4">14,40%</option>
+                    <option value="14.5">14,50%</option>
                     <option value="20">20%</option>
                     <option value="25">25%</option>
                 </select>
