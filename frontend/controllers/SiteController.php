@@ -547,7 +547,6 @@ class SiteController extends Controller {
         if ($item !== null) {
             $item->name = Yii::$app->request->post('name');
             $item->description = Yii::$app->request->post('description');
-
             $handle = fopen("../../frontend/web/images/items/$item->id", 'w') or die('Cannot open file'); //implicitly creates file
             $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', Yii::$app->request->post('picture')));
             fwrite($handle, $data);
@@ -555,7 +554,7 @@ class SiteController extends Controller {
             $item->picture = "items/$item->id";
             $item->mandant_id = Yii::$app->request->post('mandantId');
 
-            $date = DateTime::createFromFormat('d/m/Y H:i:s',
+            $date = DateTime::createFromFormat('Y-m-d H:i:s',
                 Yii::$app->request->post('date_mandat') . " 00:00:00");
             $item->date_mandat = $date->getTimestamp();
             $item->update();

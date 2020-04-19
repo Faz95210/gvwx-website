@@ -49,8 +49,8 @@ class Item extends ActiveRecord {
     }
 
     public static function newItem(array $post) {
-        $date = DateTime::createFromFormat('d/m/Y', $post['date_mandat']);
-
+        $date = DateTime::createFromFormat('Y-m-d H:i:s',
+            Yii::$app->request->post('date_mandat') . " 00:00:00");
 
         $item = new Item([
             'name' => $post['name'],
