@@ -65,6 +65,17 @@ use yii\widgets\ActiveForm;
                    type="number"
                    placeholder="">
         </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Mandant</label>
+            <select name="mandant" required class="form-control col-sm-9">
+                <option value="-1"></option>
+                <?php foreach ($this->params['mandants'] as $mandant) { ?>
+                    <option value="<?= $mandant->id ?>"><?= $mandant->name . " " . $mandant->firstname ?></option>
+                <?php } ?>
+            </select>
+        </div>
+
         <div class="form-group row">
             <label class="col-sm-2 col-form-label" for="mandat-input">Date Mandat</label>
             <input id="mandat-input" required name="date_mandat" class="col-sm-9 col-form-label form-control"
@@ -72,27 +83,6 @@ use yii\widgets\ActiveForm;
                    placeholder="">
         </div>
 
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label" for="sale-input">Date Vente</label>
-            <input id="sale-input" name="sale_date" class="col-sm-9 col-form-label form-control" type="date"
-                   placeholder="">
-        </div>
-
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label" for="mandat-input">Client</label>
-            <select name="client_id" class="form-control col-sm-9">
-                <option value="-1>"></option>
-
-                <?php foreach ($this->params['clients'] as $client) { ?>
-                    <option value="<?= $client->id ?>"><?= $client->name . ' ' . $client->firstname ?></option>
-                <? } ?>
-            </select>
-        </div>
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label" for="lot-input">Lot nº</label>
-            <input id="lot-input" name="lot_number" class="col-sm-9 col-form-label form-control" type="number"
-                   placeholder="">
-        </div>
         <input type="hidden" id="base64" name="picture">
         <div class="form-group row">
             <label class="col-form-label col-sm-2">Photo</label>
@@ -117,16 +107,29 @@ use yii\widgets\ActiveForm;
             </div>
 
         </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label" for="sale-input">Date Vente</label>
+            <input id="sale-input" name="sale_date" class="col-sm-9 col-form-label form-control" type="date"
+                   placeholder="">
+        </div>
 
         <div class="form-group row">
-            <label class="col-sm-2 col-form-label">Mandant</label>
-            <select name="mandant" class="form-control col-sm-9">
-                <option value="-1"></option>
-                <?php foreach ($this->params['mandants'] as $mandant) { ?>
-                    <option value="<?= $mandant->id ?>"><?= $mandant->name . " " . $mandant->firstname ?></option>
-                <?php } ?>
+            <label class="col-sm-2 col-form-label" for="mandat-input">Client</label>
+            <select name="client_id" class="form-control col-sm-9">
+                <option value="-1>"></option>
+
+                <?php foreach ($this->params['clients'] as $client) { ?>
+                    <option value="<?= $client->id ?>"><?= $client->name . ' ' . $client->firstname ?></option>
+                <? } ?>
             </select>
         </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label" for="lot-input">Lot nº</label>
+            <input id="lot-input" name="lot_number" class="col-sm-9 col-form-label form-control" type="number"
+                   placeholder="">
+        </div>
+
+
         <img>
         <?= Html::submitButton(\Yii::t('login', 'Ajouter'), ['class' => 'btn btn-primary', 'name' => 'new-item-button']) ?>
         <?php ActiveForm::end() ?>

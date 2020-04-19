@@ -50,18 +50,25 @@ class Item extends ActiveRecord {
 
     public static function newItem(array $post) {
         $date = DateTime::createFromFormat('d/m/Y', $post['date_mandat']);
+
+
         $item = new Item([
             'name' => $post['name'],
             'description' => $post['description'],
             'estimation' => $post['estimation'],
             'mandant_id' => $post['mandant'],
             'date_mandat' => $date->getTimestamp(),
-            'picture' => $post['picture'],
             'user_id' => Yii::$app->user->id,
         ]);
 
         $item->save();
-        if ($post['client_id'] != -1 && $post['sale_date'] != '') {
+        $handle = fopen("../../frontend/web/images/items/$item->id", 'w') or die('Cannot open file'); //implicitly creates file
+        $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $post['picture']));
+        fwrite($handle, $data);
+        fclose($handle);
+        $item->picture = "items/$item->id";
+        $item->save();
+        if ($post['sale_date'] != '') {
             $date = DateTime::createFromFormat('d/m/Y H:i:s', $post['sale_date'] . " 00:00:00");
             $sale = Sale::findOne(['date' => $date->getTimestamp(), 'user_id' => Yii::$app->user->id]);
             if ($sale == null) {
@@ -70,7 +77,7 @@ class Item extends ActiveRecord {
             }
             $saleStep = new SaleStep([
                 'item_id' => $item->id,
-                'client_id' => $post['client_id'],
+                'client_id' => $post['client_id'] == -1 ? null : $post['client_id'],
                 'sale_id' => $sale->id,
                 'lot_number' => $post['lot_number'],
             ]);

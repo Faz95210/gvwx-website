@@ -42,8 +42,7 @@ use yii\widgets\ActiveForm;
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Photo :</label>
-                <img class="" name="picture" width="50px" height="50px"
-                     src="<?= $this->params['item']->picture ?>">
+                <?= Html::img(Yii::getAlias('@web') . '/images/' . $this->params['item']->picture, ['width' => '50px', 'height' => '50px']); ?>
                 <input type="hidden" value='<?= $this->params['item']->picture ?>' name='picture'/>
             </div>
             <div class="form-group row">

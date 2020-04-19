@@ -7,6 +7,7 @@ $this->registerJsFile("@web/js/veltrix/pages/dashboard.js", ['depends' => 'app\a
 
 $user = $this->params['user'];
 
+use yii\helpers\Html;
 use yii\widgets\ActiveForm; ?>
 
 <div class="card">
@@ -45,8 +46,7 @@ use yii\widgets\ActiveForm; ?>
             <div class="col-lg-5">
                 <div class="text-center">
                     <label class="text-center">Votre Logo :</label><br>
-                    <img id='preview-logo' class="text-center" width="50" height="50" alt="preview"
-                         src="<?= $user->logo ?>"/><br>
+                    <?= Html::img(Yii::getAlias('@web') . '/images/' . $user->logo, ['id' => 'preview-logo', 'alt' => 'logo', 'class' => 'text-center', 'width' => '50px', 'height' => '50px']); ?>
                     <div class="form-group">
                         <?php ActiveForm::begin(['id' => 'editLogo', 'action' => ['site/editprofile']]) ?>
                         <input type="hidden" id="logo" name="logo">
@@ -79,8 +79,8 @@ use yii\widgets\ActiveForm; ?>
                     <input type="hidden" name="field" value="marianne">
                     <?php ActiveForm::end() ?>
 
-                    <img id='preview-marianne' class="text-center" alt="preview" width="50" height="50"
-                         src="<?= $user->marianne ?>"/><br>
+                    <?= Html::img(Yii::getAlias('@web') . '/images/' . $user->marianne,
+                        ['id' => 'preview-marianne', 'alt' => 'marianne', 'class' => 'text-center', 'width' => '50px', 'height' => '50px']); ?>
                     <input onchange="encodeImageFileAsURL(this, 'marianne', 'preview-marianne', 'editMarianne')"
                            type="file" class="filestyle" data-input="false"
                            data-buttonname="btn-secondary" id="filestyle-2"

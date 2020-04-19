@@ -616,24 +616,31 @@ class SiteController extends Controller {
         $templateProcessor = new TemplateProcessor("../assets/modelFacture.docx");
         $user = User::findOne(['id' => Yii::$app->user->id]);
         if ($user->logo != null) {
-
             $temp = tmpfile();
-            $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $user->logo));
-
+            $handle = fopen("../web/images/" . $user->logo, 'r');
+            $data = fread($handle, filesize("../web/images/" . $user->logo));
+            fclose($handle);
             fwrite($temp, $data);
             $templateProcessor->setImageValue('logo', stream_get_meta_data($temp)['uri']);
-
         } else {
             $templateProcessor->setValue('logo', $sale->saleSteps[0]->client->name);
 
         }
 
         if ($user->marianne != null) {
-            $temp = tmpfile();
-            $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $user->marianne));
+//            $temp = tmpfile();
+//            $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $user->marianne));
+//
+//            fwrite($temp, $data);
 
+            $temp = tmpfile();
+            $handle = fopen("../web/images/" . $user->marianne, 'r');
+            $data = fread($handle, filesize("../web/images/" . $user->marianne));
+            fclose($handle);
             fwrite($temp, $data);
             $templateProcessor->setImageValue('marianne', stream_get_meta_data($temp)['uri']);
+
+//            $templateProcessor->setImageValue('marianne', $user->marianne);
         } else {
 
             $templateProcessor->setValue('marianne', $sale->saleSteps[0]->client->name);
@@ -733,7 +740,6 @@ class SiteController extends Controller {
                 $pdf->Cell(40, 10, gmdate('d/m/Y', $item->sale->date));
                 $pdf->Cell(40, 10, $item->name);
                 $pdf->Cell(40, 10, $item->adjudication);
-
             }
         }
         header('Content-type: application/pdf;Content-Disposition: attachment;filename="facture' . $mandant->name . '.pdf"');
@@ -744,6 +750,15 @@ class SiteController extends Controller {
         $field = Yii::$app->request->post('field');
         $value = Yii::$app->request->post($field);
         $user = User::findOne(['id' => Yii::$app->user->id]);
+
+        if ($field === 'logo' || $field === 'marianne') {
+            $handle = fopen("../../frontend/web/images/users/" . Yii::$app->user->id . "_$field", 'w') or die('Cannot open file'); //implicitly creates file
+            $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $value));
+            fwrite($handle, $data);
+            fclose($handle);
+            $value = "users/" . Yii::$app->user->id . "_$field";
+        }
+
         $user->$field = $value;
         $user->save();
         if (isset($_REQUEST["destination"])) {
