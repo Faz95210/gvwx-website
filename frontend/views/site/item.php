@@ -42,8 +42,21 @@ use yii\widgets\ActiveForm;
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Photo :</label>
-                <?= Html::img(Yii::getAlias('@web') . '/images/' . $this->params['item']->picture, ['width' => '50px', 'height' => '50px']); ?>
-                <input type="hidden" value='<?= $this->params['item']->picture ?>' name='picture'/>
+                <?= Html::img('images/' . $this->params['item']->picture, ['id' => 'itemPreview', 'width' => '50px', 'height' => '50px']); ?>
+                <input type="hidden" id="iteminput" value='<?= $this->params['item']->picture ?>' name='picture'/>
+                <input onchange="encodeImageFileAsURL(this)" type="file" class="filestyle" data-input="false"
+                       data-buttonname="btn-secondary" id="filestyle-1"
+                       tabindex="-1" style="position: absolute; clip: rect(0px, 0px, 0px, 0px);">
+                <div class="">
+                            <span class="group-span-filestyle " tabindex="0">
+                                <label for="filestyle-1" class="btn btn-secondary ">
+                                    <span class="icon-span-filestyle fas fa-folder-open"></span>
+                                    <span class="buttonText">
+                                        Choisir
+                                    </span>
+                                </label>
+                            </span>
+                </div>
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">QR :</label>
@@ -108,7 +121,19 @@ use yii\widgets\ActiveForm;
 
     </div>
 <?php
+
 $script = <<<JS
+
+    function encodeImageFileAsURL(element) {
+        const file = element.files[0];
+        const reader = new FileReader();
+        reader.onloadend = function () {
+            document.getElementById('itemPreview').src = reader.result;
+            document.getElementById('iteminput').value = reader.result;
+        };
+        reader.readAsDataURL(file);
+    }
+
     new QRCode(document.getElementById("qrcode"), {
      "text":   document.URL,
      "width":128,

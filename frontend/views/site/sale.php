@@ -105,6 +105,7 @@ $script = <<<JS
         const form = document.getElementById('form' + id);
         const params = {
             adjudication: form.elements["adjudication"].value,
+            adjudicataire_number: form.elements["adjudicataire_number"].value,
             itemId: form.elements["itemId"].value,
             clientId: form.elements["clientId"].value,
             lotNumber: form.elements["lotNumber"].value,
