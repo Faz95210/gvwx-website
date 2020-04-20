@@ -34,7 +34,7 @@ use yii\widgets\ActiveForm;
 
                 <?php foreach ($this->params['sales'] as $sale) { ?>
                     <tr onclick="toSale('<?= $sale->id ?>')">
-                        <td><?= gmdate("d/m/Y", $sale->date) ?></td>
+                        <td><?= gmdate("m/d/Y", $sale->date) ?></td>
                     </tr>
                 <?php } ?>
                 </tbody>

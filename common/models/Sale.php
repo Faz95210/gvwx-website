@@ -55,6 +55,8 @@ class Sale extends ActiveRecord {
     }
 
     public static function newSale(array $post) {
+        echo $post['date'] . " 00:00:00";
+        exit;
         $date = DateTime::createFromFormat('Y-m-d H:i:s', $post['date'] . " 00:00:00");
         $sale = new Sale([
             'date' => $date->getTimestamp(),

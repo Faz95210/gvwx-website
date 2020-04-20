@@ -99,7 +99,7 @@ use yii\widgets\ActiveForm;
                     <tbody>
                     <?php foreach ($this->params['mandant']->items as $item) { ?>
                         <tr>
-                            <td> <?= $item->sale->date ? gmdate('d/m/Y', $item->sale->date) : '' ?> </td>
+                            <td> <?= $item->sale->date ? gmdate('m/d/Y', $item->sale->date) : '' ?> </td>
                             <td> <?= $item->name ?></td>
                             <td> <?= $item->adjudication ?></td>
                         </tr>
@@ -110,7 +110,7 @@ use yii\widgets\ActiveForm;
                 <?php ActiveForm::begin(['action' => ['site/facturemandant']]) ?>
                 <select name="dateSale">
                     <?php foreach ($this->params['salesDate'] as $date) { ?>
-                        <option value="<?= $date ?>"><?= gmdate('d/m/Y', $date) ?></option>
+                        <option value="<?= $date ?>"><?= gmdate('m/d/Y', $date) ?></option>
                     <?php } ?>
                 </select>
                 <select name="fees">
