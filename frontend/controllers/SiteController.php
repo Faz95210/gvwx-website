@@ -516,7 +516,7 @@ class SiteController extends Controller {
         $values = [];
         foreach ($sale->saleSteps as $saleStep) {
             $values[] = [
-                'ITEMID' => $saleStep->id,
+                'ITEMID' => $saleStep->lot_number,
                 'ITEMNAME' => $saleStep->item->name,
                 'ITEMDESC' => $saleStep->item->description,
                 'ITEMPRICE' => $saleStep->item->adjudication,
