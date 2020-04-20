@@ -666,7 +666,7 @@ class SiteController extends Controller {
         $values = [];
         foreach ($sale->saleSteps as $saleStep) {
             $values[] = [
-                'ITEMID' => $saleStep->id,
+                'ITEMID' => $saleStep->lot_number,
                 'ITEMNAME' => $saleStep->item->name,
                 'ITEMPRICE' => $saleStep->item->adjudication,
             ];
@@ -725,24 +725,23 @@ class SiteController extends Controller {
     public function actionFacturemandant() {
         $mandant = Mandant::findOne(['id' => Yii::$app->request->post('mandantId')]);
         $mandant->getItems();
-        $pdf = new FPDF();
-        $pdf->SetTitle("Bill_mandant_ " . $mandant->id);
-        $pdf->AddPage();
-        $pdf->SetFont('Arial', '', 20);
-        $pdf->Cell(40, 10, $mandant->firstname . ' ' . $mandant->name);
-        $pdf->SetX($pdf->GetPageWidth() - 60);
-        $pdf->SetFont('Arial', '', 15);
-        $pdf->Ln();
+        $templateProcessor = new TemplateProcessor("../assets/modelmandant.docx");
+
+        $templateProcessor->setValue('USER_NAME', $mandant->name . ' ' . $mandant->firstname);
+        $values = [];
         foreach ($mandant->items as $item) {
-            if ($item->sale != null) {
-                $pdf->Ln();
-                $pdf->Cell(40, 10, gmdate('d/m/Y', $item->sale->date));
-                $pdf->Cell(40, 10, $item->name);
-                $pdf->Cell(40, 10, $item->adjudication);
-            }
+            $values[] = [
+                'SALE_DATE' => $item->sale->date,
+                'ITEM_NAME' => $item->name,
+                'ITEM_ADJUDICATION' => $item->adjudication,
+            ];
         }
-        header('Content-type: application/pdf;Content-Disposition: attachment;filename="facture' . $mandant->name . '.pdf"');
-        $pdf->Output();
+        $templateProcessor->cloneRowAndSetValues('SALE_DATE', $values);
+
+        header('Content-Disposition: attachment;filename="Mandant_' . $mandant->name . '_' . $mandant->firstname . '.docx"');
+        $templateProcessor->saveAs('php://output');
+        exit;
+
     }
 
     public function actionEditprofile() {
