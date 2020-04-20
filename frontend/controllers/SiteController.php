@@ -730,10 +730,14 @@ class SiteController extends Controller {
         $templateProcessor->setValue('USER_NAME', $mandant->name . ' ' . $mandant->firstname);
         $values = [];
         foreach ($mandant->items as $item) {
+            $item->sale->getPrices(Yii::$app->request->post('fees'));
             $values[] = [
                 'SALE_DATE' => $item->sale->date,
                 'ITEM_NAME' => $item->name,
                 'ITEM_ADJUDICATION' => $item->adjudication,
+                'ITEM_DESCRIPTION' => $item->description,
+                'ITEM_FEES' => $item->sale->prices['fees'],
+                'ITEM_TOTAL' => $item->sale->prices['total'],
             ];
         }
         $templateProcessor->cloneRowAndSetValues('SALE_DATE', $values);
