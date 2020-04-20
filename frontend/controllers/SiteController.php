@@ -2,27 +2,22 @@
 
 namespace frontend\controllers;
 
-use Codeception\Module\Cli;
 use common\models\Client;
 use common\models\Item;
 use common\models\LoginForm;
-use common\models\User;
-use DateTime;
-use frontend\models\SignupForm;
 use common\models\Mandant;
 use common\models\Sale;
 use common\models\SaleStep;
+use common\models\User;
+use DateTime;
 use Fpdf\Fpdf;
+use frontend\models\SignupForm;
 use PHPExcel;
 use PHPExcel_IOFactory;
 use PHPExcel_Settings;
-use PhpOffice\PhpWord\IOFactory;
-use PhpOffice\PhpWord\PhpWord;
-use PhpOffice\PhpWord\Style\Font;
 use PhpOffice\PhpWord\TemplateProcessor;
 use Yii;
 use yii\base\InvalidArgumentException;
-use yii\base\View;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\BadRequestHttpException;
@@ -784,7 +779,10 @@ class SiteController extends Controller {
 
     public function actionEditsale() {
         $sale = Sale::findOne(['id' => Yii::$app->request->post('saleId')]);
-        $sale->date = strtotime(Yii::$app->request->post('dateSale'));
+        $date = DateTime::createFromFormat('Y-m-d H:i:s',
+            Yii::$app->request->post('dateSale') . " 00:00:00");
+
+        $sale->date = $date->getTimestamp();
         $sale->update();
         $this->redirect(['/site/sale', 'saleId' => Yii::$app->request->post('saleId')]);
     }

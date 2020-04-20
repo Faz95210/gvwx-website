@@ -74,7 +74,6 @@ use yii\widgets\ActiveForm;
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label" for="mandat-input">Date Mandat</label>
                 <?= Html::input('date', 'date_mandat', date("Y-m-d", $this->params['item']->date_mandat), ['id' => 'mandat-input', 'class' => 'col-sm-9 col-form-label form-control']) ?>
-
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Vente :</label>
