@@ -13,7 +13,7 @@ use yii\widgets\ActiveForm;
 <div class="page-title-box">
     <div class="row align-items-center">
         <div class="col-sm-12">
-            <h4 class="page-title"><?= \Yii::t('frontend', 'Sales'); ?></h4>
+            <h4 class="page-title"><?= \Yii::t('frontend', 'Ventes'); ?></h4>
             <p></p>
         </div>
     </div>
