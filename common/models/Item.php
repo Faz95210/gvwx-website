@@ -69,7 +69,7 @@ class Item extends ActiveRecord {
         $item->picture = "items/$item->id";
         $item->save();
         if ($post['sale_date'] != '') {
-            $date = DateTime::createFromFormat('d/m/Y H:i:s', $post['sale_date'] . " 00:00:00");
+            $date = DateTime::createFromFormat('Y-m-d H:i:s', $post['sale_date'] . " 00:00:00");
             $sale = Sale::findOne(['date' => $date->getTimestamp(), 'user_id' => Yii::$app->user->id]);
             if ($sale == null) {
                 $sale = new Sale(['user_id' => Yii::$app->user->id, 'date' => $date->getTimestamp()]);
