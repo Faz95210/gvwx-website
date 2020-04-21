@@ -88,7 +88,7 @@ ActiveForm::begin(['action' => ['site/editclient'], 'id' => 'editClient'])
                     <?php foreach ($this->params['client']->sales as $sale) { ?>
                         <?php foreach ($sale->saleSteps as $saleStep) { ?>
                             <tr>
-                                <td> <?= gmdate('m/d/Y', $sale->date) ?></td>
+                                <td> <?= date('m/d/Y', $sale->date) ?></td>
                                 <td> <?= $saleStep->item->name ?></td>
                                 <td> <?= $saleStep->item->adjudication ?> </td>
                             </tr>
@@ -100,7 +100,7 @@ ActiveForm::begin(['action' => ['site/editclient'], 'id' => 'editClient'])
                     <?php ActiveForm::begin(['action' => ['site/generatefacture'], 'id' => 'generateFacture']) ?>
                     <select name="dateSale">
                         <?php foreach ($this->params['salesDate'] as $date) { ?>
-                            <option value="<?= $date ?>"><?= gmdate('m/d/Y', $date) ?></option>
+                            <option value="<?= $date ?>"><?= date('m/d/Y', $date) ?></option>
                         <?php } ?>
                     </select>
 

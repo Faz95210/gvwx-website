@@ -509,7 +509,7 @@ class SiteController extends Controller {
         $pdf = new FPDF();
         $pdf->SetTitle("PV " . $sale->date);
         $templateProcessor = new TemplateProcessor("../assets/modelpvvente.docx");
-        $templateProcessor->setValue('DATE', gmdate('m/d/Y', $sale->date));
+        $templateProcessor->setValue('DATE', date('m/d/Y', $sale->date));
         $templateProcessor->setValue('AMOUNT', Yii::$app->request->post('fees'));
 
         $totalPrice = 0;
@@ -653,7 +653,7 @@ class SiteController extends Controller {
         $templateProcessor->setValue('PHONE', $sale->saleSteps[0]->client->phone);
         $templateProcessor->setValue('MAIL', $sale->saleSteps[0]->client->mail);
 
-        $templateProcessor->setValue('DATE', gmdate('m/d/Y', $sale->date));
+        $templateProcessor->setValue('DATE', date('m/d/Y', $sale->date));
 
         $templateProcessor->setValue('FEE', Yii::$app->request->post('fees'));
         $templateProcessor->setValue('TOTALRAW', $sale->prices['price']);

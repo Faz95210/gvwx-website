@@ -144,7 +144,7 @@ class ExcelController {
             $this->doHeader($index);
             $index += 1;
             foreach ($trips as $raw_trip) {
-                $this->setCell($this->sheet->getCell($this->reference['date'] . ($this->reference['startData'] + $index)), gmdate("Y-m-d", $raw_trip->start_date_time), 'DATA');
+                $this->setCell($this->sheet->getCell($this->reference['date'] . ($this->reference['startData'] + $index)), date("Y-m-d", $raw_trip->start_date_time), 'DATA');
                 $this->setCell($this->sheet->getCell($this->reference['depart'] . ($this->reference['startData'] + $index)), isset($raw_trip->startCoordinate->address) ? $raw_trip->startCoordinate->address->label : 'incomplet', 'DATA');
                 $this->setCell($this->sheet->getCell($this->reference['arrivee'] . ($this->reference['startData'] + $index)), isset($raw_trip->stopCoordinate->address) ? $raw_trip->stopCoordinate->address->label : 'incomplet', 'DATA');
                 $this->setCell($this->sheet->getCell($this->reference['duree'] . ($this->reference['startData'] + $index)), $raw_trip->duration, 'DATA');
@@ -178,7 +178,7 @@ class ExcelController {
             $index += 2;
         }
 //        foreach($raw_trips as $raw_trip){
-//            $this->setCell($sheet->getCell($reference['date'].($reference['startData'] + $index)), gmdate("Y-m-d", $raw_trip->start_date_time), 'DATA');
+//            $this->setCell($sheet->getCell($reference['date'].($reference['startData'] + $index)), date("Y-m-d", $raw_trip->start_date_time), 'DATA');
 //            $this->setCell($sheet->getCell($reference['depart'].($reference['startData'] + $index)), isset($raw_trip->startCoordinate->address) ? $raw_trip->startCoordinate->address->label : 'incomplet', 'DATA');
 //            $this->setCell($sheet->getCell($reference['arrivee'].($reference['startData'] + $index)), isset($raw_trip->stopCoordinate->address) ? $raw_trip->stopCoordinate->address->label : 'incomplet', 'DATA');
 //            $this->setCell($sheet->getCell($reference['duree'].($reference['startData'] + $index)), $raw_trip->duration, 'DATA');
