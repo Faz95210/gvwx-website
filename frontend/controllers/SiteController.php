@@ -727,6 +727,7 @@ class SiteController extends Controller {
         $mandant->getItems();
         $templateProcessor = new TemplateProcessor("../assets/modelmandant.docx");
 
+        $templateProcessor->setValue('DATE', date('m/d/Y', Yii::$app->request->post('dateSale')));
         $templateProcessor->setValue('USER_NAME', $mandant->name . ' ' . $mandant->firstname);
         $values = [];
         foreach ($mandant->items as $item) {
