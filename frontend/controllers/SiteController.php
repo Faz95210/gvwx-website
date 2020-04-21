@@ -730,28 +730,19 @@ class SiteController extends Controller {
         $templateProcessor->setValue('USER_NAME', $mandant->name . ' ' . $mandant->firstname);
         $values = [];
         foreach ($mandant->items as $item) {
-            if ($item->sale) {
+            if ($item->sale && $item->sale->date == Yii::$app->request->post('dateSale')) {
                 $item->sale->getPrices(Yii::$app->request->post('fees'));
+                $round = round($item->adjudication * (Yii::$app->request->post('fees') / 100), 2);
                 $values[] = [
-                    'SALE_DATE' => $item->sale->date,
                     'ITEM_NAME' => $item->name,
                     'ITEM_ADJUDICATION' => $item->adjudication,
                     'ITEM_DESCRIPTION' => $item->description,
-                    'ITEM_FEES' => $item->sale->prices['fees'],
-                    'ITEM_TOTAL' => $item->sale->prices['total'],
-                ];
-            } else {
-                $values[] = [
-                    'SALE_DATE' => '',
-                    'ITEM_NAME' => $item->name,
-                    'ITEM_ADJUDICATION' => $item->adjudication,
-                    'ITEM_DESCRIPTION' => $item->description,
-                    'ITEM_FEES' => '',
-                    'ITEM_TOTAL' => '',
+                    'ITEM_FEES' => $round,
+                    'ITEM_TOTAL' => $item->adjudication + $round,
                 ];
             }
         }
-        $templateProcessor->cloneRowAndSetValues('SALE_DATE', $values);
+        $templateProcessor->cloneRowAndSetValues('ITEM_NAME', $values);
 
         header('Content-Disposition: attachment;filename="Mandant_' . $mandant->name . '_' . $mandant->firstname . '.docx"');
         $templateProcessor->saveAs('php://output');
