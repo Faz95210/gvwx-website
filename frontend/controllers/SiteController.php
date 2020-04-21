@@ -550,7 +550,7 @@ class SiteController extends Controller {
             $item->mandant_id = Yii::$app->request->post('mandantId');
 
             $date = DateTime::createFromFormat('Y-m-d H:i:s',
-                Yii::$app->request->post('date_mandat') . " 00:00:00");
+                Yii::$app->request->post('date_mandat') . " 00:00:01");
             $item->date_mandat = $date->getTimestamp();
             $item->update();
         }
@@ -730,15 +730,26 @@ class SiteController extends Controller {
         $templateProcessor->setValue('USER_NAME', $mandant->name . ' ' . $mandant->firstname);
         $values = [];
         foreach ($mandant->items as $item) {
-            $item->sale->getPrices(Yii::$app->request->post('fees'));
-            $values[] = [
-                'SALE_DATE' => $item->sale->date,
-                'ITEM_NAME' => $item->name,
-                'ITEM_ADJUDICATION' => $item->adjudication,
-                'ITEM_DESCRIPTION' => $item->description,
-                'ITEM_FEES' => $item->sale->prices['fees'],
-                'ITEM_TOTAL' => $item->sale->prices['total'],
-            ];
+            if ($item->sale) {
+                $item->sale->getPrices(Yii::$app->request->post('fees'));
+                $values[] = [
+                    'SALE_DATE' => $item->sale->date,
+                    'ITEM_NAME' => $item->name,
+                    'ITEM_ADJUDICATION' => $item->adjudication,
+                    'ITEM_DESCRIPTION' => $item->description,
+                    'ITEM_FEES' => $item->sale->prices['fees'],
+                    'ITEM_TOTAL' => $item->sale->prices['total'],
+                ];
+            } else {
+                $values[] = [
+                    'SALE_DATE' => '',
+                    'ITEM_NAME' => $item->name,
+                    'ITEM_ADJUDICATION' => $item->adjudication,
+                    'ITEM_DESCRIPTION' => $item->description,
+                    'ITEM_FEES' => '',
+                    'ITEM_TOTAL' => '',
+                ];
+            }
         }
         $templateProcessor->cloneRowAndSetValues('SALE_DATE', $values);
 
@@ -783,7 +794,7 @@ class SiteController extends Controller {
     public function actionEditsale() {
         $sale = Sale::findOne(['id' => Yii::$app->request->post('saleId')]);
         $date = DateTime::createFromFormat('Y-m-d H:i:s',
-            Yii::$app->request->post('dateSale') . " 00:00:00");
+            Yii::$app->request->post('dateSale') . " 00:00:01");
 
         $sale->date = $date->getTimestamp();
         $sale->update();
