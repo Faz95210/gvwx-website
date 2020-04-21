@@ -739,7 +739,7 @@ class SiteController extends Controller {
                     'ITEM_ADJUDICATION' => $item->adjudication,
                     'ITEM_DESCRIPTION' => $item->description,
                     'ITEM_FEES' => $round,
-                    'ITEM_TOTAL' => $item->adjudication + $round,
+                    'ITEM_TOTAL' => $item->adjudication - $round,
                 ];
             }
         }
