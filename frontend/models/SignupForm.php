@@ -10,7 +10,7 @@ use common\models\User;
  * Signup form
  */
 class SignupForm extends Model {
-    public $givenname;
+    public $firstname;
     public $name;
     public $email;
     public $password;
@@ -20,11 +20,9 @@ class SignupForm extends Model {
      */
     public function rules() {
         return [
-            ['professional', 'boolean'],
-
-            ['givenname', 'trim'],
-            ['givenname', 'required'],
-            ['givenname', 'string', 'min' => 2, 'max' => 255],
+            ['firstname', 'trim'],
+            ['firstname', 'required'],
+            ['firstname', 'string', 'min' => 2, 'max' => 255],
 
             ['name', 'trim'],
             ['name', 'required'],
@@ -52,18 +50,18 @@ class SignupForm extends Model {
         }
 
         $user = new User();
-        $user->givenname = $this->givenname;
+        $user->firstname = $this->firstname;
         $user->name = $this->name;
         $user->email = $this->email;
+        $user->status = 10;
 
         $user->setPassword($this->password);
         $user->generateAuthKey();
         $user->generateEmailVerificationToken();
         $res = $user->save();
 
-        if (!$res) return $res;
+        return $res;
         //Do it here so we have a user ID
-        return $this->sendEmail($user);
     }
 
     /**

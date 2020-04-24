@@ -13,7 +13,7 @@ use yii\web\IdentityInterface;
  *
  * @property integer $id
  * @property string $username
- * @property string $givenname
+ * @property string $firstname
  * @property string $name
  * @property string $password_hash
  * @property string $password_reset_token
@@ -39,7 +39,7 @@ class User extends ActiveRecord implements IdentityInterface {
     const TYPE_USER = 2;
     const TYPE_ADMINISTRATOR = 3;
 
-    const PASSWORD_ENCODED = 0;
+    const PASSWORD_ENCODED = 1;
 
 
     /**

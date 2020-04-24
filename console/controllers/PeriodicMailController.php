@@ -69,7 +69,7 @@ class PeriodicMailController extends Controller {
         $mail->write("
             <div class=\"row align-items-center\">
                 <div class=\"col-sm-12\">
-                    <p>Bonjour, ##USER-givenname## ##USER-name##, voici le rapport " . $period['label'] . " de vos déplacements.</p>
+                    <p>Bonjour, ##USER-firstname## ##USER-name##, voici le rapport " . $period['label'] . " de vos déplacements.</p>
                 </div>
             </div>", true);
         $mail->write('##ARRAY-Trip->=:created_at:' . $period['from'] . ';<=:created_at:' . $period['to'] . '-=gmdate|"Y/m/d"|$start_date_time;Date Départ:startCoordinate.address.label;Addresse Départ:stopCoordinate.address.label;Addresse Destination:duration;Durée:distance;Distance:=sprintf|%s %s|$vehicle.brand|$vehicle.model;Vehicule##', true);

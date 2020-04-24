@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
 
-                <?= $form->field($model, 'givenname')->textInput(['autofocus' => true])->label(\Yii::t('login', 'Prénom')) ?>
+                <?= $form->field($model, 'firstname')->textInput(['autofocus' => true])->label(\Yii::t('login', 'Prénom')) ?>
 
                 <?= $form->field($model, 'name')->label(\Yii::t('login', 'Nom')) ?>
 

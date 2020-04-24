@@ -82,7 +82,7 @@ class ExcelController {
     public function doInfoHeader(&$filters) {
         $user = User::find()->where(['id' => Yii::$app->user->id])->one();
         $this->setCell($this->sheet->getCell($this->reference['name']), $user->name, 'INFO');
-        $this->setCell($this->sheet->getCell($this->reference['firstname']), $user->givenname, 'INFO');
+        $this->setCell($this->sheet->getCell($this->reference['firstname']), $user->firstname, 'INFO');
 
         switch ($filters['tag']) {
             case "year":

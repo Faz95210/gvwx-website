@@ -225,7 +225,7 @@ class StripeController extends Controller {
             $customer = Customer::create([
                 'description' => 'Customer for ' . $user->email,
                 'email' => $user->email,
-                'name' => $user->givenname . ' ' . $user->name,
+                'name' => $user->firstname . ' ' . $user->name,
             ]);
             $userToStripe = new StripeUser(['user_id' => \Yii::$app->user->getId(), 'stripe_user_token' => $customer->id]);
             $userToStripe->save();
