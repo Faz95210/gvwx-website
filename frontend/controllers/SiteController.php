@@ -11,6 +11,7 @@ use common\models\SaleStep;
 use common\models\User;
 use DateTime;
 use Fpdf\Fpdf;
+use frontend\models\PasswordResetForm;
 use frontend\models\SignupForm;
 use PHPExcel;
 use PHPExcel_IOFactory;
@@ -266,15 +267,20 @@ class SiteController extends Controller {
     public function actionRequestPasswordReset() {
         $this->layout = "veltrixLogin";
 
-        $model = new PasswordResetRequestForm();
+        $model = new PasswordResetForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->sendEmail()) {
-                Yii::$app->session->setFlash(\Yii::t('login', 'Confirmation'), \Yii::t('login', "Vérifiez votre email pour plus d'instructions"));
-
+            if ($model->changePassword() === 1)
                 return $this->goHome();
-            } else {
+            else
                 Yii::$app->session->setFlash(\Yii::t('login', 'Erreur'), \Yii::t('login', "Désolé, nous n'arrivons pas à renouveller le mot de passe pour l'adresse email donée."));
-            }
+
+//            if ($model->sendEmail()) {
+//                Yii::$app->session->setFlash(\Yii::t('login', 'Confirmation'), \Yii::t('login', "Vérifiez votre email pour plus d'instructions"));
+//
+//                return $this->goHome();
+//            } else {
+//                Yii::$app->session->setFlash(\Yii::t('login', 'Erreur'), \Yii::t('login', "Désolé, nous n'arrivons pas à renouveller le mot de passe pour l'adresse email donée."));
+//            }
         }
 
         return $this->render('requestPasswordResetToken', [

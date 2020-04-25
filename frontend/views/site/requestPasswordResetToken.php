@@ -21,18 +21,20 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="card-body">
 
             <div class="text-center">
-                <a href="#" class="logo"><img src="images/ikarBlack.png" height="60" alt="logo"></a>
+                <a href="#" class="logo"><img src="images/auction.png" height="60" alt="logo"></a>
             </div>
 
             <div class="p-3">
                 <h4 class="font-18 m-b-5 text-center"><?php echo \Yii::t('login', 'Renouvellement de mot de passe'); ?></h4>
                 <div class="alert alert-success m-t-30" role="alert">
-                    <?php echo \Yii::t('login', 'Entrez votre email et les nouvelles instructions vous seront envoyées'); ?>
+                    <?php echo \Yii::t('login', 'Entrez votre email et votre nouveau mot de passe'); ?>
                 </div>
 
                 <?php $form = ActiveForm::begin(['id' => 'request-password-reset-form']); ?>
 
                 <?= $form->field($model, 'email')->textInput(['autofocus' => true])->label(\Yii::t('login', 'Email')) ?>
+                <?= $form->field($model, 'password')->passwordInput()->label(\Yii::t('login', 'Mot de passe')) ?>
+                <?= $form->field($model, 'confirmationPassword')->passwordInput()->label(\Yii::t('login', 'Confirmez votre mot de passe')) ?>
 
                 <div class="form-group">
                     <?= Html::submitButton(\Yii::t('login', 'Envoyer'), ['class' => 'btn btn-primary']) ?>
