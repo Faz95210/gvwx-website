@@ -7,17 +7,25 @@
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use yii\web\View;
+
+$this->registerCssFile("@web/css/veltrix/chartist/css/chartist.min.css");
+$this->registerJsFile("@web/js/veltrix/chartist/js/chartist.min.js", ['depends' => 'app\assets\VeltrixAsset']);
+$this->registerJsFile("@web/js/veltrix/chartist/js/chartist-plugin-tooltip.min.js", ['depends' => 'app\assets\VeltrixAsset']);
+$this->registerJsFile("@web/js/veltrix/pages/dashboard.js", ['depends' => 'app\assets\VeltrixAsset']);
+$this->registerJsFile("@web/js/veltrix/plugins/sweet-alert2/sweetalert2.js", ['depends' => 'app\assets\VeltrixAsset']);
+$this->registerCssFile("@web/js/veltrix/plugins/sweet-alert2/sweetalert2.css", ['depends' => 'app\assets\VeltrixAsset']);
 
 $this->title = 'Login';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 
-<!--
-<div class="home-btn d-none d-sm-block">
-    <a href="index" class="text-white"><i class="fas fa-home h2"></i></a>
-</div>
--->
+    <!--
+    <div class="home-btn d-none d-sm-block">
+        <a href="index" class="text-white"><i class="fas fa-home h2"></i></a>
+    </div>
+    -->
 
 <!-- Begin page -->
 <div class="accountbg"></div>
@@ -43,10 +51,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <?= $form->field($model, 'rememberMe')->checkbox()->label(\Yii::t('login', 'Se souvenir de moi')) ?>
 
-                <div style="color:#999;margin:1em 0">
-                    <?= Html::a(\Yii::t('login', 'Mot de passe oublié ?'), [], ['onclick' => 'window.location.href = "mailto:​gvxconseil@gmail.com?subject=Changement de mot de passe&body=Bonjour je souhaiterai changer mon mot de passe"']) ?>
+                <div style="color:#999;margin:1em 0; cursor: pointer" onclick="contact()">
+                    Mot de passe oublié?
+                    <!--                    --><? //= Html::a(\Yii::t('login', 'Mot de passe oublié ?'), ['#'], ['onclick' => 'contact()']) ?>
                     <br>
-                    Veuillez contacter votre administrateur.
                 </div>
 
                 <div class="form-group">
@@ -95,3 +103,19 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
 
 </div>
+
+<?php
+$script = <<<JS
+function contact(){
+    Swal.fire(
+          'Erreur',
+          'Veuillez contacter votre administrateur',
+        );
+    window.location.href = "mailto:​gvxconseil@gmail.com?subject=Changement de mot de passe&body=Bonjour je souhaiterai changer mon mot de passe"
+}
+    
+JS;
+$this->registerJs($script, View::POS_END);
+
+
+?>
