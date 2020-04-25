@@ -98,6 +98,6 @@ use yii\widgets\ActiveForm;
 </div>
 <script>
     function toClient(clientId) {
-        window.location.href = '<?=Yii::$app->urlManager->createAbsoluteUrl(['site/client']);?>' + '&clientId=' + clientId;
+        window.location.href = '<?=Yii::$app->urlManager->createAbsoluteUrl(['client/get']);?>' + '&clientId=' + clientId;
     }
 </script>

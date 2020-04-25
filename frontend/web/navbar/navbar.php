@@ -84,7 +84,7 @@ use yii\helpers\Html;
                                 </a> -->
                 </li>
                 <li>
-                    <?= Html::a('<i class="ti-user"></i><span> ' . \Yii::t('menu', 'Clients') . '</span>', ['site/clients'], ['class' => 'waves-effect ' . (Yii::$app->controller->route === 'site/clients' ? '' : '')]) ?>
+                    <?= Html::a('<i class="ti-user"></i><span> ' . \Yii::t('menu', 'Clients') . '</span>', ['client/get'], ['class' => 'waves-effect ']) ?>
                 </li>
                 <li>
                     <?= Html::a('<i class="ti-briefcase"></i><span> ' . \Yii::t('menu', 'Mandants') . '</span>', ['site/mandants'], ['class' => 'waves-effect']) ?>

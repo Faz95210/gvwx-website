@@ -97,7 +97,7 @@ ActiveForm::begin(['action' => ['site/editclient'], 'id' => 'editClient'])
                     </tbody>
                 </table>
                 <?php if (count($this->params['client']->sales) > 0) { ?>
-                    <?php ActiveForm::begin(['action' => ['site/generatefacture'], 'id' => 'generateFacture']) ?>
+                    <?php ActiveForm::begin(['action' => ['client/facture'], 'id' => 'generateFacture']) ?>
                     <select name="dateSale">
                         <?php foreach ($this->params['salesDate'] as $date) { ?>
                             <option value="<?= $date ?>"><?= date('m/d/Y', $date) ?></option>

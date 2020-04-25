@@ -44,10 +44,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= $form->field($model, 'rememberMe')->checkbox()->label(\Yii::t('login', 'Se souvenir de moi')) ?>
 
                 <div style="color:#999;margin:1em 0">
-                    <?= Html::a(\Yii::t('login', 'Mot de passe oublié ?'), ['site/request-password-reset']) ?>
+                    <?= Html::a(\Yii::t('login', 'Mot de passe oublié ?'), [], ['onclick' => 'window.location.href = "mailto:​gvxconseil@gmail.com?subject=Changement de mot de passe&body=Bonjour je souhaiterai changer mon mot de passe"']) ?>
                     <br>
-                    Besoin d'un nouveau mail de
-                    vérification? <?= Html::a('Renvoi', ['site/resend-verification-email']) ?>
+                    Veuillez contacter votre administrateur.
                 </div>
 
                 <div class="form-group">

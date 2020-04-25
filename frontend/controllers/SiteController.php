@@ -31,71 +31,6 @@ class SiteController extends Controller {
     public $layout = "veltrix";
     public $enableCsrfValidation = false;
 
-
-    private function getStatusCodeMessage($status) {
-        $codes = array(
-            // Success 2xx
-            200 => 'OK',
-            201 => 'Created',
-            202 => 'Accepted',
-            203 => 'Non-Authoritative Information',
-            204 => 'No Content',
-            205 => 'Reset Content',
-            206 => 'Partial Content',
-            // Client Error 4xx
-            400 => 'Bad Request',
-            401 => 'Unauthorized',
-            402 => 'Payment Required',
-            403 => 'Forbidden',
-            404 => 'Not Found',
-            405 => 'Method Not Allowed',
-            406 => 'Not Acceptable',
-            407 => 'Proxy Authentication Required',
-            408 => 'Request Timeout',
-            409 => 'Conflict',
-            410 => 'Gone',
-            411 => 'Length Required',
-            412 => 'Precondition Failed',
-            413 => 'Request Entity Too Large',
-            414 => 'Request-URI Too Long',
-            415 => 'Unsupported Media Type',
-            416 => 'Requested Range Not Satisfiable',
-            417 => 'Expectation Failed',
-            // Server Error 5xx
-            500 => 'Internal Server Error',
-            501 => 'Not Implemented',
-            502 => 'Bad Gateway',
-            503 => 'Service Unavailable',
-            504 => 'Gateway Timeout',
-            505 => 'HTTP Version Not Supported',
-            509 => 'Bandwidth Limit Exceeded',
-        );
-        return (isset($codes[$status])) ? $codes[$status] : '';
-    }
-
-
-    private function setHeader($status) {
-        $status_header = 'HTTP/1.1 ' . $status . ' ' . $this->getStatusCodeMessage($status);
-        $content_type = "application/json; charset=utf-8";
-        header($status_header);
-        header('Content-type: ' . $content_type);
-        header('X-Powered-By: ' . "WantCode <WantCode.in>");
-    }
-
-    public function jsonResponse($code, $data = '') {
-        $response = array();
-        $message = $this->getStatusCodeMessage($code);
-        if (!empty($message)) {
-            //$response = array("status" => false, "message" => $message, "data" => $data, "code" => $code);
-            $response = $data;
-        }
-        $this->setHeader($code);
-
-        echo json_encode($response);
-        die;
-    }
-
-
     /**
      * {@inheritdoc}
      */
@@ -146,13 +81,6 @@ class SiteController extends Controller {
                             'editprofile',
                             'profile',
                             'pvvente',
-                            'generatefacture',
-                            'clients',
-                            'client',
-                            'clientexcel',
-                            'newclient',
-                            'editclient',
-                            'deleteclient',
                             'editsalestep'
                         ],
                         'allow' => true,
@@ -499,12 +427,12 @@ class SiteController extends Controller {
 
     public function actionNewclient() {
         Client::newClient(Yii::$app->request->post());
-        return $this->redirect(['/site/clients']);
+        return $this->redirect(['/client/get']);
     }
 
     public function actionEditclient() {
         Client::editClient(Yii::$app->request->post());
-        return $this->redirect(['/site/clients', 'clientId' => Yii::$app->request->post('clientId')]);
+        return $this->redirect(['/client/get', 'clientId' => Yii::$app->request->post('clientId')]);
     }
 
     public function actionPvvente() {
@@ -599,103 +527,7 @@ class SiteController extends Controller {
         if ($client !== null) {
             $client->delete();
         }
-        header("Location: " . Yii::$app->homeUrl . "?r=site/clients");
-        exit;
-    }
-
-    public function actionGeneratefacture() {
-
-        /* Note: any element you append to a document must reside inside of a Section. */
-
-// Adding an empty Section to the document...
-        $sale = Sale::find()
-            ->innerJoin('sale_step', 'sale_step.sale_id = sale.id')
-            ->where(['sale_step.client_id' => Yii::$app->request->post('clientId')])
-            ->andWhere(['date' => Yii::$app->request->post('dateSale')])
-            ->one();
-        if ($sale != null) {
-            $sale->getSalesStep(Yii::$app->request->post('clientId'));
-            $sale->getPrices(Yii::$app->request->post('fees'));
-        }
-
-        $templateProcessor = new TemplateProcessor("../assets/modelFacture.docx");
-        $user = User::findOne(['id' => Yii::$app->user->id]);
-        if ($user->logo != null) {
-            $temp = tmpfile();
-            $handle = fopen("../web/images/" . $user->logo, 'r');
-            $data = fread($handle, filesize("../web/images/" . $user->logo));
-            fclose($handle);
-            fwrite($temp, $data);
-            $templateProcessor->setImageValue('logo', stream_get_meta_data($temp)['uri']);
-        } else {
-            $templateProcessor->setValue('logo', $sale->saleSteps[0]->client->name);
-
-        }
-
-        if ($user->marianne != null) {
-//            $temp = tmpfile();
-//            $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $user->marianne));
-//
-//            fwrite($temp, $data);
-
-            $temp = tmpfile();
-            $handle = fopen("../web/images/" . $user->marianne, 'r');
-            $data = fread($handle, filesize("../web/images/" . $user->marianne));
-            fclose($handle);
-            fwrite($temp, $data);
-            $templateProcessor->setImageValue('marianne', stream_get_meta_data($temp)['uri']);
-
-//            $templateProcessor->setImageValue('marianne', $user->marianne);
-        } else {
-
-            $templateProcessor->setValue('marianne', $sale->saleSteps[0]->client->name);
-        }
-
-        $templateProcessor->setValue('NAME', $sale->saleSteps[0]->client->name);
-        $templateProcessor->setValue('FIRSTNAME', $sale->saleSteps[0]->client->firstname);
-        $templateProcessor->setValue('ADRESSE', $sale->saleSteps[0]->client->address);
-        $templateProcessor->setValue('POSTAL', $sale->saleSteps[0]->client->postal);
-        $templateProcessor->setValue('CITY', $sale->saleSteps[0]->client->city);
-        $templateProcessor->setValue('PHONE', $sale->saleSteps[0]->client->phone);
-        $templateProcessor->setValue('MAIL', $sale->saleSteps[0]->client->mail);
-
-        $templateProcessor->setValue('DATE', date('m/d/Y', $sale->date));
-
-        $templateProcessor->setValue('FEE', Yii::$app->request->post('fees'));
-        $templateProcessor->setValue('TOTALRAW', $sale->prices['price']);
-        $templateProcessor->setValue('TOTALFEE', $sale->prices['fees']);
-        $templateProcessor->setValue('RAWPLUSFEE', $sale->prices['feetax']);
-        $templateProcessor->setValue('TOTAL', $sale->prices['total']);
-
-        $templateProcessor->setValue('QUANTITY', count($sale->saleSteps));
-
-        $values = [];
-        foreach ($sale->saleSteps as $saleStep) {
-            $values[] = [
-                'ITEMID' => $saleStep->lot_number,
-                'ITEMNAME' => $saleStep->item->name,
-                'ITEMPRICE' => $saleStep->item->adjudication,
-            ];
-        }
-        $templateProcessor->cloneRowAndSetValues('ITEMID', $values);
-        header('Content-Disposition: attachment;filename="Facture_' . $sale->saleSteps[0]->client->name . '_' . $sale->saleSteps[0]->client->firstname . '.docx"');
-        $templateProcessor->saveAs('php://output');
-        exit;
-    }
-
-    public function actionClientexcel() {
-        $clients = Client::findAll(['user_id' => Yii::$app->user->id]);
-        PHPExcel_Settings::setZipClass(PHPExcel_Settings::PCLZIP);
-
-        $objPHPExcel = new PHPExcel;
-        $s = $objPHPExcel->getActiveSheet();
-        for ($i = 0; $i < count($clients); $i++) {
-            $s->setCellValue('A' . ($i + 1), $clients[$i]->name);
-            $s->setCellValue('B' . ($i + 1), $clients[$i]->firstname);
-        }
-        $writer = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
-        header('Content-Disposition: attachment;filename="ClientList.xlsx"');
-        $writer->save('php://output');
+        $this->redirect(['/client/get']);
     }
 
     public function actionItemsexcel() {
