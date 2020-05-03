@@ -83,6 +83,15 @@ use yii\helpers\Html;
                                     <i class="ti-home"></i><span> <?php echo \Yii::t('menu', 'Items'); ?> </span>
                                 </a> -->
                 </li>
+                <?php
+                if (Yii::$app->user->can('admin')) {
+                    ?>
+                    <li>
+                        <?= Html::a('<i class="ti-user"></i><span> ' . \Yii::t('menu', 'Admin') . '</span>', ['site/admin'], ['class' => 'waves-effect ']) ?>
+                    </li>
+                    <?php
+                }
+                ?>
                 <li>
                     <?= Html::a('<i class="ti-user"></i><span> ' . \Yii::t('menu', 'Clients') . '</span>', ['client/get'], ['class' => 'waves-effect ']) ?>
                 </li>

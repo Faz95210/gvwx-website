@@ -2,6 +2,8 @@
 
 namespace frontend\controllers;
 
+use common\models\AuthAssignment;
+use common\models\AuthItem;
 use common\models\Client;
 use common\models\Item;
 use common\models\LoginForm;
@@ -9,6 +11,7 @@ use common\models\Mandant;
 use common\models\Sale;
 use common\models\SaleStep;
 use common\models\User;
+use console\controllers\RbacController;
 use DateTime;
 use Fpdf\Fpdf;
 use frontend\models\PasswordResetForm;
@@ -61,6 +64,7 @@ class SiteController extends Controller {
                             'index',
                             'addsalestep',
                             'items',
+                            'changepassword',
                             'itemsexcel',
                             'item',
                             'newitem',
@@ -85,7 +89,14 @@ class SiteController extends Controller {
                         ],
                         'allow' => true,
                         'roles' => ['@'],
-                    ],
+                    ], [
+                        'actions' => [
+                            'admin',
+                            'adduserrole',
+                        ],
+                        'allow' => true,
+                        'roles' => ['admin']
+                    ]
                 ],
             ],
             'verbs' => [
@@ -187,6 +198,33 @@ class SiteController extends Controller {
         ]);
     }
 
+    public function actionChangepassword() {
+        $admin = Yii::$app->user->can('admin');
+
+        $user = User::findOne(['email' => Yii::$app->request->post("PasswordResetForm")['email']]);
+        if ($user == null) {
+            if ($admin) {
+                $this->redirect(['site/admin']);
+            } else {
+                $this->redirect(['/site/profile']);
+            }
+            return -1;
+        }
+        if ($user->id != Yii::$app->user->id && !$admin) {
+            $this->redirect(['/site/home']);
+        }
+        if (Yii::$app->request->post('PasswordResetForm')['password'] === Yii::$app->request->post('PasswordResetForm')['confirmationPassword']) {
+            $user->setPassword(Yii::$app->request->post('PasswordResetForm')['password']);
+            $user->save();
+            if ($admin) {
+                $this->redirect(['/site/admin']);
+            } else {
+                $this->redirect(['/site/profile']);
+            }
+        }
+
+    }
+
     /**
      * Requests password reset.
      *
@@ -202,13 +240,13 @@ class SiteController extends Controller {
             else
                 Yii::$app->session->setFlash(\Yii::t('login', 'Erreur'), \Yii::t('login', "Désolé, nous n'arrivons pas à renouveller le mot de passe pour l'adresse email donée."));
 
-//            if ($model->sendEmail()) {
-//                Yii::$app->session->setFlash(\Yii::t('login', 'Confirmation'), \Yii::t('login', "Vérifiez votre email pour plus d'instructions"));
-//
-//                return $this->goHome();
-//            } else {
-//                Yii::$app->session->setFlash(\Yii::t('login', 'Erreur'), \Yii::t('login', "Désolé, nous n'arrivons pas à renouveller le mot de passe pour l'adresse email donée."));
-//            }
+            //            if ($model->sendEmail()) {
+            //                Yii::$app->session->setFlash(\Yii::t('login', 'Confirmation'), \Yii::t('login', "Vérifiez votre email pour plus d'instructions"));
+            //
+            //                return $this->goHome();
+            //            } else {
+            //                Yii::$app->session->setFlash(\Yii::t('login', 'Erreur'), \Yii::t('login', "Désolé, nous n'arrivons pas à renouveller le mot de passe pour l'adresse email donée."));
+            //            }
         }
 
         return $this->render('requestPasswordResetToken', [
@@ -665,4 +703,33 @@ class SiteController extends Controller {
 
         }
     }
+
+    public function actionAdduserrole() {
+        $post = Yii::$app->request->post();
+        foreach (User::find()->all() as $user) {
+            RbacController::revokeUserRoles($user->id);
+        }
+        foreach (array_keys($post) as $id) {
+            if (is_int($id)) {
+                RbacController::addUserRole($id, 'admin');
+            }
+        }
+        $this->redirect(['/site/admin']);
+    }
+
+    public function actionAdmin() {
+        $users = User::find()->all();
+        foreach ($users as $user) {
+            $assignment = AuthAssignment::find()->where(['user_id' => $user->id])->one();
+            if ($assignment == null) {
+                $user->admin = false;
+            } else {
+                $user->admin = true;
+            }
+            $this->view->params['all_users'][] = $user;
+
+        }
+        return $this->render('admin');
+    }
 }
+

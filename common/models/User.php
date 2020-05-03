@@ -22,6 +22,7 @@ use yii\web\IdentityInterface;
  * @property integer $type
  * @property string $auth_key
  * @property integer $status
+ * @property boolean $admin
  * @property integer $created_at
  * @property integer $updated_at
  * @property integer $license_date
@@ -40,7 +41,7 @@ class User extends ActiveRecord implements IdentityInterface {
     const TYPE_ADMINISTRATOR = 3;
 
     const PASSWORD_ENCODED = 1;
-
+    public $admin = false;
 
     /**
      * {@inheritdoc}

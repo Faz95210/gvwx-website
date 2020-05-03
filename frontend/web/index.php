@@ -27,6 +27,9 @@ $config = [
         ]
     ],
     'components' => [
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+        ],
         'request' => [
             'cookieValidationKey' => 'cpI6c9283FRIxaSjZUoFkrzFxsP0XvkA',
             'csrfParam' => '_csrf-frontend',
