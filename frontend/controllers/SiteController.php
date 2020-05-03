@@ -75,13 +75,6 @@ class SiteController extends Controller {
                             'newsale',
                             'editsale',
                             'deletesale',
-                            'mandants',
-                            'mandantsexcel',
-                            'mandant',
-                            'newmandant',
-                            'editmandant',
-                            'facturemandant',
-                            'deletemandant',
                             'editprofile',
                             'profile',
                             'pvvente',
@@ -359,37 +352,7 @@ class SiteController extends Controller {
         return $this->redirect(['/site/items']);
     }
 
-    public function actionMandants() {
-        $mandants = Mandant::find()->where(['user_id' => Yii::$app->user->id])->orderBy(['name' => SORT_ASC])->all();
-        $this->view->params = ['mandants' => ($mandants !== null ? $mandants : [])];
-        return $this->render("mandants");
-    }
 
-    public function actionMandant() {
-        $mandant = null;
-        $mandantId = Yii::$app->request->get("mandantId", -1);
-        if ($mandantId != -1) {
-            $mandant = Mandant::findOne(['id' => $mandantId]);
-            $mandant->getItems();
-        }
-        $this->view->params['mandant'] = $mandant;
-        $dates = [];
-        foreach ($mandant->items as $item) {
-            $sale = $item->sale;
-            if ($sale->date != null) {
-                $dates[] = $sale->date;
-            }
-        }
-        $this->view->params['salesDate'] = array_unique($dates);
-
-        return $this->render("mandant");
-    }
-
-    public function actionNewmandant() {
-        Mandant::newMandant(Yii::$app->request->post());
-        header("Location: " . Yii::$app->homeUrl . "?r=site/mandants");
-        exit;
-    }
 
     public function actionSales() {
         $sales = Sale::find()->where(['user_id' => Yii::$app->user->id])->orderBy(['date' => SORT_DESC])->all();
@@ -537,28 +500,6 @@ class SiteController extends Controller {
         $this->redirect(['/site/items']);
     }
 
-    public function actionEditmandant() {
-        $mandant = Mandant::findOne(['id' => Yii::$app->request->post('mandantId')]);
-        if ($mandant !== null) {
-            $mandant->firstname = Yii::$app->request->post('firstname');
-            $mandant->name = Yii::$app->request->post('name');
-            $mandant->address = Yii::$app->request->post('address');
-            $mandant->postal = Yii::$app->request->post('postal');
-            $mandant->phone = Yii::$app->request->post('phone');
-            $mandant->city = Yii::$app->request->post('city');
-            $mandant->mail = Yii::$app->request->post('mail');
-            $mandant->update();
-        }
-        $this->redirect(['/site/mandant', 'mandantId' => Yii::$app->request->post('mandantId')]);
-    }
-
-    public function actionDeletemandant() {
-        $mandant = Mandant::findOne(['id' => Yii::$app->request->post('deleteMandant')]);
-        if ($mandant !== null) {
-            $mandant->delete();
-        }
-        $this->redirect(['/site/mandants']);
-    }
 
     public function actionDeleteclient() {
         $client = Client::findOne(['id' => Yii::$app->request->post('clientId')]);
@@ -583,49 +524,7 @@ class SiteController extends Controller {
         $writer->save('php://output');
     }
 
-    public function actionMandantsexcel() {
-        $mandants = Mandant::findAll(['user_id' => Yii::$app->user->id]);
-        PHPExcel_Settings::setZipClass(PHPExcel_Settings::PCLZIP);
 
-        $objPHPExcel = new PHPExcel;
-        $s = $objPHPExcel->getActiveSheet();
-        for ($i = 0; $i < count($mandants); $i++) {
-            $s->setCellValue('A' . ($i + 1), $mandants[$i]->name);
-            $s->setCellValue('B' . ($i + 1), $mandants[$i]->firstname);
-        }
-        $writer = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
-        header('Content-Disposition: attachment;filename="MandantsList.xlsx"');
-        $writer->save('php://output');
-    }
-
-    public function actionFacturemandant() {
-        $mandant = Mandant::findOne(['id' => Yii::$app->request->post('mandantId')]);
-        $mandant->getItems();
-        $templateProcessor = new TemplateProcessor("../assets/modelmandant.docx");
-
-        $templateProcessor->setValue('DATE', date('m/d/Y', Yii::$app->request->post('dateSale')));
-        $templateProcessor->setValue('USER_NAME', $mandant->name . ' ' . $mandant->firstname);
-        $values = [];
-        foreach ($mandant->items as $item) {
-            if ($item->sale && $item->sale->date == Yii::$app->request->post('dateSale')) {
-                $item->sale->getPrices(Yii::$app->request->post('fees'));
-                $round = round($item->adjudication * (Yii::$app->request->post('fees') / 100), 2);
-                $values[] = [
-                    'ITEM_NAME' => $item->name,
-                    'ITEM_ADJUDICATION' => $item->adjudication,
-                    'ITEM_DESCRIPTION' => $item->description,
-                    'ITEM_FEES' => $round,
-                    'ITEM_TOTAL' => $item->adjudication - $round,
-                ];
-            }
-        }
-        $templateProcessor->cloneRowAndSetValues('ITEM_NAME', $values);
-
-        header('Content-Disposition: attachment;filename="Mandant_' . $mandant->name . '_' . $mandant->firstname . '.docx"');
-        $templateProcessor->saveAs('php://output');
-        exit;
-
-    }
 
     public function actionEditprofile() {
         $field = Yii::$app->request->post('field');

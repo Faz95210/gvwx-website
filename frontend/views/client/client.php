@@ -10,7 +10,7 @@ use yii\helpers\Html;
 use yii\web\View;
 use yii\widgets\ActiveForm;
 
-ActiveForm::begin(['action' => ['site/editclient'], 'id' => 'editClient'])
+ActiveForm::begin(['action' => ['client/edit'], 'id' => 'editClient'])
 ?>
 
     <div class="page-title-box">
@@ -64,7 +64,7 @@ ActiveForm::begin(['action' => ['site/editclient'], 'id' => 'editClient'])
             <?php if (count($this->params['client']->sales) > 0) { ?>
                 <button class="btn btn-primary" onclick="cantDelete()" type="button">Supprimer</button>
             <?php } else { ?>
-                <?php ActiveForm::begin(['action' => ['site/deleteclient'], 'id' => 'editClient']) ?>
+                <?php ActiveForm::begin(['action' => ['client/delete'], 'id' => 'editClient']) ?>
                 <?= Html::submitButton(\Yii::t('login', 'Supprimer'), ['class' => 'btn btn-primary', 'name' => 'clientId', 'value' => $this->params['client']->id]) ?>
                 <?php ActiveForm::end() ?>
             <?php } ?>

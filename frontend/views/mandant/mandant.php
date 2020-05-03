@@ -22,7 +22,7 @@ use yii\widgets\ActiveForm;
     </div>
     <div class="card">
         <div class="card-body">
-            <?php ActiveForm::begin(['action' => ['site/editmandant'], 'id' => 'editForm']) ?>
+            <?php ActiveForm::begin(['action' => ['mandant/edit'], 'id' => 'editForm']) ?>
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Nom</label>
                 <input name="name" class="col-sm-9 col-form-label form-control" type="text"
@@ -65,13 +65,25 @@ use yii\widgets\ActiveForm;
                        class="col-sm-9 col-form-label form-control" type="text"
                        placeholder="">
             </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Date de naissance</label>
+                <input name="birthdate" value="<?= $this->params['mandant']->birthdate ?>"
+                       class="col-sm-9 col-form-label form-control" type="date"
+                       placeholder="">
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Lieu de naissance</label>
+                <input name="birthplace" value="<?= $this->params['mandant']->birthplace ?>"
+                       class="col-sm-9 col-form-label form-control" type="text"
+                       placeholder="">
+            </div>
             <input type="hidden" name="mandantId" value="<?= $this->params['mandant']->id ?>">
             <?php ActiveForm::end() ?>
             <div class="row">
                 <?= Html::submitButton(\Yii::t('login', 'Modifier'), ['class' => 'btn btn-primary col-sm-offset-2', 'form' => 'editForm', 'name' => 'mandantId', 'value' => $this->params['mandant']->id]) ?>
 
                 <?php if (!$this->params['mandant']->soldSomething) { ?>
-                    <?php ActiveForm::begin(['id' => 'removeForm', 'action' => ['site/deletemandant']]) ?>
+                    <?php ActiveForm::begin(['id' => 'removeForm', 'action' => ['mandant/delete']]) ?>
                     <?= Html::submitButton(\Yii::t('login', 'Supprimer'), ['form' => 'removeForm', 'class' => 'btn btn-primary col-sm-offset-2', 'name' => 'deleteMandant', 'value' => $this->params['mandant']->id]) ?>
                     <?php ActiveForm::end() ?>
                 <?php } else { ?>
@@ -107,7 +119,7 @@ use yii\widgets\ActiveForm;
                     </tbody>
                 </table>
 
-                <?php ActiveForm::begin(['action' => ['site/facturemandant']]) ?>
+                <?php ActiveForm::begin(['action' => ['mandant/facture']]) ?>
                 <select name="dateSale">
                     <?php foreach ($this->params['salesDate'] as $date) { ?>
                         <option value="<?= $date ?>"><?= date('m/d/Y', $date) ?></option>

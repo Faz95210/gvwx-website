@@ -96,7 +96,7 @@ use yii\helpers\Html;
                     <?= Html::a('<i class="ti-user"></i><span> ' . \Yii::t('menu', 'Clients') . '</span>', ['client/get'], ['class' => 'waves-effect ']) ?>
                 </li>
                 <li>
-                    <?= Html::a('<i class="ti-briefcase"></i><span> ' . \Yii::t('menu', 'Mandants') . '</span>', ['site/mandants'], ['class' => 'waves-effect']) ?>
+                    <?= Html::a('<i class="ti-briefcase"></i><span> ' . \Yii::t('menu', 'Mandants') . '</span>', ['mandant/get'], ['class' => 'waves-effect']) ?>
                     <!--<a href="calendar.php" class="waves-effect"><i class="ti-map-alt"></i><span> <?php echo \Yii::t('menu', 'Déplacements'); ?> </span></a> -->
                 </li>
                 <li>

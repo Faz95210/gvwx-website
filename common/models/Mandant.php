@@ -17,6 +17,8 @@ use yii\db\ActiveRecord;
  * @property string $city
  * @property string $phone
  * @property string $mail
+ * @property string $birthdate
+ * @property string $birthplace
  * @property integer $user_id
  *
  */
@@ -46,6 +48,8 @@ class Mandant extends ActiveRecord {
         $mandant = new Mandant([
             "name" => $post['name'],
             "firstname" => $post['firstname'],
+            "birthdate" => $post['birthdate'],
+            "birthplace" => $post['birthplace'],
             "address" => $post['address'],
             "city" => $post['city'],
             "postal" => $post['postal'],

@@ -41,7 +41,7 @@ use yii\widgets\ActiveForm;
         </div>
     </div>
     <div class="card-footer">
-        <?php ActiveForm::begin(['action' => ['site/mandantsexcel'], 'id' => 'generateFacture']) ?>
+        <?php ActiveForm::begin(['action' => ['mandant/excel'], 'id' => 'generateFacture']) ?>
         <?= Html::submitButton(\Yii::t('login', 'Telecharger'), ['class' => 'btn btn-primary', 'name' => 'clientId', 'value' => $this->params['client']->id]) ?>
         <?php ActiveForm::end() ?>
     </div>
@@ -50,7 +50,7 @@ use yii\widgets\ActiveForm;
     <div class="card-body">
 
         <h3 class="card-title"> Ajouter un Nouveau Mandant</h3>
-        <?php ActiveForm::begin(['action' => ['site/newmandant'], 'id' => 'addNewMandant']) ?>
+        <?php ActiveForm::begin(['action' => ['mandant/new'], 'id' => 'addNewMandant']) ?>
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">Nom</label>
             <input name="name" class="col-sm-9 form-control" type="text" placeholder="">
@@ -79,6 +79,14 @@ use yii\widgets\ActiveForm;
             <label class="col-sm-2 col-form-label">Mail</label>
             <input name="mail" class="col-sm-9 form-control" type="text" placeholder="">
         </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Date de naissance</label>
+            <input name="birthdate" class="col-sm-9 form-control" type="date" placeholder="YYYY-mm-dd">
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Lieu de naissance</label>
+            <input name="birthplace" class="col-sm-9 form-control" type="text" placeholder="">
+        </div>
     </div>
     <div class="card-footer">
         <?= Html::submitButton(\Yii::t('login', 'Ajouter'), ['class' => 'btn btn-primary', 'name' => 'new-mandant-button']) ?>
@@ -88,6 +96,6 @@ use yii\widgets\ActiveForm;
 
 <script>
     function toMandant(mandantId) {
-        window.location.href = '<?=Yii::$app->urlManager->createAbsoluteUrl(['site/mandant']);?>' + '&mandantId=' + mandantId;
+        window.location.href = '<?=Yii::$app->urlManager->createAbsoluteUrl(['mandant/get']);?>' + '&mandantId=' + mandantId;
     }
 </script>
