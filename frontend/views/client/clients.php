@@ -48,7 +48,7 @@ use yii\widgets\ActiveForm;
     <div class="card-body">
         <h3 class="subTitle"> Ajouter un Nouveau Client</h3>
 
-        <?php ActiveForm::begin(['action' => ['site/newclient'], 'id' => 'addNewClient']) ?>
+        <?php ActiveForm::begin(['action' => ['client/new'], 'id' => 'addNewClient']) ?>
 
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">Nom</label>
@@ -90,6 +90,18 @@ use yii\widgets\ActiveForm;
             <label class="col-sm-2 col-form-label">Mail</label>
             <div class="col-sm-2 col-form-label">
                 <input name="mail" class="input" type="text" placeholder="">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Date de naissance</label>
+            <div class="col-sm-2 col-form-label">
+                <input name="birthdate" class="input" type="date" placeholder="">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Lieu de naissance</label>
+            <div class="col-sm-2 col-form-label">
+                <input name="birthplace" class="input" type="text" placeholder="">
             </div>
         </div>
         <?= Html::submitButton(\Yii::t('login', 'Ajouter'), ['class' => 'btn btn-primary', 'name' => 'new-client-button']) ?>

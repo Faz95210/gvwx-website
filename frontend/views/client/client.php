@@ -58,6 +58,17 @@ ActiveForm::begin(['action' => ['client/edit'], 'id' => 'editClient'])
                 <input name="mail" value="<?= $this->params['client']->mail ?>" class="col-sm-6 " type="text"
                        placeholder="">
             </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Date de naissance</label>
+                <input name="birthdate" value="<?= $this->params['client']->birthdate ?>" class="col-sm-6 " type="date"
+                       placeholder="">
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Lieu de naissance</label>
+                <input name="birthplace" value="<?= $this->params['client']->birthplace ?>" class="col-sm-6 "
+                       type="text"
+                       placeholder="">
+            </div>
             <input type="hidden" name="clientId" value="<?= $this->params['client']->id ?>">
             <?= Html::submitButton(\Yii::t('login', 'Modifier'), ['class' => 'btn btn-primary', 'name' => 'edit-client-button']) ?>
             <?php ActiveForm::end() ?>

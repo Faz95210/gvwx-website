@@ -17,6 +17,8 @@ use yii\db\ActiveRecord;
  * @property string $city
  * @property string $phone
  * @property string $mail
+ * @property string $birthdate
+ * @property string $birthplace
  * @property integer $user_id
  *
  */
@@ -41,6 +43,8 @@ class Client extends ActiveRecord {
         $client->postal = $post['postal'];
         $client->city = $post['city'];
         $client->mail = $post['mail'];
+        $client->birthdate = $post['birthdate'];
+        $client->birthplace = $post['birthplace'];
         $client->update();
     }
 
@@ -62,6 +66,8 @@ class Client extends ActiveRecord {
             "city" => $post['city'],
             "postal" => $post['postal'],
             "phone" => $post['phone'],
+            "birthdate" => $post['birthdate'],
+            "birthplace" => $post['birthplace'],
             "mail" => $post['mail'],
             "user_id" => \Yii::$app->user->id,
         ]);
