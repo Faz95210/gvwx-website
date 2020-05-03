@@ -23,7 +23,7 @@ use yii\widgets\ActiveForm;
     </div>
     <div class="card">
         <div class="card-body">
-            <?php ActiveForm::begin(['action' => ['site/edititem'], 'id' => 'editItem']) ?>
+            <?php ActiveForm::begin(['action' => ['item/edit'], 'id' => 'editItem']) ?>
             <input type="hidden" id="itemId" value="<?= $this->params['item']->id ?>">
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Nom :</label>
@@ -39,6 +39,11 @@ use yii\widgets\ActiveForm;
                 <label class="col-sm-2 col-form-label">Estimation :</label>
                 <input class="col-sm-9 col-form-label form-control" name="estimation" type="number"
                        value="<?= $this->params['item']->estimation ?>">
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Estimation 2 :</label>
+                <input class="col-sm-9 col-form-label form-control" name="estimation2" type="number"
+                       value="<?= $this->params['item']->estimation2 ?>">
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Photo :</label>

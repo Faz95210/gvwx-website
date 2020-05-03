@@ -37,7 +37,7 @@ use yii\widgets\ActiveForm;
                 </tbody>
             </table>
         </div>
-        <?php ActiveForm::begin(['action' => ['site/itemsexcel'], 'id' => 'generateFacture']) ?>
+        <?php ActiveForm::begin(['action' => ['item/excel'], 'id' => 'generateFacture']) ?>
         <?= Html::submitButton(\Yii::t('login', 'Telecharger'), ['class' => 'btn btn-primary', 'name' => 'clientId', 'value' => $this->params['client']->id]) ?>
         <?php ActiveForm::end() ?>
     </div>
@@ -46,7 +46,7 @@ use yii\widgets\ActiveForm;
 <div class="card">
     <div class="card-body">
         <h3 class="subTitle"> Ajouter un item</h3>
-        <?php ActiveForm::begin(['action' => ['site/newitem'], 'id' => 'addNewItem']) ?>
+        <?php ActiveForm::begin(['action' => ['item/new'], 'id' => 'addNewItem']) ?>
         <div class="form-group row">
             <label class="col-sm-2 col-form-label" for="name-input">Nom</label>
             <input class="col-sm-9 col-form-label form-control" required id="name-input" name="name" type="text"
@@ -62,6 +62,12 @@ use yii\widgets\ActiveForm;
         <div class="form-group row">
             <label class="col-sm-2 col-form-label" for="estimation-input">Estimation</label>
             <input id="estimation-input" required name="estimation" class="col-sm-9 col-form-label form-control"
+                   type="number"
+                   placeholder="">
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label" for="estimation-input">Estimation 2</label>
+            <input id="estimation-input" required name="estimation2" class="col-sm-9 col-form-label form-control"
                    type="number"
                    placeholder="">
         </div>
@@ -142,7 +148,7 @@ use yii\widgets\ActiveForm;
     }
 
     function toItem(itemId) {
-        window.location.href = '<?=Yii::$app->urlManager->createAbsoluteUrl(['site/item']);?>' + '&itemId=' + itemId;
+        window.location.href = '<?=Yii::$app->urlManager->createAbsoluteUrl(['item/get']);?>' + '&itemId=' + itemId;
     }
 
 

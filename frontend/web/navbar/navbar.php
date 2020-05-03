@@ -77,7 +77,7 @@ use yii\helpers\Html;
             <ul class="metismenu" id="side-menu">
                 <!--<li class="menu-title">Main</li> -->
                 <li>
-                    <?= Html::a('<i class="ti-home"></i><!--<span class="badge badge-primary badge-pill float-right">2</span> --><span> ' . \Yii::t('menu', 'Items') . '</span>', ['site/items'], ['class' => 'waves-effect']) ?>
+                    <?= Html::a('<i class="ti-home"></i><!--<span class="badge badge-primary badge-pill float-right">2</span> --><span> ' . \Yii::t('menu', 'Items') . '</span>', ['item/get'], ['class' => 'waves-effect']) ?>
                     <!--
                                 <a href="index.php" class="waves-effect">
                                     <i class="ti-home"></i><span> <?php echo \Yii::t('menu', 'Items'); ?> </span>

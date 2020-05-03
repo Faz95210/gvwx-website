@@ -63,13 +63,7 @@ class SiteController extends Controller {
                             'logout',
                             'index',
                             'addsalestep',
-                            'items',
                             'changepassword',
-                            'itemsexcel',
-                            'item',
-                            'newitem',
-                            'edititem',
-                            'deleteitem',
                             'sales',
                             'sale',
                             'newsale',
@@ -323,36 +317,6 @@ class SiteController extends Controller {
     }
 
 
-    public function actionItems() {
-        $items = Item::find()->where(['user_id' => Yii::$app->user->id])->orderBy(['name' => SORT_ASC])->all();
-        $mandants = Mandant::find()->where(['user_id' => Yii::$app->user->id])->orderBy(['name' => SORT_ASC])->all();
-        $clients = Client::find()->where(['user_id' => Yii::$app->user->id])->orderBy(['name' => SORT_ASC])->all();
-        $this->view->params = ['items' => ($items !== null ? $items : []), 'mandants' => ($mandants !== null ? $mandants : [])];
-        $this->view->params['clients'] = $clients;
-        return $this->render("items");
-    }
-
-    public function actionItem() {
-        $item = null;
-        $itemId = Yii::$app->request->get("itemId", -1);
-        if ($itemId != -1) {
-            $item = Item::findOne(['id' => $itemId]);
-            $item->getSale();
-            $item->getClient();
-            $item->getMandant();
-        }
-        $this->view->params['item'] = $item;
-        $this->view->params['mandants'] = Mandant::findAll(['user_id' => Yii::$app->user->id]);
-        $this->view->params['clients'] = Client::findAll(['user_id' => Yii::$app->user->id]);
-        return $this->render("item");
-    }
-
-    public function actionNewitem() {
-        Item::newItem(Yii::$app->request->post());
-        return $this->redirect(['/site/items']);
-    }
-
-
 
     public function actionSales() {
         $sales = Sale::find()->where(['user_id' => Yii::$app->user->id])->orderBy(['date' => SORT_DESC])->all();
@@ -472,35 +436,6 @@ class SiteController extends Controller {
         return SaleStep::newSaleStep(Yii::$app->request->post());
     }
 
-    public function actionEdititem() {
-        $item = Item::findOne(['id' => Yii::$app->request->post('itemId')]);
-        if ($item !== null) {
-            $item->name = Yii::$app->request->post('name');
-            $item->description = Yii::$app->request->post('description');
-            $handle = fopen("../../frontend/web/images/items/$item->id", 'w') or die('Cannot open file'); //implicitly creates file
-            $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', Yii::$app->request->post('picture')));
-            fwrite($handle, $data);
-            fclose($handle);
-            $item->picture = "items/$item->id";
-            $item->mandant_id = Yii::$app->request->post('mandantId');
-
-            $date = DateTime::createFromFormat('Y-m-d H:i:s',
-                Yii::$app->request->post('date_mandat') . " 00:00:01");
-            $item->date_mandat = $date->getTimestamp();
-            $item->update();
-        }
-        $this->redirect(['/site/item', 'itemId' => Yii::$app->request->post('itemId')]);
-    }
-
-    public function actionDeleteitem() {
-        $item = Item::findOne(['id' => Yii::$app->request->post('itemId')]);
-        if ($item !== null) {
-            $item->delete();
-        }
-        $this->redirect(['/site/items']);
-    }
-
-
     public function actionDeleteclient() {
         $client = Client::findOne(['id' => Yii::$app->request->post('clientId')]);
         if ($client !== null) {
@@ -509,20 +444,6 @@ class SiteController extends Controller {
         $this->redirect(['/client/get']);
     }
 
-    public function actionItemsexcel() {
-        $items = Item::findAll(['user_id' => Yii::$app->user->id]);
-        PHPExcel_Settings::setZipClass(PHPExcel_Settings::PCLZIP);
-
-        $objPHPExcel = new PHPExcel;
-        $s = $objPHPExcel->getActiveSheet();
-        for ($i = 0; $i < count($items); $i++) {
-            $s->setCellValue('A' . ($i + 1), $items[$i]->id);
-            $s->setCellValue('B' . ($i + 1), $items[$i]->name);
-        }
-        $writer = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
-        header('Content-Disposition: attachment;filename="ItemsList.xlsx"');
-        $writer->save('php://output');
-    }
 
 
 

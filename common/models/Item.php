@@ -15,6 +15,7 @@ use yii\db\ActiveRecord;
  * @property string $name
  * @property string $description
  * @property double $estimation
+ * @property double $estimation2
  * @property double $adjudication
  * @property string $picture
  * @property string $qrcode
@@ -56,6 +57,7 @@ class Item extends ActiveRecord {
             'name' => $post['name'],
             'description' => $post['description'],
             'estimation' => $post['estimation'],
+            'estimation2' => $post['estimation2'],
             'mandant_id' => $post['mandant'],
             'date_mandat' => $date->getTimestamp(),
             'user_id' => Yii::$app->user->id,
