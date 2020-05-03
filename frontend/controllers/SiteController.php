@@ -115,6 +115,7 @@ class SiteController extends Controller {
      * @return mixed
      */
     public function actionIndex() {
+        $this->view->params['user'] = User::findOne(['id' => Yii::$app->user->id]);
         return $this->render('home');
     }
 
