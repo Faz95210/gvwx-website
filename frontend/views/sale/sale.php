@@ -23,7 +23,7 @@ use yii\widgets\ActiveForm;
     </div>
     <div class="card">
         <div class="card-body">
-            <?php ActiveForm::begin(['action' => ['site/editsale'], 'id' => 'editSale']) ?>
+            <?php ActiveForm::begin(['action' => ['sale/edit'], 'id' => 'editSale']) ?>
             <input type="hidden" name="saleId" value=" <?= $this->params['sale']->id ?>">
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">
@@ -34,7 +34,7 @@ use yii\widgets\ActiveForm;
             <?php ActiveForm::end() ?>
             <div>
 
-                <?php ActiveForm::begin(['action' => ['site/deletesale']]) ?>
+                <?php ActiveForm::begin(['action' => ['sale/delete']]) ?>
                 <?= Html::submitButton(\Yii::t('login', 'Modifier'), ['form' => 'editSale', 'class' => ' btn btn-primary ', 'name' => 'edit-sale-button', 'value' => $this->params['sale']->id]) ?>
                 <?php if (count($this->params['sale']->saleSteps) <= 0) { ?>
                     <button type="submit" class="btn btn-danger" name="saleId" value="<?= $this->params['sale']->id ?>">
@@ -50,7 +50,7 @@ use yii\widgets\ActiveForm;
 
             <p>Generation PV de vente :
 
-                <?php ActiveForm::begin(['action' => ['site/pvvente']]) ?>
+                <?php ActiveForm::begin(['action' => ['sale/pvvente']]) ?>
                 <input type="hidden" name="saleId" value="<?= $this->params['sale']->id ?>"/>
                 <select name="fees">
                     <option value="14.5">14,50%</option>
@@ -94,9 +94,11 @@ $script = <<<JS
         const option = e.options[e.selectedIndex];
         const desc = option.getAttribute('description');
         const estimation = option.getAttribute('estimation');
+        const estimation2 = option.getAttribute('estimation2');
         const date_mandat = option.getAttribute('date_mandat');
         document.getElementById('item-description' + id).innerText = desc;
         document.getElementById('item-estimation' + id).innerText = estimation;
+        document.getElementById('item-estimation2' + id).innerText = estimation2;
         document.getElementById('item-date_mandat' + id).innerText = date_mandat;
     }
 
@@ -134,7 +136,7 @@ $script = <<<JS
 JS;
 
 $script = str_replace('###URL###', Yii::$app->urlManager->createAbsoluteUrl(['site/widgetloader', 'widget' => 'SaleStepWidget', 'saleId' => $this->params['sale']->id]), $script);
-$script = str_replace('###URL2###', Yii::$app->urlManager->createAbsoluteUrl(['site/addsalestep', 'widget' => 'SaleStepWidget']), $script);
+$script = str_replace('###URL2###', Yii::$app->urlManager->createAbsoluteUrl(['sale/addstep', 'widget' => 'SaleStepWidget']), $script);
 $script = str_replace('###SALE_ID###', Yii::$app->request->get('saleId'), $script);
 
 $this->registerJs($script, View::POS_END);

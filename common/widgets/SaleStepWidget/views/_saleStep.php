@@ -8,7 +8,7 @@ $id = time();
 
 <div class="card">
     <div class="card-body">
-        <?php ActiveForm::begin(['action' => ['site/editsalestep'], 'id' => "form$id"]) ?>
+        <?php ActiveForm::begin(['action' => ['sale/editstep'], 'id' => "form$id"]) ?>
         <div class="form-group row">
             <label class="col-sm-2">Item :</label>
             <select onchange="onChangeItem(this, <?= $id ?>)" name="itemId" class="form-control col-sm-8">
@@ -16,7 +16,7 @@ $id = time();
                 <?php foreach ($this->params['items'] as $item) { ?>
                     <option <?= ($step !== null && $item->id === $step->item_id) ? 'selected' : '' ?>
                             value="<?= $item->id ?>" description="<?= $item->description ?>"
-                            estimation="<?= $item->estimation ?>"
+                            estimation="<?= $item->estimation ?>" estimation2="<?= $item->estimation2 ?>"
                             date_mandat="<?= date('m/d/Y', $item->date_mandat) ?>">
                         <?= $item->name ?>
                     </option>
@@ -28,6 +28,7 @@ $id = time();
             <tr>
                 <td>Description :</td>
                 <td>Estimation :</td>
+                <td>Estimation 2 :</td>
                 <td>Date mandat :</td>
             </tr>
             <thead>
@@ -35,6 +36,7 @@ $id = time();
             <tr>
                 <td id="item-description<?= $id ?>"> <?= $step !== null ? $step->item->description : $this->params['items'][0]->description ?></td>
                 <td id="item-estimation<?= $id ?>"> <?= $step !== null ? $step->item->estimation : $this->params['items'][0]->estimation ?></td>
+                <td id="item-estimation2<?= $id ?>"> <?= $step !== null ? $step->item->estimation2 : $this->params['items'][0]->estimation2 ?></td>
                 <td id="item-date_mandat<?= $id ?>">
                     <?php
                     $date = "";

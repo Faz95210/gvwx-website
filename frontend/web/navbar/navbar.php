@@ -100,7 +100,7 @@ use yii\helpers\Html;
                     <!--<a href="calendar.php" class="waves-effect"><i class="ti-map-alt"></i><span> <?php echo \Yii::t('menu', 'Déplacements'); ?> </span></a> -->
                 </li>
                 <li>
-                    <?= Html::a('<i class="ti-money"></i><span> ' . \Yii::t('menu', 'Ventes') . '</span>', ['site/sales'], ['class' => 'waves-effect']) ?>
+                    <?= Html::a('<i class="ti-money"></i><span> ' . \Yii::t('menu', 'Ventes') . '</span>', ['sale/get'], ['class' => 'waves-effect']) ?>
                     <!--<a href="calendar.php" class="waves-effect"><i class="ti-car"></i><span> <?php echo \Yii::t('menu', 'Voitures'); ?> </span></a>-->
                 </li>
 

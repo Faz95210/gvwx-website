@@ -41,7 +41,7 @@ use yii\widgets\ActiveForm;
             </table>
         </div>
 
-        <?php ActiveForm::begin(['action' => ['site/newsale'], 'id' => 'addNewSale', 'class' => 'form-group row']) ?>
+        <?php ActiveForm::begin(['action' => ['sale/new'], 'id' => 'addNewSale', 'class' => 'form-group row']) ?>
         <label class="col-sm-2 col-form-label">
             Date :
         </label>
@@ -54,6 +54,6 @@ use yii\widgets\ActiveForm;
 
 <script>
     function toSale(saleId) {
-        window.location.href = '<?=Yii::$app->urlManager->createAbsoluteUrl(['site/sale']);?>' + '&saleId=' + saleId;
+        window.location.href = '<?=Yii::$app->urlManager->createAbsoluteUrl(['sale/get']);?>' + '&saleId=' + saleId;
     }
 </script>

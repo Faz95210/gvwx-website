@@ -111,7 +111,7 @@ use yii\widgets\ActiveForm;
                     <?php
                     if ($this->params['item']->sale === null) {
                         ?>
-                        <?php ActiveForm::begin(['id' => 'deleteItem', 'action' => ['site/deleteitem']]) ?>
+                        <?php ActiveForm::begin(['id' => 'deleteItem', 'action' => ['sale/delete']]) ?>
                         <?= Html::submitButton(\Yii::t('login', 'Supprimer'), ['form' => 'deleteItem', 'class' => 'btn btn-primary col-sm-offset-2', 'name' => 'itemId', 'value' => $this->params['item']->id]) ?>
                         <?php ActiveForm::end() ?>
                     <?php } else { ?>

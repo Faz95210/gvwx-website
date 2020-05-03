@@ -39,7 +39,7 @@ use yii\widgets\ActiveForm;
                 </tbody>
             </table>
         </div>
-        <?php ActiveForm::begin(['action' => ['site/clientexcel'], 'id' => 'generateFacture']) ?>
+        <?php ActiveForm::begin(['action' => ['client/excel'], 'id' => 'generateFacture']) ?>
         <?= Html::submitButton(\Yii::t('login', 'Telecharger'), ['class' => 'btn btn-primary', 'name' => 'clientId', 'value' => $this->params['client']->id]) ?>
         <?php ActiveForm::end() ?>
     </div>
