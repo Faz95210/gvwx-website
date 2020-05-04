@@ -5,6 +5,7 @@ namespace frontend\controllers;
 
 
 use common\models\Mandant;
+use common\models\MandantFile;
 use PHPExcel;
 use PHPExcel_IOFactory;
 use PHPExcel_Settings;
@@ -32,6 +33,9 @@ class MandantController extends Controller {
                             'new',
                             'edit',
                             'delete',
+                            'uploadpdf',
+                            'getfile',
+                            'deletefile'
                         ],
                         'allow' => true,
                         'roles' => ['@'],
@@ -48,14 +52,25 @@ class MandantController extends Controller {
         ];
     }
 
+    public function actionGetfile() {
+        $mandat = MandantFile::findOne(['id' => Yii::$app->request->post('file')]);
+        return Yii::$app->response->sendFile("../../frontend/web/images/mandats/" . $mandat->file, $mandat->file, ['inline' => true]);
+    }
+
+    public function actionDeletefile() {
+        $mandat = MandantFile::findOne(['id' => Yii::$app->request->post('file')]);
+        $mandat->delete();
+        unlink("../../frontend/web/images/mandats/" . $mandat->file);
+        $this->redirect(['mandant/get', 'mandantId' => Yii::$app->request->post('mandantId')]);
+    }
+
+
     public function actionGet() {
         if (Yii::$app->request->get("mandantId", -1) === -1) {
             $mandants = Mandant::find()->where(['user_id' => Yii::$app->user->id])->orderBy(['name' => SORT_ASC])->all();
             $this->view->params = ['mandants' => ($mandants !== null ? $mandants : [])];
             return $this->render("mandants");
-
         } else {
-
             $mandant = null;
             $mandantId = Yii::$app->request->get("mandantId", -1);
             if ($mandantId != -1) {
@@ -63,6 +78,7 @@ class MandantController extends Controller {
                 $mandant->getItems();
             }
             $this->view->params['mandant'] = $mandant;
+            $this->view->params['mandats'] = MandantFile::find()->all();
             $dates = [];
             foreach ($mandant->items as $item) {
                 $sale = $item->sale;
@@ -107,6 +123,23 @@ class MandantController extends Controller {
         $this->redirect(['/mandant/get']);
     }
 
+    public function actionUploadpdf() {
+        $mandantId = Yii::$app->request->post('mandantId');
+        foreach ($_FILES as $file) {
+            if (move_uploaded_file($_FILES['file']['tmp_name'], "../../frontend/web/images/mandats/${mandantId}_" . $file['name'])) {
+                $mandantFile = new MandantFile();
+                $mandantFile->mandant_id = $mandantId;
+                $mandantFile->file = $mandantId . "_" . $file['name'];
+                if ($mandantFile->save())
+                    return 1;
+                return -1;
+            } else {
+                return 0;
+            }
+        }
+        return 1;
+    }
+
     public function actionExcel() {
         $mandants = Mandant::findAll(['user_id' => Yii::$app->user->id]);
         PHPExcel_Settings::setZipClass(PHPExcel_Settings::PCLZIP);
@@ -148,6 +181,5 @@ class MandantController extends Controller {
         header('Content-Disposition: attachment;filename="Mandant_' . $mandant->name . '_' . $mandant->firstname . '.docx"');
         $templateProcessor->saveAs('php://output');
         exit;
-
     }
 }

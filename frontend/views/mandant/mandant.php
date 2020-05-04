@@ -77,6 +77,11 @@ use yii\widgets\ActiveForm;
                        class="col-sm-9 col-form-label form-control" type="text"
                        placeholder="">
             </div>
+
+            <div class="fom-group row">
+                <label class="col-sm-2 col-form-label">Mandats</label>
+                <input type="file" multiple="multiple" onchange="uploadFile(this)">
+            </div>
             <input type="hidden" name="mandantId" value="<?= $this->params['mandant']->id ?>">
             <?php ActiveForm::end() ?>
             <div class="row">
@@ -97,15 +102,53 @@ use yii\widgets\ActiveForm;
     </div>
     <div class="card">
         <div class="card-body">
+            <h2 class="card-title">Mandats :</h2>
+            <div class="table-container">
+                <table class="table is-bordered is-hoverable is-fullwidth">
+                    <thead>
+                    <tr>
+                        <td>Nom</td>
+                        <td>Actions</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($this->params['mandats'] as $mandat) { ?>
+                        <tr>
+                            <td>
+                                <?= $mandat->file ?>
+                            </td>
+                            <td>
+                                <?php ActiveForm::begin(['action' => ['mandant/deletefile']]) ?>
+                                <button class="btn btn-danger" name="file" value="<?= $mandat->id ?>"><i
+                                            class="ti-trash"></i></button>
+                                <input type="hidden" name="mandantId" value="<?= $this->params['mandant']->id ?>">
+                                <input type="hidden" name="file" value="<?= $mandat->id ?>">
+                                <?php ActiveForm::end() ?>
+                                <?php ActiveForm::begin(['action' => ['mandant/getfile']]) ?>
+                                <button class="btn btn-primary" name="file" value="<?= $mandat->id ?>"><i
+                                            class="ti-download"></i></button>
+                                <input type="hidden" name="mandantId" value="<?= $this->params['mandant']->id ?>">
+                                <input type="hidden" name="file" value="<?= $mandat->id ?>">
+                                <?php ActiveForm::end() ?>
+                            </td>
+                        </tr>
+                    <?php } ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-body">
 
             <h2 class="card-title">Liste des objets mandatés :</h2>
             <div class="table-container">
                 <table class="table is-bordered is-hoverable is-fullwidth">
                     <thead>
                     <tr>
-                        <th>Date :</th>
-                        <th>Nom :</th>
-                        <th>Montant :</th>
+                        <th>Date</th>
+                        <th>Nom</th>
+                        <th>Montant</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -145,6 +188,34 @@ $script = <<<JS
         );
     }
 
+    function uploadFile(e){
+        const files = e.files;
+        for (let i = 0; i < files.length; i++) {
+            let fd = new FormData(); 
+            fd.append('file', files[i]); 
+            fd.append('mandantId', '###MANDANTID###'); 
+
+            $.ajax({ 
+                    url: '###URL###', 
+                    type: 'post', 
+                    data: fd, 
+                    contentType: false, 
+                    processData: false, 
+                    success: function(response){ 
+                        console.log(response);
+                        if(response != 0){ 
+                           alert('file uploaded'); 
+                        } 
+                        else{ 
+                            alert('file not uploaded'); 
+                        } 
+                    }, 
+                }); 
+        }
+    }
+    
 JS;
 
+$script = str_replace('###URL###', Yii::$app->urlManager->createAbsoluteUrl(['mandant/uploadpdf']), $script);
+$script = str_replace('###MANDANTID###', $this->params['mandant']->id, $script);
 $this->registerJs($script, View::POS_END);

@@ -8,13 +8,8 @@ use yii\helpers\Html;
 
     <!-- LOGO -->
     <div class="topbar-left">
-        <a href="index.php" class="logo">
-        <span>
-                <img src="images/auction.png" alt="" height="50">
-            </span>
-            <i>
-                <img src="images/auction.png" alt="" height="30">
-            </i>
+        <a href="index.php" class="waves-effect " style="top:10px;">
+            <i class="ti-home" style="font-size: 50px; padding-top: 10px"></i>
         </a>
     </div>
 
