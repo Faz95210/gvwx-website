@@ -17,7 +17,7 @@ $id = time();
                     <option <?= ($step !== null && $item->id === $step->item_id) ? 'selected' : '' ?>
                             value="<?= $item->id ?>" description="<?= $item->description ?>"
                             estimation="<?= $item->estimation ?>" estimation2="<?= $item->estimation2 ?>"
-                            date_mandat="<?= date('m/d/Y', $item->date_mandat) ?>">
+                            date_mandat="<?= $item->date_mandat ?>">
                         <?= $item->name ?>
                     </option>
                 <?php } ?>
@@ -48,7 +48,7 @@ $id = time();
                     if ($date == null || $date == "") {
                         echo '';
                     } else {
-                        echo date('m/d/Y', $date);
+                        echo $date;
                     }
 
                     ?>

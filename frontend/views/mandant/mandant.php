@@ -6,6 +6,7 @@ $this->registerJsFile("@web/js/veltrix/pages/dashboard.js", ['depends' => 'app\a
 $this->registerJsFile("@web/js/veltrix/plugins/sweet-alert2/sweetalert2.js", ['depends' => 'app\assets\VeltrixAsset']);
 $this->registerCssFile("@web/js/veltrix/plugins/sweet-alert2/sweetalert2.css", ['depends' => 'app\assets\VeltrixAsset']);
 
+use common\widgets\DatePickerWidget\DatePickerWidget;
 use yii\helpers\Html;
 use yii\web\View;
 use yii\widgets\ActiveForm;
@@ -67,9 +68,18 @@ use yii\widgets\ActiveForm;
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Date de naissance</label>
-                <input name="birthdate" value="<?= $this->params['mandant']->birthdate ?>"
-                       class="col-sm-9 col-form-label form-control" type="date"
-                       placeholder="">
+                <div class="col-sm-9">
+                    <?= DatePickerWidget::widget([
+                        'name' => 'birthdate',
+                        'class' => 'col-sm-9 col-form-label form-control',
+                        'value' => $this->params['mandant']->birthdate,
+                        'template' => '{addon}{input}',
+                        'clientOptions' => [
+                            'autoclose' => true,
+                            'format' => 'dd/mm/yyyy'
+                        ]
+                    ]); ?>
+                </div>
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Lieu de naissance</label>
@@ -154,7 +164,7 @@ use yii\widgets\ActiveForm;
                     <tbody>
                     <?php foreach ($this->params['mandant']->items as $item) { ?>
                         <tr>
-                            <td> <?= $item->sale->date ? date('m/d/Y', $item->sale->date) : '' ?> </td>
+                            <td> <?= $item->sale->date ?> </td>
                             <td> <?= $item->name ?></td>
                             <td> <?= $item->adjudication ?></td>
                         </tr>
@@ -165,7 +175,7 @@ use yii\widgets\ActiveForm;
                 <?php ActiveForm::begin(['action' => ['mandant/facture']]) ?>
                 <select name="dateSale">
                     <?php foreach ($this->params['salesDate'] as $date) { ?>
-                        <option value="<?= $date ?>"><?= date('m/d/Y', $date) ?></option>
+                        <option value="<?= $date ?>"><?= $date ?></option>
                     <?php } ?>
                 </select>
                 <select name="fees">
@@ -213,7 +223,9 @@ $script = <<<JS
                 }); 
         }
     }
-    
+    $( function() {
+    $( "#datepicker" ).datepicker();
+  } );
 JS;
 
 $script = str_replace('###URL###', Yii::$app->urlManager->createAbsoluteUrl(['mandant/uploadpdf']), $script);

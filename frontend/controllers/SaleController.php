@@ -106,7 +106,7 @@ class SaleController extends Controller {
         $pdf = new FPDF();
         $pdf->SetTitle("PV " . $sale->date);
         $templateProcessor = new TemplateProcessor("../assets/modelpvvente.docx");
-        $templateProcessor->setValue('DATE', date('m/d/Y', $sale->date));
+        $templateProcessor->setValue('DATE', $sale->date);
         $templateProcessor->setValue('AMOUNT', Yii::$app->request->post('fees'));
 
         $totalPrice = 0;
@@ -145,10 +145,7 @@ class SaleController extends Controller {
 
     public function actionEdit() {
         $sale = Sale::findOne(['id' => Yii::$app->request->post('saleId')]);
-        $date = DateTime::createFromFormat('Y-m-d H:i:s',
-            Yii::$app->request->post('dateSale') . " 00:00:01");
-
-        $sale->date = $date->getTimestamp();
+        $sale->date = Yii::$app->request->post('dateSale');
         $sale->update();
         $this->redirect(['/sale/get', 'saleId' => Yii::$app->request->post('saleId')]);
     }

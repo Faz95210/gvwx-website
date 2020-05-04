@@ -6,6 +6,7 @@ $this->registerJsFile("@web/js/veltrix/pages/dashboard.js", ['depends' => 'app\a
 $this->registerJsFile("@web/js/veltrix/plugins/sweet-alert2/sweetalert2.js", ['depends' => 'app\assets\VeltrixAsset']);
 $this->registerCssFile("@web/js/veltrix/plugins/sweet-alert2/sweetalert2.css", ['depends' => 'app\assets\VeltrixAsset']);
 
+use common\widgets\DatePickerWidget\DatePickerWidget;
 use common\widgets\SaleStepWidget\SaleStepWidget;
 use yii\helpers\Html;
 use yii\web\View;
@@ -29,7 +30,17 @@ use yii\widgets\ActiveForm;
                 <label class="col-sm-2 col-form-label">
                     Date
                 </label>
-                <?= Html::input('date', 'dateSale', date('Y-m-d', $this->params['sale']->date), ['class' => 'col-sm-2']) ?>
+                <div class="col-sm-9">
+                    <?= DatePickerWidget::widget([
+                        'name' => 'dateSale',
+                        'value' => $this->params['sale']->date,
+                        'template' => '{addon}{input}',
+                        'clientOptions' => [
+                            'autoclose' => true,
+                            'format' => 'dd/mm/yyyy'
+                        ]
+                    ]); ?>
+                </div>
             </div>
             <?php ActiveForm::end() ?>
             <div>

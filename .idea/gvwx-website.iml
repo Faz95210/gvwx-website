@@ -6,6 +6,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/aws/aws-sdk-php" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/behat/gherkin" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/bower-asset/bootstrap" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/bower-asset/bootstrap-datepicker" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/bower-asset/bootstrap-daterangepicker" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/bower-asset/cookieconsent" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/bower-asset/inputmask" />

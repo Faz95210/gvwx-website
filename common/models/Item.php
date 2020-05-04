@@ -50,16 +50,13 @@ class Item extends ActiveRecord {
     }
 
     public static function newItem(array $post) {
-        $date = DateTime::createFromFormat('Y-m-d H:i:s',
-            Yii::$app->request->post('date_mandat') . " 00:00:01");
-
         $item = new Item([
             'name' => $post['name'],
             'description' => $post['description'],
             'estimation' => $post['estimation'],
             'estimation2' => $post['estimation2'],
             'mandant_id' => $post['mandant'],
-            'date_mandat' => $date->getTimestamp(),
+            'date_mandat' => Yii::$app->request->post('date_mandat'),
             'user_id' => Yii::$app->user->id,
         ]);
 
@@ -72,9 +69,9 @@ class Item extends ActiveRecord {
         $item->save();
         if ($post['sale_date'] != '') {
             $date = DateTime::createFromFormat('Y-m-d H:i:s', $post['sale_date'] . " 00:00:01");
-            $sale = Sale::findOne(['date' => $date->getTimestamp(), 'user_id' => Yii::$app->user->id]);
+            $sale = Sale::findOne(['date' => Yii::$app->request->post('date_mandat'), 'user_id' => Yii::$app->user->id]);
             if ($sale == null) {
-                $sale = new Sale(['user_id' => Yii::$app->user->id, 'date' => $date->getTimestamp()]);
+                $sale = new Sale(['user_id' => Yii::$app->user->id, 'date' => Yii::$app->request->post('date_mandat')]);
                 $sale->save();
             }
             $saleStep = new SaleStep([

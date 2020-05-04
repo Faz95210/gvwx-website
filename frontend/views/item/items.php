@@ -4,6 +4,7 @@ $this->registerJsFile("@web/js/veltrix/chartist/js/chartist.min.js", ['depends' 
 $this->registerJsFile("@web/js/veltrix/chartist/js/chartist-plugin-tooltip.min.js", ['depends' => 'app\assets\VeltrixAsset']);
 $this->registerJsFile("@web/js/veltrix/pages/dashboard.js", ['depends' => 'app\assets\VeltrixAsset']);
 
+use common\widgets\DatePickerWidget\DatePickerWidget;
 use yii\helpers\Html;
 use yii\web\View;
 use yii\widgets\ActiveForm;
@@ -84,9 +85,18 @@ use yii\widgets\ActiveForm;
 
         <div class="form-group row">
             <label class="col-sm-2 col-form-label" for="mandat-input">Date Mandat</label>
-            <input id="mandat-input" required name="date_mandat" class="col-sm-9 col-form-label form-control"
-                   type="date"
-                   placeholder="">
+            <div class="col-sm-9">
+                <?= DatePickerWidget::widget([
+                    'name' => 'date_mandat',
+                    'value' => $this->params['item']->date_mandat,
+                    'template' => '{addon}{input}',
+                    'clientOptions' => [
+                        'autoclose' => true,
+                        'format' => 'dd/mm/yyyy'
+                    ]
+                ]); ?>
+            </div>
+
         </div>
 
         <input type="hidden" id="base64" name="picture">
@@ -115,8 +125,17 @@ use yii\widgets\ActiveForm;
         </div>
         <div class="form-group row">
             <label class="col-sm-2 col-form-label" for="sale-input">Date Vente</label>
-            <input id="sale-input" name="sale_date" class="col-sm-9 col-form-label form-control" type="date"
-                   placeholder="">
+            <div class="col-sm-9">
+                <?= DatePickerWidget::widget([
+                    'name' => 'sale_date',
+                    'value' => $this->params['item']->date_mandat,
+                    'template' => '{addon}{input}',
+                    'clientOptions' => [
+                        'autoclose' => true,
+                        'format' => 'dd-mm-yyyy'
+                    ]
+                ]); ?>
+            </div>
         </div>
 
         <div class="form-group row">

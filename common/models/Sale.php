@@ -11,7 +11,7 @@ use yii\db\ActiveRecord;
  * User model
  *
  * @property integer $id
- * @property integer $date
+ * @property string $date
  * @property integer $user_id
  *
  */
@@ -55,9 +55,8 @@ class Sale extends ActiveRecord {
     }
 
     public static function newSale(array $post) {
-        $date = DateTime::createFromFormat('Y-m-d H:i:s', $post['date'] . " 00:00:01");
         $sale = new Sale([
-            'date' => $date->getTimestamp(),
+            'date' => $post['date'],
             'user_id' => \Yii::$app->user->id
         ]);
         return $sale->save();
@@ -70,7 +69,7 @@ class Sale extends ActiveRecord {
     public function rules() {
         return [
             [['date', 'user_id'], 'required'],
-            [['date', 'user_id'], 'number'],
+            [['user_id'], 'number'],
         ];
     }
 

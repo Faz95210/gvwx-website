@@ -6,6 +6,7 @@ $this->registerJsFile("@web/js/veltrix/pages/dashboard.js", ['depends' => 'app\a
 $this->registerJsFile("@web/js/veltrix/plugins/sweet-alert2/sweetalert2.js", ['depends' => 'app\assets\VeltrixAsset']);
 $this->registerCssFile("@web/js/veltrix/plugins/sweet-alert2/sweetalert2.css", ['depends' => 'app\assets\VeltrixAsset']);
 
+use common\widgets\DatePickerWidget\DatePickerWidget;
 use yii\helpers\Html;
 use yii\web\View;
 use yii\widgets\ActiveForm;
@@ -60,8 +61,19 @@ ActiveForm::begin(['action' => ['client/edit'], 'id' => 'editClient'])
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Date de naissance</label>
-                <input name="birthdate" value="<?= $this->params['client']->birthdate ?>" class="col-sm-6 " type="date"
-                       placeholder="">
+                <div class="col-sm-9">
+                    <?=
+                    DatePickerWidget::widget([
+                        'name' => 'birthdate',
+                        'value' => $this->params['client']->birthdate,
+                        'template' => '{addon}{input}',
+                        'clientOptions' => [
+                            'autoclose' => true,
+                            'format' => 'dd/mm/yyyy'
+                        ]
+                    ]);
+                    ?>
+                </div>
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Lieu de naissance</label>
@@ -99,7 +111,7 @@ ActiveForm::begin(['action' => ['client/edit'], 'id' => 'editClient'])
                     <?php foreach ($this->params['client']->sales as $sale) { ?>
                         <?php foreach ($sale->saleSteps as $saleStep) { ?>
                             <tr>
-                                <td> <?= date('m/d/Y', $sale->date) ?></td>
+                                <td> <?= $sale->date ?></td>
                                 <td> <?= $saleStep->item->name ?></td>
                                 <td> <?= $saleStep->item->adjudication ?> </td>
                             </tr>
@@ -111,7 +123,7 @@ ActiveForm::begin(['action' => ['client/edit'], 'id' => 'editClient'])
                     <?php ActiveForm::begin(['action' => ['client/facture'], 'id' => 'generateFacture']) ?>
                     <select name="dateSale">
                         <?php foreach ($this->params['salesDate'] as $date) { ?>
-                            <option value="<?= $date ?>"><?= date('m/d/Y', $date) ?></option>
+                            <option value="<?= $date ?>"><?= $date ?>) ?></option>
                         <?php } ?>
                     </select>
 

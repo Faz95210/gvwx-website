@@ -4,6 +4,7 @@ $this->registerJsFile("@web/js/veltrix/chartist/js/chartist.min.js", ['depends' 
 $this->registerJsFile("@web/js/veltrix/chartist/js/chartist-plugin-tooltip.min.js", ['depends' => 'app\assets\VeltrixAsset']);
 $this->registerJsFile("@web/js/veltrix/pages/dashboard.js", ['depends' => 'app\assets\VeltrixAsset']);
 
+use common\widgets\DatePickerWidget\DatePickerWidget;
 use yii\helpers\Html;
 use yii\web\View;
 use yii\widgets\ActiveForm;
@@ -34,7 +35,7 @@ use yii\widgets\ActiveForm;
 
                 <?php foreach ($this->params['sales'] as $sale) { ?>
                     <tr onclick="toSale('<?= $sale->id ?>')">
-                        <td><?= date("m/d/Y", $sale->date) ?></td>
+                        <td><?= $sale->date ?></td>
                     </tr>
                 <?php } ?>
                 </tbody>
@@ -45,8 +46,19 @@ use yii\widgets\ActiveForm;
         <label class="col-sm-2 col-form-label">
             Date :
         </label>
-        <?= Html::input('date', 'date', '', ['class' => 'col-lg-4 col-form-label']) ?>
-        <?= Html::submitButton(\Yii::t('login', 'Ajouter'), ['class' => 'btn btn-primary col-lg-2 col-lg-offset-2', 'name' => 'new-sale-button']) ?>
+
+        <div class="col-sm-6">
+            <?= DatePickerWidget::widget([
+                'name' => 'date',
+                'value' => $this->params['item']->date_mandat,
+                'template' => '{addon}{input}',
+                'clientOptions' => [
+                    'autoclose' => true,
+                    'format' => 'dd/mm/yyyy'
+                ]
+            ]); ?>
+        </div>
+        <?= Html::submitButton(\Yii::t('login', 'Ajouter'), ['class' => 'btn btn-primary col-sm-2 col-lg-offset-2', 'name' => 'new-sale-button']) ?>
         <?php ActiveForm::end() ?>
 
     </div>

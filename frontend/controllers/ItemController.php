@@ -108,9 +108,7 @@ class ItemController extends Controller {
             $item->picture = "items/$item->id";
             $item->mandant_id = Yii::$app->request->post('mandantId');
 
-            $date = DateTime::createFromFormat('Y-m-d H:i:s',
-                Yii::$app->request->post('date_mandat') . " 00:00:01");
-            $item->date_mandat = $date->getTimestamp();
+            $item->date_mandat = Yii::$app->request->post('date_mandat');
             $item->update();
         }
         $this->redirect(['/item/get', 'itemId' => Yii::$app->request->post('itemId')]);

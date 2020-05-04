@@ -7,6 +7,7 @@ $this->registerJsFile("@web/js/qrcodejs/qrcode.js");
 $this->registerJsFile("@web/js/veltrix/plugins/sweet-alert2/sweetalert2.js", ['depends' => 'app\assets\VeltrixAsset']);
 $this->registerCssFile("@web/js/veltrix/plugins/sweet-alert2/sweetalert2.css", ['depends' => 'app\assets\VeltrixAsset']);
 
+use common\widgets\DatePickerWidget\DatePickerWidget;
 use yii\helpers\Html;
 use yii\web\View;
 use yii\widgets\ActiveForm;
@@ -78,12 +79,21 @@ use yii\widgets\ActiveForm;
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label" for="mandat-input">Date Mandat</label>
-                <?= Html::input('date', 'date_mandat', ($this->params['item']->date_mandat ? date("Y-m-d", $this->params['item']->date_mandat) : ''), ['placeholder' => 'YYYY-mm-dd', 'id' => 'mandat-input', 'class' => 'col-sm-9 col-form-label form-control']) ?>
+                <div class="col-sm-9">
+                    <?= DatePickerWidget::widget([
+                        'name' => 'date_mandat',
+                        'value' => $this->params['item']->date_mandat,
+                        'template' => '{addon}{input}',
+                        'clientOptions' => [
+                            'autoclose' => true,
+                            'format' => 'dd/mm/yyyy'
+                        ]
+                    ]); ?>
+                </div>
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Vente :</label>
-                <p class="col-sm-9 col-form-label"
-                   type="date"><?= $this->params['item']->sale != null ? date('m/d/Y', $this->params['item']->sale->date) : '' ?></p>
+                <p class="col-sm-9 col-form-label"><?= $this->params['item']->sale->date ?></p>
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Client :</label>
@@ -111,7 +121,7 @@ use yii\widgets\ActiveForm;
                     <?php
                     if ($this->params['item']->sale === null) {
                         ?>
-                        <?php ActiveForm::begin(['id' => 'deleteItem', 'action' => ['sale/delete']]) ?>
+                        <?php ActiveForm::begin(['id' => 'deleteItem', 'action' => ['item/delete']]) ?>
                         <?= Html::submitButton(\Yii::t('login', 'Supprimer'), ['form' => 'deleteItem', 'class' => 'btn btn-primary col-sm-offset-2', 'name' => 'itemId', 'value' => $this->params['item']->id]) ?>
                         <?php ActiveForm::end() ?>
                     <?php } else { ?>

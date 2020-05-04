@@ -172,7 +172,7 @@ class ClientController extends Controller {
         $templateProcessor->setValue('PHONE', $sale->saleSteps[0]->client->phone);
         $templateProcessor->setValue('MAIL', $sale->saleSteps[0]->client->mail);
 
-        $templateProcessor->setValue('DATE', date('m/d/Y', $sale->date));
+        $templateProcessor->setValue('DATE', $sale->date);
 
         $templateProcessor->setValue('FEE', Yii::$app->request->post('fees'));
         $templateProcessor->setValue('TOTALRAW', $sale->prices['price']);
