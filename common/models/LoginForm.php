@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use DateTime;
 use Yii;
 use yii\base\Model;
 
@@ -63,7 +64,8 @@ class LoginForm extends Model {
      */
     public function login() {
         if ($this->validate()) {
-            if ($this->getUser()->license_paid && time() < $this->getUser()->license_date)
+            $date = DateTime::createFromFormat('d/m/Y', $this->getUser()->license_date);
+            if ($this->getUser()->license_paid && $date != false && time() < $date->getTimestamp())
                 return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
             else
                 return false;

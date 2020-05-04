@@ -132,7 +132,7 @@ use yii\widgets\ActiveForm;
                     'template' => '{addon}{input}',
                     'clientOptions' => [
                         'autoclose' => true,
-                        'format' => 'dd-mm-yyyy'
+                        'format' => 'dd/mm/yyyy'
                     ]
                 ]); ?>
             </div>
