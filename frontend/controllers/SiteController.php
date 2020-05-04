@@ -72,6 +72,7 @@ class SiteController extends Controller {
                         'actions' => [
                             'admin',
                             'adduserrole',
+                            'changelicensedate',
                         ],
                         'allow' => true,
                         'roles' => ['admin']
@@ -216,6 +217,14 @@ class SiteController extends Controller {
         return $this->render('requestPasswordResetToken');
     }
 
+    public function actionChangelicensedate() {
+        $user = User::findIdentity(Yii::$app->request->post('userId'));
+        if ($user !== null) {
+            $user->license_date = Yii::$app->request->post('date');
+            return $user->save();
+        }
+        return -1;
+    }
 
     public function actionChangepasswordself() {
         $user = User::findIdentity(Yii::$app->user->id);

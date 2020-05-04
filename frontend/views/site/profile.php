@@ -15,33 +15,16 @@ use yii\widgets\ActiveForm; ?>
         <?php ActiveForm::begin(['action' => ['site/editprofile']]) ?>
         <div class="form-group row">
             <div class="col-sm-2 col-form-label">
-                <label>Votre Nom : </label>
+                <label>Nom de votre étude : </label>
             </div>
             <div class="col-sm-2 col-form-label">
                 <input name="name" required class="input" type="text" placeholder="" value="<?= $user->name ?>">
             </div>
             <div class="col-sm-2 col-form-label">
-                <button type='submit' class="btn btn-success" name="field" value="name"><i class="ti ti-check"></i>
-                </button>
+                <button type='submit' class="btn btn-primary" name="field" value="name">Modifier</button>
             </div>
         </div>
         <?php ActiveForm::end() ?>
-        <?php ActiveForm::begin(['action' => ['site/editprofile']]) ?>
-        <div class="form-group row">
-            <div class="col-sm-2 col-form-label">
-                <label>Votre Prenom : </label>
-            </div>
-            <div class="col-sm-2 col-form-label">
-                <input name="firstname" required class="input" value="<?= $user->firstname ?>" type="text"
-                       placeholder="">
-            </div>
-            <div class="col-sm-2 col-form-label">
-                <button type='submit' class="btn btn-success" name="field" value="firstname"><i class="ti ti-check"></i>
-                </button>
-            </div>
-        </div>
-        <?php ActiveForm::end() ?>
-
         <div class="row">
             <div class="col-lg-5">
                 <div class="text-center">
