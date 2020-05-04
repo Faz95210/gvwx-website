@@ -71,6 +71,7 @@ use yii\widgets\ActiveForm;
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Mandant :</label>
                 <select name="mandantId" class="col-sm-9 col-form-label form-control">
+                    <option value="-1"></option>
                     <?php foreach ($this->params['mandants'] as $mandant) { ?>
                         <option <?= $this->params['item']->mandant_id === $mandant->id ? 'selected' : '' ?>
                                 value="<?= $mandant->id ?>"><?= $mandant->name . ' ' . $mandant->firstname ?></option>

@@ -106,7 +106,7 @@ class ItemController extends Controller {
             fwrite($handle, $data);
             fclose($handle);
             $item->picture = "items/$item->id";
-            $item->mandant_id = Yii::$app->request->post('mandantId');
+            $item->mandant_id = Yii::$app->request->post('mandantId') == -1 ? null : Yii::$app->request->post('mandantId');
 
             $item->date_mandat = Yii::$app->request->post('date_mandat');
             $item->update();

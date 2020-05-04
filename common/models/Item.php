@@ -55,7 +55,7 @@ class Item extends ActiveRecord {
             'description' => $post['description'],
             'estimation' => $post['estimation'],
             'estimation2' => $post['estimation2'],
-            'mandant_id' => $post['mandant'],
+            'mandant_id' => $post['mandant'] < 1 ? null : $post['mandant'],
             'date_mandat' => Yii::$app->request->post('date_mandat'),
             'user_id' => Yii::$app->user->id,
         ]);
@@ -91,8 +91,8 @@ class Item extends ActiveRecord {
      */
     public function rules() {
         return [
-            [['name', 'mandant_id', 'estimation'], 'required'],
-            [['adjudication', 'mandant_id', 'estimation'], 'number'],
+            [['name', 'estimation'], 'required'],
+            [['adjudication', 'estimation'], 'number'],
         ];
     }
 
