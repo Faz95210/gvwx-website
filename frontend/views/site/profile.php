@@ -116,7 +116,9 @@ use yii\widgets\ActiveForm; ?>
         <button onclick='window.location.href = "mailto:​gvxconseil@gmail.com?subject=Subject&body=message%20goes%20here";'
                 class="btn btn-block btn-primary">Contacter notre support
         </button>
-        <button class="btn btn-block btn-primary">Modifier mot de passe</button>
+
+        <?= Html::a('Modifier mot de passe', ['site/request-password-reset'], ['class' => 'btn btn-block btn-primary']) ?>
+
         <?php ActiveForm::begin(['action' => ['/site/logout']]); ?>
         <button type="submit" class="btn btn-block btn-danger">Déconnexion</button>
         <?php ActiveForm::end(); ?>

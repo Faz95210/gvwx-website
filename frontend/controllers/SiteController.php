@@ -53,7 +53,6 @@ class SiteController extends Controller {
                             'reset-password',
                             'widgetloader',
                             'request-password-reset',
-
                         ],
                         'allow' => true,
                         //'roles' => ['?'],
@@ -65,6 +64,7 @@ class SiteController extends Controller {
                             'changepassword',
                             'editprofile',
                             'profile',
+                            'changepasswordself'
                         ],
                         'allow' => true,
                         'roles' => ['@'],
@@ -211,27 +211,30 @@ class SiteController extends Controller {
      * @return mixed
      */
     public function actionRequestPasswordReset() {
-        $this->layout = "veltrixLogin";
+        $this->layout = "veltrix";
 
-        $model = new PasswordResetForm();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->changePassword() === 1)
-                return $this->goHome();
-            else
-                Yii::$app->session->setFlash(\Yii::t('login', 'Erreur'), \Yii::t('login', "Désolé, nous n'arrivons pas à renouveller le mot de passe pour l'adresse email donée."));
+        return $this->render('requestPasswordResetToken');
+    }
 
-            //            if ($model->sendEmail()) {
-            //                Yii::$app->session->setFlash(\Yii::t('login', 'Confirmation'), \Yii::t('login', "Vérifiez votre email pour plus d'instructions"));
-            //
-            //                return $this->goHome();
-            //            } else {
-            //                Yii::$app->session->setFlash(\Yii::t('login', 'Erreur'), \Yii::t('login', "Désolé, nous n'arrivons pas à renouveller le mot de passe pour l'adresse email donée."));
-            //            }
+
+    public function actionChangepasswordself() {
+        $user = User::findIdentity(Yii::$app->user->id);
+        if ($user != null) {
+            if ($user->validatePassword(Yii::$app->request->post('oldpwd'))
+                && Yii::$app->request->post('newpwd') === Yii::$app->request->post('confirmpwd')) {
+                $user->setPassword(Yii::$app->request->post('newpwd'));
+                $user->save();
+                Yii::$app->session->setFlash('succes', 'Votre mot de passe a bien été changé');
+            } else {
+                if (!$user->validatePassword(Yii::$app->request->post('oldpwd'))) {
+                    Yii::$app->session->setFlash('error', 'Mot de passe incorrect');
+                }
+                if (Yii::$app->request->post('newpwd') != Yii::$app->request->post('confirmpwd')) {
+                    Yii::$app->session->setFlash('error', 'Les deux mots de passe sont different');
+                }
+            }
         }
-
-        return $this->render('requestPasswordResetToken', [
-            'model' => $model,
-        ]);
+        $this->redirect(['/site/profile']);
     }
 
     /**

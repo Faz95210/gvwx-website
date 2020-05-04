@@ -4,7 +4,7 @@
 
 /* @var $content string */
 
-use app\widgets\Alert;
+use common\widgets\Alert;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
@@ -12,6 +12,7 @@ use yii\widgets\Breadcrumbs;
 use app\assets\VeltrixAsset;
 use cinghie\cookieconsent\widgets\CookieWidget;
 use yii\bootstrap\Modal;
+
 
 CookieWidget::widget([
     'message' => \Yii::t('login', 'Pour améliorer votre experience sur ce site web, nous utilisons des cookies.'),
@@ -43,6 +44,7 @@ VeltrixAsset::register($this);
 
     <div class="content-page">
         <div class="content">
+            <?= Alert::widget(); ?>
             <?= $content ?>
         </div>
 
