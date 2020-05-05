@@ -53,45 +53,31 @@ use yii\widgets\ActiveForm;
 
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">Nom</label>
-            <div class="col-sm-2 col-form-label">
-                <input name="name" class="input" type="text" placeholder="">
-            </div>
+            <input required name="name" class="col-sm-9 col-form-label form-control" type="text" placeholder="">
         </div>
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">Prenom</label>
-            <div class="col-sm-2 col-form-label">
-                <input name="firstname" class="input" type="text" placeholder="">
-            </div>
+            <input required name="firstname" class="col-sm-9 col-form-label form-control" type="text" placeholder="">
         </div>
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">Adresse</label>
-            <div class="col-sm-2 col-form-label">
-                <input name="address" class="input" type="text" placeholder="">
-            </div>
+            <input name="address" class="col-sm-9 col-form-label form-control" type="text" placeholder="">
         </div>
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">Code Postal</label>
-            <div class="col-sm-2 col-form-label">
-                <input name="postal" class="input" type="text" placeholder="">
-            </div>
+            <input name="postal" class="col-sm-9 col-form-label form-control" type="text" placeholder="">
         </div>
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">Telephone</label>
-            <div class="col-sm-2 col-form-label">
-                <input name="phone" class="input" type="text" placeholder="">
-            </div>
+            <input name="phone" class="col-sm-9 col-form-label form-control" type="text" placeholder="">
         </div>
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">Ville</label>
-            <div class="col-sm-2 col-form-label">
-                <input name="city" class="input" type="text" placeholder="">
-            </div>
+            <input name="city" class="col-sm-9 col-form-label form-control" type="text" placeholder="">
         </div>
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">Mail</label>
-            <div class="col-sm-2 col-form-label">
-                <input name="mail" class="input" type="text" placeholder="">
-            </div>
+            <input name="mail" class="col-sm-9 col-form-label form-control" type="text" placeholder="">
         </div>
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">Date de naissance</label>

@@ -33,7 +33,7 @@ class SaleStepWidget extends Widget {
             $this->view->params['step'] = null;
         }
         $this->view->params['saleId'] = $this->saleId;
-        $items = Item::find()->where(['user_id' => \Yii::$app->user->getId()])->orderBy(['id' => SORT_DESC])->all();
+        $items = Item::find()->where(['user_id' => \Yii::$app->user->getId()])->orderBy(['name' => SORT_ASC])->all();
         $this->view->params['items'] = [];
         if ($this->stepId == -1) {
             foreach ($items as $item) {

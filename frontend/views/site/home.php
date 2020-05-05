@@ -11,7 +11,7 @@ use yii\web\View;
 
 <div class="column">
     <div class="container">
-        <h2><?= $this->params['user']->name . ' ' . $this->params['user']->firstname ?>, Bienvenue sur
+        <h2><?= $this->params['user']->name ?>, Bienvenue sur
             AuctionManager!<br></h2>
         Cette interface vous permet de :
         <ul>

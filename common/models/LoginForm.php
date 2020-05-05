@@ -67,8 +67,12 @@ class LoginForm extends Model {
             $date = DateTime::createFromFormat('d/m/Y', $this->getUser()->license_date);
             if ($this->getUser()->license_paid && $date != false && time() < $date->getTimestamp())
                 return Yii::$app->user->login($this->getUser(), $this->rememberMe ? 3600 * 24 * 30 : 0);
-            else
+            else {
+                if (!$this->getUser()->license_paid || $date != false) {
+                    $this->addError('password', \Yii::t('login', 'Votre licence a expirée, merci de contacter votre administrateur.'));
+                }
                 return false;
+            }
         }
         return false;
     }

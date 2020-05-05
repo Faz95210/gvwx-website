@@ -63,11 +63,12 @@ use yii\widgets\ActiveForm;
 
                 <?php ActiveForm::begin(['action' => ['sale/pvvente']]) ?>
                 <input type="hidden" name="saleId" value="<?= $this->params['sale']->id ?>"/>
-                <select name="fees">
-                    <option value="14.5">14,50%</option>
-                    <option value="20">20%</option>
-                    <option value="25">25%</option>
-                </select>
+                <input name="fees" type="number">%
+                <!--                <select name="fees">-->
+                <!--                    <option value="14.5">14,50%</option>-->
+                <!--                    <option value="20">20%</option>-->
+                <!--                    <option value="25">25%</option>-->
+                <!--                </select>-->
                 <?= Html::submitButton(\Yii::t('login', 'Generer'), ['class' => ' btn btn-primary']) ?>
                 <?php ActiveForm::end() ?>
             </p>

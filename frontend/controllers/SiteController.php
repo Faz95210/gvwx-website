@@ -72,6 +72,8 @@ class SiteController extends Controller {
                         'actions' => [
                             'admin',
                             'adduserrole',
+                            'deleteuser',
+                            'changelicensestatus',
                             'changelicensedate',
                         ],
                         'allow' => true,
@@ -103,6 +105,34 @@ class SiteController extends Controller {
                 'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
             ],
         ];
+    }
+
+    public function actionChangelicensestatus() {
+        $user = User::findIdentity(Yii::$app->request->post('userId'));
+        if ($user != null) {
+            $user->license_paid = !$user->license_paid;
+            $user->update();
+        }
+//        $this->redirect(['site/admin']);
+    }
+
+    public function actionDeleteuser() {
+        $user = User::findIdentity(Yii::$app->request->post('userId'));
+        if ($user != null) {
+            AuthAssignment::deleteAll(['user_id' => $user->id]);
+            foreach (Mandant::findAll(['user_id' => $user->id]) as $mandant) {
+                $mandant->delete();
+            }
+            foreach (Client::findAll(['user_id' => $user->id]) as $mandant) {
+                $mandant->delete();
+            }
+            foreach (Sale::findAll(['user_id' => $user->id]) as $mandant) {
+                $mandant->delete();
+            }
+            echo $user->delete();
+        }
+        exit;
+//        $this->redirect(['site/admin']);
     }
 
     public function afterAction($action, $result) {
@@ -221,6 +251,7 @@ class SiteController extends Controller {
         $user = User::findIdentity(Yii::$app->request->post('userId'));
         if ($user !== null) {
             $user->license_date = Yii::$app->request->post('date');
+            $user->license_paid = 1;
             return $user->save();
         }
         return -1;

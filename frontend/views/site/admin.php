@@ -17,7 +17,7 @@ $model = new PasswordResetForm();
     <div class="page-title-box">
         <div class="row align-items-center">
             <div class="col-sm-12">
-                <h4 class="page-title"><?= \Yii::t('frontend', 'Mandant'); ?></h4>
+                <h4 class="page-title"><?= \Yii::t('frontend', 'Admin'); ?></h4>
                 <p></p>
             </div>
         </div>
@@ -41,10 +41,16 @@ $model = new PasswordResetForm();
                         Utilisateur
                     </th>
                     <th>
+                        Email
+                    </th>
+                    <th>
                         License
                     </th>
                     <th>
                         Admin
+                    </th>
+                    <th>
+                        Action
                     </th>
                 </tr>
                 </thead>
@@ -57,7 +63,10 @@ $model = new PasswordResetForm();
                             <?= $user->id ?>
                         </td>
                         <td>
-                            <?= $user->name . ' ' . $user->firstname ?>
+                            <?= $user->name ?>
+                        </td>
+                        <td>
+                            <?= $user->email ?>
                         </td>
                         <td>
                             <div class="col-sm-9">
@@ -76,6 +85,24 @@ $model = new PasswordResetForm();
                         <td>
                             <input type="checkbox" <?= $user->admin ? 'checked' : '' ?> name="<?= $user->id ?>"
                                    value="1">
+                        </td>
+                        <td>
+                            <div class="row">
+
+                                <?php ActiveForm::begin(['id' => 'deleteUser' . $user->id, 'action' => ['site/deleteuser']]) ?>
+                                <input type="hidden" name="userId" value="<?= $user->id ?>">
+                                <button <?= $user->id === Yii::$app->user->id ? ' disabled ' : '' ?>
+                                        class="btn btn-danger"
+                                        formtarget="deleteUser<?= $user->id ?>"><i class="ti-trash"></i></button>
+                                <?php ActiveForm::end() ?>
+
+                                <?php ActiveForm::begin(['id' => 'changeLicense' . $user->id, 'action' => ['site/changelicensestatus']]) ?>
+                                <input type="hidden" name="userId" value="<?= $user->id ?>">
+                                <button class="btn <?= $user->license_paid ? 'btn-danger ' : 'btn-primary ' ?>"
+                                        formtarget="changeLicense<?= $user->id ?>"><i class="ti-check"></i></button>
+                                <?php ActiveForm::end() ?>
+                            </div>
+
                         </td>
                     </tr>
                     <?php

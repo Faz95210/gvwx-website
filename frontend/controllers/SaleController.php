@@ -67,10 +67,24 @@ class SaleController extends Controller {
         ];
     }
 
+    private function sortSales($sales) {
+        for ($i = 0; $i < count($sales) - 1; $i++) {
+            $date1 = DateTime::createFromFormat('d/m/Y', $sales[$i]->date);
+            $date2 = DateTime::createFromFormat('d/m/Y', $sales[$i + 1]->date);
+            if ($date1->getTimestamp() > $date2->getTimestamp()) {
+                $tmp = $sales[$i];
+                $sales[$i] = $sales[$i + 1];
+                $sales[$i + 1] = $tmp;
+                return $this->sortSales($sales);
+            }
+        }
+        return $sales;
+    }
+
     public function actionGet() {
         if (Yii::$app->request->get("saleId", -1) === -1) {
             $sales = Sale::find()->where(['user_id' => Yii::$app->user->id])->orderBy(['date' => SORT_DESC])->all();
-            $this->view->params = ['sales' => ($sales !== null ? $sales : [])];
+            $this->view->params = ['sales' => $this->sortSales($sales)];
             return $this->render("sales");
 
         } else {

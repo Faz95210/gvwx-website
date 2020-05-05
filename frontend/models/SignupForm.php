@@ -10,7 +10,6 @@ use common\models\User;
  * Signup form
  */
 class SignupForm extends Model {
-    public $firstname;
     public $name;
     public $email;
     public $password;
@@ -20,10 +19,6 @@ class SignupForm extends Model {
      */
     public function rules() {
         return [
-            ['firstname', 'trim'],
-            ['firstname', 'required'],
-            ['firstname', 'string', 'min' => 2, 'max' => 255],
-
             ['name', 'trim'],
             ['name', 'required'],
             ['name', 'string', 'min' => 2, 'max' => 255],
@@ -50,7 +45,6 @@ class SignupForm extends Model {
         }
 
         $user = new User();
-        $user->firstname = $this->firstname;
         $user->name = $this->name;
         $user->email = $this->email;
         $user->status = 10;

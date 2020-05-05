@@ -57,8 +57,7 @@ use yii\widgets\ActiveForm;
             <label class="col-sm-2 col-form-label" for="description-input">Description</label>
             <textarea maxlength="300" required id="description-input" name="description"
                       class="col-sm-9 col-form-label form-control" type="text"
-                      placeholder="">
-            </textarea>
+                      placeholder=""></textarea>
         </div>
         <div class="form-group row">
             <label class="col-sm-2 col-form-label" for="estimation-input">Estimation</label>
@@ -68,14 +67,14 @@ use yii\widgets\ActiveForm;
         </div>
         <div class="form-group row">
             <label class="col-sm-2 col-form-label" for="estimation-input">Estimation 2</label>
-            <input id="estimation-input" required name="estimation2" class="col-sm-9 col-form-label form-control"
+            <input id="estimation-input" name="estimation2" class="col-sm-9 col-form-label form-control"
                    type="number"
                    placeholder="">
         </div>
 
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">Mandant</label>
-            <select name="mandant" required class="form-control col-sm-9">
+            <select name="mandant" class="form-control col-sm-9">
                 <option value="-1"></option>
                 <?php foreach ($this->params['mandants'] as $mandant) { ?>
                     <option value="<?= $mandant->id ?>"><?= $mandant->name . " " . $mandant->firstname ?></option>

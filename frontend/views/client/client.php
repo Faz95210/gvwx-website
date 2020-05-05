@@ -123,15 +123,16 @@ ActiveForm::begin(['action' => ['client/edit'], 'id' => 'editClient'])
                     <?php ActiveForm::begin(['action' => ['client/facture'], 'id' => 'generateFacture']) ?>
                     <select name="dateSale">
                         <?php foreach ($this->params['salesDate'] as $date) { ?>
-                            <option value="<?= $date ?>"><?= $date ?>) ?></option>
+                            <option value="<?= $date ?>"><?= $date ?></option>
                         <?php } ?>
                     </select>
 
-                    <select name="fees">
-                        <option value="14.5">14,5%</option>
-                        <option value="20">20%</option>
-                        <option value="25">25%</option>
-                    </select>
+                    <input name="fees" type="number">%
+                    <!--                    <select name="fees">-->
+                    <!--                        <option value="14.5">14,5%</option>-->
+                    <!--                        <option value="20">20%</option>-->
+                    <!--                        <option value="25">25%</option>-->
+                    <!--                    </select>-->
                     <?= Html::submitButton(\Yii::t('login', 'Facture'), ['class' => 'btn btn-primary', 'name' => 'clientId', 'value' => $this->params['client']->id]) ?>
                     <?php ActiveForm::end() ?>
                 <?php } else { ?>
