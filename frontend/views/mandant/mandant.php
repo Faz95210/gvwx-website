@@ -178,7 +178,7 @@ use yii\widgets\ActiveForm;
                         <option value="<?= $date ?>"><?= $date ?></option>
                     <?php } ?>
                 </select>
-                <input name="fees" type="number">%
+                <input name="fees" type="text">%
 
                 <!--                <select name="fees">-->
                 <!--                    <option value="14.5">14,5%</option>-->

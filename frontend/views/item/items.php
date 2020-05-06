@@ -55,7 +55,7 @@ use yii\widgets\ActiveForm;
         </div>
         <div class="form-group row">
             <label class="col-sm-2 col-form-label" for="description-input">Description</label>
-            <textarea maxlength="300" required id="description-input" name="description"
+            <textarea maxlength="300" id="description-input" name="description"
                       class="col-sm-9 col-form-label form-control" type="text"
                       placeholder=""></textarea>
         </div>

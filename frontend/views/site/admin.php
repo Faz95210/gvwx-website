@@ -92,14 +92,18 @@ $model = new PasswordResetForm();
                                 <?php ActiveForm::begin(['id' => 'deleteUser' . $user->id, 'action' => ['site/deleteuser']]) ?>
                                 <input type="hidden" name="userId" value="<?= $user->id ?>">
                                 <button <?= $user->id === Yii::$app->user->id ? ' disabled ' : '' ?>
-                                        class="btn btn-danger"
-                                        formtarget="deleteUser<?= $user->id ?>"><i class="ti-trash"></i></button>
+                                        type="button" class="btn btn-danger" name="deleteUser" value="<?= $user->id ?>>"
+                                        formtarget="deleteUser<?= $user->id ?>"
+                                        onclick="document.getElementById('deleteUser<?= $user->id ?>').submit(); "><i
+                                            class="ti-trash"></i></button>
                                 <?php ActiveForm::end() ?>
 
                                 <?php ActiveForm::begin(['id' => 'changeLicense' . $user->id, 'action' => ['site/changelicensestatus']]) ?>
                                 <input type="hidden" name="userId" value="<?= $user->id ?>">
                                 <button class="btn <?= $user->license_paid ? 'btn-danger ' : 'btn-primary ' ?>"
-                                        formtarget="changeLicense<?= $user->id ?>"><i class="ti-check"></i></button>
+                                        type="button" formtarget="changeLicense<?= $user->id ?>"
+                                        onclick="document.getElementById('changeLicense<?= $user->id ?>').submit(); "><i
+                                            class="ti-check"></i></button>
                                 <?php ActiveForm::end() ?>
                             </div>
 

@@ -113,7 +113,7 @@ class SiteController extends Controller {
             $user->license_paid = !$user->license_paid;
             $user->update();
         }
-//        $this->redirect(['site/admin']);
+        $this->redirect(['site/admin']);
     }
 
     public function actionDeleteuser() {
@@ -129,10 +129,9 @@ class SiteController extends Controller {
             foreach (Sale::findAll(['user_id' => $user->id]) as $mandant) {
                 $mandant->delete();
             }
-            echo $user->delete();
+            $user->delete();
         }
         exit;
-//        $this->redirect(['site/admin']);
     }
 
     public function afterAction($action, $result) {

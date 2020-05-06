@@ -127,7 +127,7 @@ ActiveForm::begin(['action' => ['client/edit'], 'id' => 'editClient'])
                         <?php } ?>
                     </select>
 
-                    <input name="fees" type="number">%
+                    <input name="fees" type="text">%
                     <!--                    <select name="fees">-->
                     <!--                        <option value="14.5">14,5%</option>-->
                     <!--                        <option value="20">20%</option>-->
