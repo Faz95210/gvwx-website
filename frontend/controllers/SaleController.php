@@ -121,7 +121,8 @@ class SaleController extends Controller {
         $pdf->SetTitle("PV " . $sale->date);
         $templateProcessor = new TemplateProcessor("../assets/modelpvvente.docx");
         $templateProcessor->setValue('DATE', $sale->date);
-        $templateProcessor->setValue('AMOUNT', Yii::$app->request->post('fees'));
+        $fee = str_replace(",", ".", Yii::$app->request->post('fees'));
+        $templateProcessor->setValue('AMOUNT', $fee);
 
         $totalPrice = 0;
         $values = [];
@@ -137,7 +138,7 @@ class SaleController extends Controller {
         $templateProcessor->cloneRowAndSetValues('ITEMID', $values);
 
         $templateProcessor->setValue('SUMPRICES', $totalPrice);
-        $templateProcessor->setValue('SUMFEES', $totalPrice * (Yii::$app->request->post('fees') / 100));
+        $templateProcessor->setValue('SUMFEES', $totalPrice * ($fee / 100));
 
         header('Content-Disposition: attachment;filename="PVVENTE_' . $sale->date . '.docx"');
         $templateProcessor->saveAs('php://output');

@@ -165,7 +165,7 @@ class MandantController extends Controller {
         $values = [];
         foreach ($mandant->items as $item) {
             if ($item->sale && $item->sale->date == Yii::$app->request->post('dateSale')) {
-                $item->sale->getPrices(Yii::$app->request->post('fees'));
+                $item->sale->getPrices(str_replace(",", ".", Yii::$app->request->post('fees')));
                 $round = round($item->adjudication * (Yii::$app->request->post('fees') / 100), 2);
                 $values[] = [
                     'ITEM_NAME' => $item->name,

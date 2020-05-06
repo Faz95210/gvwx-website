@@ -128,7 +128,7 @@ class ClientController extends Controller {
             ->one();
         if ($sale != null) {
             $sale->getSalesStep(Yii::$app->request->post('clientId'));
-            $sale->getPrices(Yii::$app->request->post('fees'));
+            $sale->getPrices(str_replace(",", ".", Yii::$app->request->post('fees')));
         }
 
         $templateProcessor = new TemplateProcessor("../assets/modelFacture.docx");
